@@ -1,0 +1,100 @@
+poco (1.3.5-1) unstable; urgency=low
+
+  * New upstream release.
+  * *-dbg packages moved to section debug.
+  * 30_crypto-testsuit-missing-libs.dpatch removed.
+  * POCO no longer use statically linked zlib:
+    + new patch: 30_use-system-zlib.dpatch
+    + new build dependency: zlib1g-dev
+  * Updated Standards-Version to 3.8.3, no changes needed.
+
+ -- Krzysztof Burghardt <krzysztof@burghardt.pl>  Sun, 30 Aug 2009 19:49:57 +0200
+
+poco (1.3.3p1-2) unstable; urgency=low
+
+  * Fixed FTBFS with GCC 4.4 due to missing #include (Closes: #505619)
+  * Renamed 20_gcc43-missing-include.dpatch to 20_gcc44-missing-include.dpatch
+  * Downgraded dependencies on -dbg packages (Closes: #504342)
+
+ -- Krzysztof Burghardt <krzysztof@burghardt.pl>  Sat, 15 Nov 2008 11:39:15 +0100
+
+poco (1.3.3p1-1) unstable; urgency=low
+
+  * New upstream release.
+  * 30_missing_paltforms.dpatch removed (merged into upstream).
+  * libpoco-dev provides, conflicts, replaces libpoco5-dev.
+
+ -- Krzysztof Burghardt <krzysztof@burghardt.pl>  Wed, 29 Oct 2008 18:45:34 +0100
+
+poco (1.3.2+dfsg1-3) unstable; urgency=low
+
+  * Add dpatch 30_missing_paltforms to debian/patches/00list (Closes: #487934)
+
+ -- Krzysztof Burghardt <krzysztof@burghardt.pl>  Thu, 26 Jun 2008 21:29:10 +0200
+
+poco (1.3.2+dfsg1-2) unstable; urgency=low
+
+  * Acknowledge NMU
+  * Add dpatch 30_missing_paltforms to support m68k and s390 (Closes: #487934)
+  * Suggests libpoco-doc instead of libpoco5-doc (Closes: #487394)
+  * Updated Standards-Version to 3.8.0, no changes needed (Closes: #487392)
+
+ -- Krzysztof Burghardt <krzysztof@burghardt.pl>  Wed, 25 Jun 2008 18:38:34 +0200
+
+poco (1.3.2+dfsg1-1.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * libpoco5-dev provides, conflicts, replaces libpoco-dev (Closes: #487353)
+
+ -- George Danchev <danchev@spnet.net>  Sat, 21 Jun 2008 10:05:06 +0000
+
+poco (1.3.2+dfsg1-1) unstable; urgency=low
+
+  * New upstream
+  * Acknowledge NMU
+  * Upstream tarball repacked to remove non DFSG-free pieces
+  * debian/changelog: Homepage: pseudo-header changed to regular field
+  * debian/control:
+     + Splited POCO into several small packages as all libraries
+       and their debug version are about 10MB.
+     + Updated Standards-Version: to 3.7.3 (no changes needed)
+  * debian/rules:
+     + Re-enabled test suite (--no-tests removed)
+     + Removed CFLAGS
+  * debian/watch: updated to track data branch
+  * debian/patches/10_disable-rpath.dpatch: updated for 1.3.2
+  * debian/patches/20_gcc43-missing-include.dpatch: replaces all other
+    gcc 4.3 patches
+
+ -- Krzysztof Burghardt <krzysztof@burghardt.pl>  Mon, 09 Jun 2008 00:28:50 +0200
+
+poco (1.2.9-2.1) unstable; urgency=low
+
+  * Non-maintainer upload to fix clamfs' FTBFS
+  * Added 40_gcc_4.3_missing_include.dpatch to add a missing header
+    in Foundation/include/Poco/FIFOStrategy.h (Closes: #455147)
+  * Moved Homepage from pseudo field to real field
+  * Added a watch file
+  * Updated Standards-Version to 3.7.3, no changes needed
+
+ -- Maximiliano Curia <maxy@gnuservers.com.ar>  Fri, 21 Mar 2008 19:29:38 -0300
+
+poco (1.3.0-1) experimental; urgency=low
+
+  * New upstream
+
+ -- Krzysztof Burghardt <krzysztof@burghardt.pl>  Thu, 10 May 2007 22:32:19 +0200
+
+poco (1.2.9-2) unstable; urgency=medium
+
+  * Add patch for GCC-4.3 (Closes: #421144)
+  * Fixed build problem on arm (missing configure option --no-fpenvironment)
+  * Fixed build problem on powerpc
+
+ -- Krzysztof Burghardt <krzysztof@burghardt.pl>  Fri, 27 Apr 2007 18:33:48 +0200
+
+poco (1.2.9-1) unstable; urgency=low
+
+  * Initial release (Closes: #406402)
+
+ -- Krzysztof Burghardt <krzysztof@burghardt.pl>  Mon, 12 Mar 2007 20:56:32 +0100

@@ -1,0 +1,126 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 10_disable-rpath.dpatch by Krzysztof Burghardt <krzysztof@burghardt.pl>
+##
+## DP: Disables use of RPATH.
+
+@DPATCH@
+diff -urNad poco-1.3.5~/build/config/ARM-Linux poco-1.3.5/build/config/ARM-Linux
+--- poco-1.3.5~/build/config/ARM-Linux	2009-05-12 20:22:09.000000000 +0200
++++ poco-1.3.5/build/config/ARM-Linux	2009-05-23 16:33:20.189721725 +0200
+@@ -58,7 +58,7 @@
+ STATICOPT_LINK  = -static
+ SHAREDOPT_CC    = -fPIC
+ SHAREDOPT_CXX   = -fPIC
+-SHAREDOPT_LINK  = -Wl,-rpath,$(LIBPATH)
++SHAREDOPT_LINK  =
+ DEBUGOPT_CC     = -g -D_DEBUG
+ DEBUGOPT_CXX    = -g -D_DEBUG
+ DEBUGOPT_LINK   = -g
+diff -urNad poco-1.3.5~/build/config/CygLinux poco-1.3.5/build/config/CygLinux
+--- poco-1.3.5~/build/config/CygLinux	2009-05-12 20:22:09.000000000 +0200
++++ poco-1.3.5/build/config/CygLinux	2009-05-23 16:33:20.189721725 +0200
+@@ -55,7 +55,7 @@
+ STATICOPT_LINK  = -static
+ SHAREDOPT_CC    = -fPIC
+ SHAREDOPT_CXX   = -fPIC
+-SHAREDOPT_LINK  = -Wl,-rpath,$(LIBPATH)
++SHAREDOPT_LINK  =
+ DEBUGOPT_CC     = -g -D_DEBUG
+ DEBUGOPT_CXX    = -g -D_DEBUG
+ DEBUGOPT_LINK   = -g
+diff -urNad poco-1.3.5~/build/config/DigiEL poco-1.3.5/build/config/DigiEL
+--- poco-1.3.5~/build/config/DigiEL	2009-05-12 20:22:09.000000000 +0200
++++ poco-1.3.5/build/config/DigiEL	2009-05-23 16:33:20.189721725 +0200
+@@ -54,7 +54,7 @@
+ STATICOPT_LINK  = -static
+ SHAREDOPT_CC    = -fPIC
+ SHAREDOPT_CXX   = -fPIC
+-SHAREDOPT_LINK  = -Wl,-rpath,$(LIBPATH)
++SHAREDOPT_LINK  =
+ DEBUGOPT_CC     = -g -D_DEBUG
+ DEBUGOPT_CXX    = -g -D_DEBUG
+ DEBUGOPT_LINK   = -g
+diff -urNad poco-1.3.5~/build/config/FreeBSD poco-1.3.5/build/config/FreeBSD
+--- poco-1.3.5~/build/config/FreeBSD	2009-05-12 20:22:09.000000000 +0200
++++ poco-1.3.5/build/config/FreeBSD	2009-05-23 16:33:20.193721046 +0200
+@@ -52,7 +52,7 @@
+ STATICOPT_LINK  = -static
+ SHAREDOPT_CC    = -fPIC
+ SHAREDOPT_CXX   = -fPIC
+-SHAREDOPT_LINK  = -Wl,-rpath,$(LIBPATH)
++SHAREDOPT_LINK  =
+ DEBUGOPT_CC     = -g -D_DEBUG
+ DEBUGOPT_CXX    = -g -D_DEBUG
+ DEBUGOPT_LINK   = -g
+diff -urNad poco-1.3.5~/build/config/GCCEMBEDLINUX poco-1.3.5/build/config/GCCEMBEDLINUX
+--- poco-1.3.5~/build/config/GCCEMBEDLINUX	2009-05-12 20:22:09.000000000 +0200
++++ poco-1.3.5/build/config/GCCEMBEDLINUX	2009-05-23 16:33:20.193721046 +0200
+@@ -55,7 +55,7 @@
+ STATICOPT_LINK  = -static
+ SHAREDOPT_CC    = -fPIC
+ SHAREDOPT_CXX   = -fPIC
+-SHAREDOPT_LINK  = -Wl,-rpath,$(LIBPATH)
++SHAREDOPT_LINK  =
+ DEBUGOPT_CC     = -g -D_DEBUG
+ DEBUGOPT_CXX    = -g -D_DEBUG
+ DEBUGOPT_LINK   = -g
+diff -urNad poco-1.3.5~/build/config/Linux poco-1.3.5/build/config/Linux
+--- poco-1.3.5~/build/config/Linux	2009-05-12 20:22:09.000000000 +0200
++++ poco-1.3.5/build/config/Linux	2009-05-23 16:33:20.193721046 +0200
+@@ -52,7 +52,7 @@
+ STATICOPT_LINK  = -static
+ SHAREDOPT_CC    = -fPIC
+ SHAREDOPT_CXX   = -fPIC
+-SHAREDOPT_LINK  = -Wl,-rpath,$(LIBPATH)
++SHAREDOPT_LINK  =
+ DEBUGOPT_CC     = -g -D_DEBUG
+ DEBUGOPT_CXX    = -g -D_DEBUG
+ DEBUGOPT_LINK   = -g
+diff -urNad poco-1.3.5~/build/config/PPC-Linux poco-1.3.5/build/config/PPC-Linux
+--- poco-1.3.5~/build/config/PPC-Linux	2009-05-12 20:22:09.000000000 +0200
++++ poco-1.3.5/build/config/PPC-Linux	2009-05-23 16:33:20.193721046 +0200
+@@ -54,7 +54,7 @@
+ STATICOPT_LINK  = -static
+ SHAREDOPT_CC    = -fPIC
+ SHAREDOPT_CXX   = -fPIC
+-SHAREDOPT_LINK  = -Wl,-rpath,$(LIBPATH)
++SHAREDOPT_LINK  =
+ DEBUGOPT_CC     = -g -D_DEBUG
+ DEBUGOPT_CXX    = -g -D_DEBUG
+ DEBUGOPT_LINK   = -g
+diff -urNad poco-1.3.5~/build/config/QNX poco-1.3.5/build/config/QNX
+--- poco-1.3.5~/build/config/QNX	2009-05-12 20:22:09.000000000 +0200
++++ poco-1.3.5/build/config/QNX	2009-05-23 16:33:20.193721046 +0200
+@@ -52,7 +52,7 @@
+ STATICOPT_LINK  = -static
+ SHAREDOPT_CC    = -fpic
+ SHAREDOPT_CXX   = -fpic
+-SHAREDOPT_LINK  = -Wl,-rpath,$(LIBPATH)
++SHAREDOPT_LINK  =
+ DEBUGOPT_CC     = -g -D_DEBUG
+ DEBUGOPT_CXX    = -g -D_DEBUG
+ DEBUGOPT_LINK   = -g
+diff -urNad poco-1.3.5~/build/config/SSV-LINUX poco-1.3.5/build/config/SSV-LINUX
+--- poco-1.3.5~/build/config/SSV-LINUX	2009-05-12 20:22:09.000000000 +0200
++++ poco-1.3.5/build/config/SSV-LINUX	2009-05-23 16:33:20.193721046 +0200
+@@ -55,7 +55,7 @@
+ STATICOPT_LINK  = -static
+ SHAREDOPT_CC    = -fPIC
+ SHAREDOPT_CXX   = -fPIC
+-SHAREDOPT_LINK  = -Wl,-rpath,$(LIBPATH)
++SHAREDOPT_LINK  =
+ DEBUGOPT_CC     = -g -D_DEBUG
+ DEBUGOPT_CXX    = -g -D_DEBUG
+ DEBUGOPT_LINK   = -g
+diff -urNad poco-1.3.5~/build/config/SunOS-GCC poco-1.3.5/build/config/SunOS-GCC
+--- poco-1.3.5~/build/config/SunOS-GCC	2009-05-12 20:22:09.000000000 +0200
++++ poco-1.3.5/build/config/SunOS-GCC	2009-05-23 16:34:31.841717510 +0200
+@@ -52,7 +52,7 @@
+ STATICOPT_LINK  = -static
+ SHAREDOPT_CC    = -fPIC
+ SHAREDOPT_CXX   = -fPIC
+-SHAREDOPT_LINK  = -Wl,-rpath,$(LIBPATH)
++SHAREDOPT_LINK  =
+ DEBUGOPT_CC     = -g -D_DEBUG
+ DEBUGOPT_CXX    = -g -D_DEBUG
+ DEBUGOPT_LINK   = -g
