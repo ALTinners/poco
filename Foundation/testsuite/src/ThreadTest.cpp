@@ -1,7 +1,7 @@
 //
 // ThreadTest.cpp
 //
-// $Id: //poco/1.3/Foundation/testsuite/src/ThreadTest.cpp#7 $
+// $Id: //poco/1.3/Foundation/testsuite/src/ThreadTest.cpp#8 $
 //
 // Copyright (c) 2004-2006, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -40,7 +40,7 @@
 #include "Poco/Timestamp.h"
 #include "Poco/Timespan.h"
 #include <iostream>
-#if defined(__sun) && defined(__SVR4)
+#if defined(__sun) && defined(__SVR4) && !defined(__EXTENSIONS__)
 #define __EXTENSIONS__
 #endif
 #include <climits>

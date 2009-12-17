@@ -1,7 +1,7 @@
 //
 // Context.cpp
 //
-// $Id: //poco/1.3/NetSSL_OpenSSL/src/Context.cpp#5 $
+// $Id: //poco/1.3/NetSSL_OpenSSL/src/Context.cpp#8 $
 //
 // Library: NetSSL_OpenSSL
 // Package: SSLCore
@@ -39,6 +39,7 @@
 #include "Poco/Net/SSLException.h"
 #include "Poco/Net/Utility.h"
 #include "Poco/File.h"
+#include "Poco/Path.h"
 #include <openssl/bio.h>
 #include <openssl/err.h>
 #include <openssl/ssl.h>
@@ -63,18 +64,23 @@ Context::Context(
 	_pSSLContext(0)
 {
 	_pSSLContext = SSL_CTX_new(SSLv23_method());
-	if (!_pSSLContext) throw SSLException("Cannot create SSL_CTX object");
+	if (!_pSSLContext) 
+	{
+		unsigned long err = ERR_get_error();
+		throw SSLException("Cannot create SSL_CTX object", ERR_error_string(err, 0));
+	}
 	SSL_CTX_set_default_passwd_cb(_pSSLContext, &SSLManager::privateKeyPasswdCallback);
 	Utility::clearErrorStack();
+	SSL_CTX_set_options(_pSSLContext, SSL_OP_ALL);
 	
 	int errCode = 0;
 	if (!caLocation.empty())
 	{
 		Poco::File aFile(caLocation);
 		if (aFile.isDirectory())
-			errCode = SSL_CTX_load_verify_locations(_pSSLContext, 0, caLocation.c_str());
+			errCode = SSL_CTX_load_verify_locations(_pSSLContext, 0, Poco::Path::transcode(caLocation).c_str());
 		else
-			errCode = SSL_CTX_load_verify_locations(_pSSLContext, caLocation.c_str(), 0);
+			errCode = SSL_CTX_load_verify_locations(_pSSLContext, Poco::Path::transcode(caLocation).c_str(), 0);
 		if (errCode != 1)
 		{
 			std::string msg = Utility::getLastError();
@@ -96,7 +102,7 @@ Context::Context(
 	
 	if (!privateKeyFile.empty())
 	{
-		errCode = SSL_CTX_use_PrivateKey_file(_pSSLContext, privateKeyFile.c_str(), SSL_FILETYPE_PEM);
+		errCode = SSL_CTX_use_PrivateKey_file(_pSSLContext, Poco::Path::transcode(privateKeyFile).c_str(), SSL_FILETYPE_PEM);
 		if (errCode != 1)
 		{
 			std::string msg = Utility::getLastError();			
@@ -104,10 +110,10 @@ Context::Context(
 			throw SSLContextException(std::string("Error loading private key from file ") + privateKeyFile, msg);
 		}
 	}
-	
+
 	if (!certificateFile.empty())
 	{
-		errCode = SSL_CTX_use_certificate_chain_file(_pSSLContext, certificateFile.c_str());
+		errCode = SSL_CTX_use_certificate_chain_file(_pSSLContext, Poco::Path::transcode(certificateFile).c_str());
 		if (errCode != 1)
 		{
 			std::string errMsg = Utility::getLastError();
@@ -123,12 +129,25 @@ Context::Context(
 
 	SSL_CTX_set_verify_depth(_pSSLContext, verificationDepth);
 	SSL_CTX_set_mode(_pSSLContext, SSL_MODE_AUTO_RETRY);
+	SSL_CTX_set_session_cache_mode(_pSSLContext, SSL_SESS_CACHE_OFF);
 }
 
 
 Context::~Context()
 {
 	SSL_CTX_free(_pSSLContext);
+}
+
+
+void Context::enableSessionCache(bool flag)
+{
+	SSL_CTX_set_session_cache_mode(_pSSLContext, flag ? SSL_SESS_CACHE_SERVER : SSL_SESS_CACHE_OFF);
+}
+
+	
+bool Context::sessionCacheEnabled() const
+{
+	return SSL_CTX_get_session_cache_mode(_pSSLContext) != SSL_SESS_CACHE_OFF;
 }
 
 

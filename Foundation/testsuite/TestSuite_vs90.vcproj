@@ -572,6 +572,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\MemoryStreamTest.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\NullStreamTest.cpp"
 					>
 				</File>
@@ -621,6 +625,10 @@
 				</File>
 				<File
 					RelativePath=".\src\LineEndingConverterTest.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\MemoryStreamTest.h"
 					>
 				</File>
 				<File
@@ -1220,6 +1228,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\UnicodeConverterTest.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\UTF8StringTest.cpp"
 					>
 				</File>
@@ -1245,6 +1257,10 @@
 				</File>
 				<File
 					RelativePath=".\src\TextTestSuite.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\UnicodeConverterTest.h"
 					>
 				</File>
 				<File

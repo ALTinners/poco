@@ -1,7 +1,7 @@
 //
 // Timer.cpp
 //
-// $Id: //poco/1.3/Util/src/Timer.cpp#1 $
+// $Id: //poco/1.3/Util/src/Timer.cpp#3 $
 //
 // Library: Util
 // Package: Timer
@@ -178,7 +178,7 @@ public:
 		if (!task()->isCancelled())
 		{
 			Poco::Timestamp nextExecution;
-			nextExecution += _interval*1000;
+			nextExecution += static_cast<Poco::Timestamp::TimeDiff>(_interval)*1000;
 			queue().enqueueNotification(this, nextExecution);
 			duplicate();
 		}
@@ -210,7 +210,7 @@ public:
 		if (!task()->isCancelled())
 		{
 			Poco::Timestamp nextExecution(task()->lastExecution());
-			nextExecution += _interval*1000;
+			nextExecution += static_cast<Poco::Timestamp::TimeDiff>(_interval)*1000;
 			queue().enqueueNotification(this, nextExecution);
 			duplicate();
 		}
@@ -237,16 +237,14 @@ Timer::Timer(Poco::Thread::Priority priority)
 
 Timer::~Timer()
 {
-	Poco::Timestamp now;
-	_queue.enqueueNotification(new StopNotification(_queue), now);
+	_queue.enqueueNotification(new StopNotification(_queue), 0);
 	_thread.join();
 }
 
 	
 void Timer::cancel()
 {
-	Poco::Timestamp now;
-	_queue.enqueueNotification(new CancelNotification(_queue), now);
+	_queue.enqueueNotification(new CancelNotification(_queue), 0);
 }
 
 
@@ -259,7 +257,7 @@ void Timer::schedule(TimerTask::Ptr pTask, Poco::Timestamp time)
 void Timer::schedule(TimerTask::Ptr pTask, long delay, long interval)
 {
 	Poco::Timestamp time;
-	time += delay*1000;
+	time += static_cast<Poco::Timestamp::TimeDiff>(delay)*1000;
 	schedule(pTask, time, interval);
 }
 
@@ -273,7 +271,7 @@ void Timer::schedule(TimerTask::Ptr pTask, Poco::Timestamp time, long interval)
 void Timer::scheduleAtFixedRate(TimerTask::Ptr pTask, long delay, long interval)
 {
 	Poco::Timestamp time;
-	time += delay*1000;
+	time += static_cast<Poco::Timestamp::TimeDiff>(delay)*1000;
 	scheduleAtFixedRate(pTask, time, interval);
 }
 

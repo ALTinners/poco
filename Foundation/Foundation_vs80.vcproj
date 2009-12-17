@@ -1082,6 +1082,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\MemoryStream.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\NullStream.cpp"
 					>
 				</File>
@@ -1167,6 +1171,10 @@
 				</File>
 				<File
 					RelativePath=".\include\Poco\LineEndingConverter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Poco\MemoryStream.h"
 					>
 				</File>
 				<File
@@ -2717,7 +2725,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="mc -h $(InputDir) -r $(InputDir) $(InputPath)&#x0D;&#x0A;"
+							CommandLine="mc -h &quot;$(InputDir).&quot; -r &quot;$(InputDir).&quot; &quot;$(InputPath)"
 							Outputs="$(InputDir)\pocomsg.rc;$(InputDir)\pocomsg.h;"
 						/>
 					</FileConfiguration>

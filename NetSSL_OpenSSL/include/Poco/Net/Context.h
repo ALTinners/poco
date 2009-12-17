@@ -1,7 +1,7 @@
 //
 // Context.h
 //
-// $Id: //poco/1.3/NetSSL_OpenSSL/include/Poco/Net/Context.h#5 $
+// $Id: //poco/1.3/NetSSL_OpenSSL/include/Poco/Net/Context.h#7 $
 //
 // Library: NetSSL_OpenSSL
 // Package: SSLCore
@@ -91,7 +91,7 @@ public:
 		VERIFY_STRICT  = SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT,
 			/// Server: If the client did not return a certificate, the TLS/SSL 
 			/// handshake is immediately terminated with a handshake failure
-			/// alert. This flag must be used together with SSL_VERIFY_PEER. 
+			/// alert. 
 			///
 			/// Client: Same as VERIFY_RELAXED. 
 			
@@ -140,6 +140,14 @@ public:
 
 	Context::VerificationMode verificationMode() const;
 		/// Returns the verification mode.
+		
+	void enableSessionCache(bool flag = true);
+		/// Enable or disable the SSL/TLS session cache for a server.
+		///
+		/// The default is a disabled session cache.
+		
+	bool sessionCacheEnabled() const;
+		/// Returns true iff the session cache is enabled.
 
 private:
 	Usage _usage;

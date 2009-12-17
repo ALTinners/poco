@@ -1,7 +1,7 @@
 //
 // StreamsTestSuite.cpp
 //
-// $Id: //poco/1.3/Foundation/testsuite/src/StreamsTestSuite.cpp#2 $
+// $Id: //poco/1.3/Foundation/testsuite/src/StreamsTestSuite.cpp#3 $
 //
 // Copyright (c) 2004-2006, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -42,6 +42,7 @@
 #include "LineEndingConverterTest.h"
 #include "TeeStreamTest.h"
 #include "FileStreamTest.h"
+#include "MemoryStreamTest.h"
 
 
 CppUnit::Test* StreamsTestSuite::suite()
@@ -59,6 +60,7 @@ CppUnit::Test* StreamsTestSuite::suite()
 	pSuite->addTest(LineEndingConverterTest::suite());
 	pSuite->addTest(TeeStreamTest::suite());
 	pSuite->addTest(FileStreamTest::suite());
+	pSuite->addTest(MemoryStreamTest::suite());
 
 	return pSuite;
 }
