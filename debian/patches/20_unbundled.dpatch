@@ -1,0 +1,434 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 20_unbundled.dpatch by  <paroga@paroga.com>
+##
+## DP: Use unbundled implementation from upstream.
+
+@DPATCH@
+diff -urNad poco~/Data/SQLite/Makefile poco/Data/SQLite/Makefile
+--- poco~/Data/SQLite/Makefile	2009-11-24 13:31:49.000000000 +0100
++++ poco/Data/SQLite/Makefile	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ #
+ # Makefile
+ #
+-# $Id: //poco/1.3/Data/SQLite/Makefile#7 $
++# $Id: //poco/1.3/Data/SQLite/Makefile#8 $
+ #
+ # Makefile for Poco SQLite
+ #
+@@ -13,8 +13,15 @@
+ 	-DSQLITE_OMIT_TCL_VARIABLE -DSQLITE_OMIT_DEPRECATED
+ 
+ objects = Binder Extractor SessionImpl Connector \
+-	SQLiteException SQLiteStatementImpl Utility \
+-	sqlite3
++	SQLiteException SQLiteStatementImpl Utility
++
++sqlite_objects = sqlite3
++
++ifdef POCO_UNBUNDLED
++	SYSLIBS += -lsqlite3
++else
++	objects += $(sqlite_objects)
++endif
+ 
+ target         = PocoSQLite
+ target_version = $(LIBVERSION)
+diff -urNad poco~/Data/SQLite/src/Binder.cpp poco/Data/SQLite/src/Binder.cpp
+--- poco~/Data/SQLite/src/Binder.cpp	2009-11-24 13:31:49.000000000 +0100
++++ poco/Data/SQLite/src/Binder.cpp	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ //
+ // Binder.cpp
+ //
+-// $Id: //poco/1.3/Data/SQLite/src/Binder.cpp#3 $
++// $Id: //poco/1.3/Data/SQLite/src/Binder.cpp#4 $
+ //
+ // Library: Data/SQLite
+ // Package: SQLite
+@@ -38,7 +38,11 @@
+ #include "Poco/Data/SQLite/Utility.h"
+ #include "Poco/Data/BLOB.h"
+ #include "Poco/Exception.h"
++#if defined(POCO_UNBUNDLED)
++#include <sqlite3.h>
++#else
+ #include "sqlite3.h"
++#endif
+ #include <cstdlib>
+ 
+ 
+diff -urNad poco~/Data/SQLite/src/Connector.cpp poco/Data/SQLite/src/Connector.cpp
+--- poco~/Data/SQLite/src/Connector.cpp	2009-11-24 13:31:49.000000000 +0100
++++ poco/Data/SQLite/src/Connector.cpp	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ //
+ // Connector.cpp
+ //
+-// $Id: //poco/1.3/Data/SQLite/src/Connector.cpp#5 $
++// $Id: //poco/1.3/Data/SQLite/src/Connector.cpp#6 $
+ //
+ // Library: Data/SQLite
+ // Package: SQLite
+@@ -37,7 +37,11 @@
+ #include "Poco/Data/SQLite/Connector.h"
+ #include "Poco/Data/SQLite/SessionImpl.h"
+ #include "Poco/Data/SessionFactory.h"
++#if defined(POCO_UNBUNDLED)
++#include <sqlite3.h>
++#else
+ #include "sqlite3.h"
++#endif
+ 
+ 
+ namespace Poco {
+diff -urNad poco~/Data/SQLite/src/Extractor.cpp poco/Data/SQLite/src/Extractor.cpp
+--- poco~/Data/SQLite/src/Extractor.cpp	2009-11-24 13:31:49.000000000 +0100
++++ poco/Data/SQLite/src/Extractor.cpp	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ //
+ // Extractor.cpp
+ //
+-// $Id: //poco/1.3/Data/SQLite/src/Extractor.cpp#3 $
++// $Id: //poco/1.3/Data/SQLite/src/Extractor.cpp#4 $
+ //
+ // Library: Data/SQLite
+ // Package: SQLite
+@@ -39,7 +39,11 @@
+ #include "Poco/Data/BLOB.h"
+ #include "Poco/Data/DataException.h"
+ #include "Poco/Exception.h"
++#if defined(POCO_UNBUNDLED)
++#include <sqlite3.h>
++#else
+ #include "sqlite3.h"
++#endif
+ #include <cstdlib>
+ 
+ 
+diff -urNad poco~/Data/SQLite/src/SQLiteStatementImpl.cpp poco/Data/SQLite/src/SQLiteStatementImpl.cpp
+--- poco~/Data/SQLite/src/SQLiteStatementImpl.cpp	2009-11-24 13:31:49.000000000 +0100
++++ poco/Data/SQLite/src/SQLiteStatementImpl.cpp	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ //
+ // SQLiteStatementImpl.cpp
+ //
+-// $Id: //poco/1.3/Data/SQLite/src/SQLiteStatementImpl.cpp#10 $
++// $Id: //poco/1.3/Data/SQLite/src/SQLiteStatementImpl.cpp#11 $
+ //
+ // Library: Data/SQLite
+ // Package: SQLite
+@@ -41,7 +41,11 @@
+ #include "Poco/String.h"
+ #include <cstdlib>
+ #include <cstring>
++#if defined(POCO_UNBUNDLED)
++#include <sqlite3.h>
++#else
+ #include "sqlite3.h"
++#endif
+ 
+ 
+ namespace Poco {
+diff -urNad poco~/Data/SQLite/src/SessionImpl.cpp poco/Data/SQLite/src/SessionImpl.cpp
+--- poco~/Data/SQLite/src/SessionImpl.cpp	2009-11-24 13:31:49.000000000 +0100
++++ poco/Data/SQLite/src/SessionImpl.cpp	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ //
+ // SessionImpl.cpp
+ //
+-// $Id: //poco/1.3/Data/SQLite/src/SessionImpl.cpp#8 $
++// $Id: //poco/1.3/Data/SQLite/src/SessionImpl.cpp#9 $
+ //
+ // Library: Data/SQLite
+ // Package: SQLite
+@@ -37,7 +37,11 @@
+ #include "Poco/Data/SQLite/SessionImpl.h"
+ #include "Poco/Data/SQLite/Utility.h"
+ #include "Poco/Data/SQLite/SQLiteStatementImpl.h"
++#if defined(POCO_UNBUNDLED)
++#include <sqlite3.h>
++#else
+ #include "sqlite3.h"
++#endif
+ #include <cstdlib>
+ 
+ 
+diff -urNad poco~/Data/SQLite/src/Utility.cpp poco/Data/SQLite/src/Utility.cpp
+--- poco~/Data/SQLite/src/Utility.cpp	2009-12-16 20:51:40.000000000 +0100
++++ poco/Data/SQLite/src/Utility.cpp	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ //
+ // Utility.cpp
+ //
+-// $Id: //poco/1.3/Data/SQLite/src/Utility.cpp#8 $
++// $Id: //poco/1.3/Data/SQLite/src/Utility.cpp#9 $
+ //
+ // Library: Data/SQLite
+ // Package: SQLite
+@@ -41,7 +41,11 @@
+ #include "Poco/NumberFormatter.h"
+ #include "Poco/String.h"
+ #include "Poco/Exception.h"
++#if defined(POCO_UNBUNDLED)
++#include <sqlite3.h>
++#else
+ #include "sqlite3.h"
++#endif
+ 
+ 
+ namespace Poco {
+diff -urNad poco~/Foundation/Makefile poco/Foundation/Makefile
+--- poco~/Foundation/Makefile	2009-12-16 20:51:40.000000000 +0100
++++ poco/Foundation/Makefile	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ #
+ # Makefile
+ #
+-# $Id: //poco/1.3/Foundation/Makefile#8 $
++# $Id: //poco/1.3/Foundation/Makefile#9 $
+ #
+ # Makefile for Poco Foundation
+ #
+@@ -31,13 +31,24 @@
+ 	FileStreamFactory URIStreamFactory URIStreamOpener UTF16Encoding Windows1252Encoding \
+ 	UTF8Encoding UnicodeConverter UUID UUIDGenerator Void Format \
+ 	Pipe PipeImpl PipeStream DynamicAny DynamicAnyHolder SharedMemory \
+-	MemoryStream FileStream Unicode UTF8String AtomicCounter \
+-	adler32 compress crc32  deflate gzio infback inffast inflate inftrees  \
+-	trees zutil \
+-	pcre_chartables pcre_compile pcre_globals pcre_maketables pcre_study \
+-	pcre_tables pcre_try_flipped pcre_ucd pcre_valid_utf8 \
++	MemoryStream FileStream Unicode UTF8String AtomicCounter
++
++zlib_objects = adler32 compress crc32 deflate gzio infback inffast \
++	inflate inftrees trees zutil
++
++pcre_objects = pcre_chartables pcre_compile pcre_globals pcre_maketables \
++	pcre_study pcre_try_flipped pcre_valid_utf8 \
+ 	pcre_exec pcre_ord2utf8 pcre_newline pcre_fullinfo pcre_xclass
+ 
++pcre_utf8_objects = pcre_ucd pcre_tables
++
++ifdef POCO_UNBUNDLED
++	objects += $(pcre_utf8_objects) 
++	SYSLIBS += -lpcre -lz
++else
++	objects += $(zlib_objects) $(pcre_objects) $(pcre_utf8_objects)
++endif
++
+ ifeq ($(POCO_CONFIG),MinGW)
+ 	objects += EventLogChannel WindowsConsoleChannel
+ else
+diff -urNad poco~/Foundation/include/Poco/DeflatingStream.h poco/Foundation/include/Poco/DeflatingStream.h
+--- poco~/Foundation/include/Poco/DeflatingStream.h	2009-11-24 13:31:44.000000000 +0100
++++ poco/Foundation/include/Poco/DeflatingStream.h	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ //
+ // DeflatingStream.h
+ //
+-// $Id: //poco/1.3/Foundation/include/Poco/DeflatingStream.h#1 $
++// $Id: //poco/1.3/Foundation/include/Poco/DeflatingStream.h#2 $
+ //
+ // Library: Foundation
+ // Package: Streams
+@@ -44,7 +44,11 @@
+ #include "Poco/BufferedStreamBuf.h"
+ #include <istream>
+ #include <ostream>
++#if defined(POCO_UNBUNDLED)
++#include <zlib.h>
++#else
+ #include "Poco/zlib.h"
++#endif
+ 
+ 
+ namespace Poco {
+diff -urNad poco~/Foundation/include/Poco/InflatingStream.h poco/Foundation/include/Poco/InflatingStream.h
+--- poco~/Foundation/include/Poco/InflatingStream.h	2009-12-16 20:51:40.000000000 +0100
++++ poco/Foundation/include/Poco/InflatingStream.h	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ //
+ // InflatingStream.h
+ //
+-// $Id: //poco/1.3/Foundation/include/Poco/InflatingStream.h#3 $
++// $Id: //poco/1.3/Foundation/include/Poco/InflatingStream.h#4 $
+ //
+ // Library: Foundation
+ // Package: Streams
+@@ -44,7 +44,11 @@
+ #include "Poco/BufferedStreamBuf.h"
+ #include <istream>
+ #include <ostream>
++#if defined(POCO_UNBUNDLED)
++#include <zlib.h>
++#else
+ #include "Poco/zlib.h"
++#endif
+ 
+ 
+ namespace Poco {
+diff -urNad poco~/Foundation/src/Checksum.cpp poco/Foundation/src/Checksum.cpp
+--- poco~/Foundation/src/Checksum.cpp	2009-11-24 13:31:45.000000000 +0100
++++ poco/Foundation/src/Checksum.cpp	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ //
+ // Checksum.cpp
+ //
+-// $Id: //poco/1.3/Foundation/src/Checksum.cpp#1 $
++// $Id: //poco/1.3/Foundation/src/Checksum.cpp#2 $
+ //
+ // Library: Foundation
+ // Package: Core
+@@ -35,7 +35,11 @@
+ 
+ 
+ #include "Poco/Checksum.h"
++#if defined(POCO_UNBUNDLED)
++#include <zlib.h>
++#else
+ #include "Poco/zlib.h"
++#endif
+ 
+ 
+ namespace Poco {
+diff -urNad poco~/Foundation/src/RegularExpression.cpp poco/Foundation/src/RegularExpression.cpp
+--- poco~/Foundation/src/RegularExpression.cpp	2009-11-24 13:31:45.000000000 +0100
++++ poco/Foundation/src/RegularExpression.cpp	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ //
+ // RegularExpression.h
+ //
+-// $Id: //poco/1.3/Foundation/src/RegularExpression.cpp#2 $
++// $Id: //poco/1.3/Foundation/src/RegularExpression.cpp#3 $
+ //
+ // Library: Foundation
+ // Package: RegExp
+@@ -37,7 +37,11 @@
+ #include "Poco/RegularExpression.h"
+ #include "Poco/Exception.h"
+ #include <sstream>
++#if defined(POCO_UNBUNDLED)
++#include <pcre.h>
++#else
+ #include "pcre.h"
++#endif
+ 
+ 
+ namespace Poco {
+diff -urNad poco~/XML/Makefile poco/XML/Makefile
+--- poco~/XML/Makefile	2009-11-24 13:31:46.000000000 +0100
++++ poco/XML/Makefile	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ #
+ # Makefile
+ #
+-# $Id: //poco/1.3/XML/Makefile#2 $
++# $Id: //poco/1.3/XML/Makefile#3 $
+ #
+ # Makefile for Poco XML
+ #
+@@ -22,7 +22,15 @@
+ 	NamespaceSupport Node NodeFilter NodeIterator NodeList Notation \
+ 	ParserEngine ProcessingInstruction SAXException SAXParser Text \
+ 	TreeWalker WhitespaceFilter XMLException XMLFilter XMLFilterImpl XMLReader \
+-	XMLString XMLWriter NodeAppender xmlparse xmlrole xmltok
++	XMLString XMLWriter NodeAppender 
++
++expat_objects = xmlparse xmlrole xmltok
++
++ifdef POCO_UNBUNDLED
++	SYSLIBS += -lexpat
++else
++	objects += $(expat_objects)
++endif
+ 
+ target         = PocoXML
+ target_version = $(LIBVERSION)
+diff -urNad poco~/XML/include/Poco/XML/ParserEngine.h poco/XML/include/Poco/XML/ParserEngine.h
+--- poco~/XML/include/Poco/XML/ParserEngine.h	2009-12-16 20:51:40.000000000 +0100
++++ poco/XML/include/Poco/XML/ParserEngine.h	2009-12-16 22:16:46.000000000 +0100
+@@ -1,7 +1,7 @@
+ //
+ // ParserEngine.h
+ //
+-// $Id: //poco/1.3/XML/include/Poco/XML/ParserEngine.h#3 $
++// $Id: //poco/1.3/XML/include/Poco/XML/ParserEngine.h#4 $
+ //
+ // Library: XML
+ // Package: XML
+@@ -40,7 +40,11 @@
+ 
+ 
+ #include "Poco/XML/XML.h"
++#if defined(POCO_UNBUNDLED)
++#include <expat.h>
++#else
+ #include "Poco/XML/expat.h"
++#endif
+ #include "Poco/XML/XMLString.h"
+ #include "Poco/XML/XMLStream.h"
+ #include "Poco/SAX/Locator.h"
+diff -urNad poco~/configure poco/configure
+--- poco~/configure	2009-11-24 13:31:44.000000000 +0100
++++ poco/configure	2009-12-16 22:16:46.000000000 +0100
+@@ -2,7 +2,7 @@
+ #
+ # configure
+ #
+-# $Id: //poco/1.3/dist/configure#10 $
++# $Id: //poco/1.3/dist/configure#11 $
+ #
+ # Configuration script for POCO.
+ #
+@@ -64,6 +64,10 @@
+     Omit a few features for smaller codesize when linking
+     statically for embedded targets.
+ 
++  --unbundled
++    Use system-provided zlib, pcre, expat and sqlite instead of 
++    bundled ones.
++
+ ENDHELP
+ }
+ 
+@@ -87,6 +91,7 @@
+ omit=""
+ includepath=""
+ librarypath=""
++unbundled=""
+ # parse arguments
+ while [ "$1" != "" ] ; do
+ 	val=`$EXPR "$1" : '--config=\(.*\)'`
+@@ -138,6 +143,11 @@
+ 	if [ "$1" = "--poquito" ] ; then
+ 		flags="$flags -DPOCO_NO_FILECHANNEL -DPOCO_NO_SPLITTERCHANNEL -DPOCO_NO_SYSLOGCHANNEL -DPOCO_UTIL_NO_INIFILECONFIGURATION -DPOCO_UTIL_NO_XMLCONFIGURATION"
+ 	fi
++
++	if [ "$1" = "--unbundled" ] ; then
++		flags="$flags -DPOCO_UNBUNDLED"
++		unbundled=1
++	fi
+ 	
+ 	if [ "$1" = "--help" ] ; then
+ 		showhelp
+@@ -201,6 +211,9 @@
+ if [ "$librarypath" != "" ] ; then
+ 	echo "POCO_ADD_LIBRARY = $librarypath" >>$build/config.make
+ fi
++if [ "$unbundled" != "" ] ; then
++	echo "POCO_UNBUNDLED = 1" >>$build/config.make
++fi
+ echo "export POCO_CONFIG" >>$build/config.make
+ echo "export POCO_BASE" >>$build/config.make
+ echo "export POCO_BUILD" >>$build/config.make
+@@ -215,6 +228,9 @@
+ if [ "$librarypath" != "" ] ; then
+ 	echo "export POCO_ADD_LIBRARY" >>$build/config.make
+ fi
++if [ "$unbundled" != "" ] ; then
++	echo "export POCO_UNBUNDLED " >>$build/config.make
++fi
+ 
+ echo ".PHONY: poco" >>$build/config.make
+ echo "poco: libexecs $tests $samples" >>$build/config.make

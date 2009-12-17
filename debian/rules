@@ -12,7 +12,7 @@ include /usr/share/dpatch/dpatch.make
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
-CONFFLAGS := --prefix=/usr --no-samples
+CONFFLAGS := --prefix=/usr --no-samples --unbundled
 
 # On ARM define POCO_NO_FPENVIRONMENT
 ifeq ($(shell dpkg --print-architecture),arm)

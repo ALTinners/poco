@@ -1,3 +1,2 @@
 10_disable-rpath.dpatch
-20_gcc44-missing-include.dpatch
-30_use-system-zlib.dpatch
+20_unbundled.dpatch
