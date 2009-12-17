@@ -1,7 +1,7 @@
 //
 // FileTest.cpp
 //
-// $Id: //poco/1.3/Foundation/testsuite/src/FileTest.cpp#5 $
+// $Id: //poco/1.3/Foundation/testsuite/src/FileTest.cpp#6 $
 //
 // Copyright (c) 2004-2006, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -256,7 +256,6 @@ void FileTest::testFileAttributes3()
 	assert (f.isDevice());
 	assert (!f.isFile());
 	assert (!f.isDirectory());
-	assert (!f.isLink());
 }
 
 
@@ -524,6 +523,7 @@ CppUnit::Test* FileTest::suite()
 {
 	CppUnit::TestSuite* pSuite = new CppUnit::TestSuite("FileTest");
 
+	CppUnit_addTest(pSuite, FileTest, testCreateFile);
 	CppUnit_addTest(pSuite, FileTest, testFileAttributes1);
 	CppUnit_addTest(pSuite, FileTest, testFileAttributes2);
 	CppUnit_addTest(pSuite, FileTest, testFileAttributes3);

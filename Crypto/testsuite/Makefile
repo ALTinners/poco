@@ -1,12 +1,14 @@
 #
 # Makefile
 #
-# $Id: //poco/1.3/Crypto/testsuite/Makefile#3 $
+# $Id: //poco/1.3/Crypto/testsuite/Makefile#4 $
 #
 # Makefile for Poco Crypto testsuite
 #
 
 include $(POCO_BASE)/build/rules/global
+
+SYSLIBS += -lssl -lcrypto
 
 objects = CryptoTestSuite Driver \
 	CryptoTest RSATest

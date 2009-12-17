@@ -1,7 +1,7 @@
 //
 // DirectoryIterator.cpp
 //
-// $Id: //poco/1.3/Foundation/src/DirectoryIterator.cpp#1 $
+// $Id: //poco/1.3/Foundation/src/DirectoryIterator.cpp#2 $
 //
 // Library: Foundation
 // Package: Filesystem
@@ -66,11 +66,9 @@ DirectoryIterator::DirectoryIterator(const std::string& path): _path(path), _pIm
 
 DirectoryIterator::DirectoryIterator(const DirectoryIterator& iterator): _path(iterator._path), _pImpl(iterator._pImpl)
 {
-	_path.makeDirectory();
 	if (_pImpl) 
 	{
 		_pImpl->duplicate();
-		_path.setFileName(_pImpl->get());
 		_file = _path;
 	}
 }

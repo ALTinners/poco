@@ -1,7 +1,7 @@
 //
 // File_WIN32.cpp
 //
-// $Id: //poco/1.3/Foundation/src/File_WIN32.cpp#9 $
+// $Id: //poco/1.3/Foundation/src/File_WIN32.cpp#10 $
 //
 // Library: Foundation
 // Package: Filesystem
@@ -49,12 +49,15 @@ public:
 	FileHandle(const std::string& path, DWORD access, DWORD share, DWORD disp)
 	{
 		_h = CreateFileA(path.c_str(), access, share, 0, disp, 0, 0);
-		if (!_h) FileImpl::handleLastErrorImpl(path);
+		if (_h == INVALID_HANDLE_VALUE)
+		{
+			FileImpl::handleLastErrorImpl(path);
+		}
 	}
 	
 	~FileHandle()
 	{
-		if (_h) CloseHandle(_h);
+		if (_h != INVALID_HANDLE_VALUE) CloseHandle(_h);
 	}
 	
 	HANDLE get() const
