@@ -141,7 +141,6 @@ Crypto/Crypto_VS90.sln
 Crypto/Crypto_VS90.vcproj
 Crypto/include
 Crypto/include/Poco
-Crypto/include/Poco/.DS_Store
 Crypto/include/Poco/Crypto
 Crypto/include/Poco/Crypto/Cipher.h
 Crypto/include/Poco/Crypto/CipherFactory.h
@@ -2391,7 +2390,6 @@ XML/src/xmltok_ns.c
 XML/src/XMLWriter.cpp
 XML/testsuite
 XML/testsuite/Makefile
-XML/testsuite/rss.xml
 XML/testsuite/src
 XML/testsuite/src/AttributesImplTest.cpp
 XML/testsuite/src/AttributesImplTest.h
@@ -2540,7 +2538,6 @@ Zip/testsuite/TestSuite.vmsbuild
 Zip/testsuite/TestSuite_VS71.vcproj
 Zip/testsuite/TestSuite_VS80.vcproj
 Zip/testsuite/TestSuite_vs90.vcproj
-Zip/testsuite/Zip_VS71.vcproj
 Zip/Zip.vmsbuild
 Zip/Zip_VS71.sln
 Zip/Zip_VS71.vcproj
