@@ -1,6 +1,7 @@
 Source: poco
 Priority: optional
-Maintainer: Krzysztof Burghardt <krzysztof@burghardt.pl>, Patrick Gansterer <paroga@paroga.com>
+Maintainer: Krzysztof Burghardt <krzysztof@burghardt.pl>
+Uploaders: Patrick Gansterer <paroga@paroga.com>
 Build-Depends: debhelper (>= 5), dpatch, libexpat1-dev, libmysqlclient-dev, libpcre3-dev (>= 7.8), libsqlite3-dev (>= 3.6.13), libssl-dev (>= 0.9.8), unixodbc-dev, zlib1g-dev
 Standards-Version: 3.8.3
 Section: libs
