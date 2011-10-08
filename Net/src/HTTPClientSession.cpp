@@ -1,7 +1,7 @@
 //
 // HTTPClientSession.cpp
 //
-// $Id: //poco/1.3/Net/src/HTTPClientSession.cpp#8 $
+// $Id: //poco/1.4/Net/src/HTTPClientSession.cpp#1 $
 //
 // Library: Net
 // Package: HTTPClient
@@ -44,6 +44,8 @@
 #include "Poco/Net/NetException.h"
 #include "Poco/NumberFormatter.h"
 #include "Poco/CountingStream.h"
+#include "Poco/Base64Encoder.h"
+#include <sstream>
 
 
 using Poco::NumberFormatter;
@@ -163,6 +165,25 @@ void HTTPClientSession::setProxyPort(Poco::UInt16 port)
 }
 
 
+void HTTPClientSession::setProxyCredentials(const std::string& username, const std::string& password)
+{
+	_proxyUsername = username;
+	_proxyPassword = password;
+}
+
+
+void HTTPClientSession::setProxyUsername(const std::string& username)
+{
+	_proxyUsername = username;
+}
+	
+
+void HTTPClientSession::setProxyPassword(const std::string& password)
+{
+	_proxyPassword = password;
+}
+
+	
 void HTTPClientSession::setKeepAliveTimeout(const Poco::Timespan& timeout)
 {
 	_keepAliveTimeout = timeout;
@@ -187,7 +208,10 @@ std::ostream& HTTPClientSession::sendRequest(HTTPRequest& request)
 	if (!request.has(HTTPRequest::HOST))
 		request.setHost(_host, _port);
 	if (!_proxyHost.empty())
+	{
 		request.setURI(proxyRequestPrefix() + request.getURI());
+		proxyAuthenticate(request);
+	}
 	_reconnect = keepAlive;
 	_expectResponseBody = request.getMethod() != HTTPRequest::HTTP_HEAD;
 	if (request.getChunkedTransferEncoding())
@@ -258,6 +282,18 @@ std::istream& HTTPClientSession::receiveResponse(HTTPResponse& response)
 }
 
 
+void HTTPClientSession::reset()
+{
+	close();
+}
+
+
+bool HTTPClientSession::secure() const
+{
+	return false;
+}
+
+
 int HTTPClientSession::write(const char* buffer, std::streamsize length)
 {
 	try
@@ -322,7 +358,7 @@ void HTTPClientSession::deleteRequestStream()
 
 void HTTPClientSession::setResponseStream(std::istream* pRespStream)
 {
-	poco_assert( !_pResponseStream);
+	poco_assert (!_pResponseStream);
 	_pResponseStream = pRespStream;
 }
 
@@ -342,6 +378,26 @@ bool HTTPClientSession::mustReconnect() const
 		return _keepAliveTimeout <= now - _lastRequest;
 	}
 	else return true;
+}
+
+
+void HTTPClientSession::proxyAuthenticate(HTTPRequest& request)
+{
+	proxyAuthenticateImpl(request);
+}
+
+
+void HTTPClientSession::proxyAuthenticateImpl(HTTPRequest& request)
+{
+	if (!_proxyUsername.empty())
+	{
+		std::ostringstream ostr;
+		ostr << "Basic ";
+		Base64Encoder encoder(ostr);
+		encoder << _proxyUsername << ":" << _proxyPassword;
+		encoder.close();
+		request.set("Proxy-Authorization", ostr.str());
+	}
 }
 
 

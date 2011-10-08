@@ -1,13 +1,13 @@
 //
 // SecureStreamSocketImpl.cpp
 //
-// $Id: //poco/1.3/NetSSL_OpenSSL/src/SecureStreamSocketImpl.cpp#7 $
+// $Id: //poco/1.4/NetSSL_OpenSSL/src/SecureStreamSocketImpl.cpp#1 $
 //
 // Library: NetSSL_OpenSSL
 // Package: SSLSockets
 // Module:  SecureStreamSocketImpl
 //
-// Copyright (c) 2006-2009, Applied Informatics Software Engineering GmbH.
+// Copyright (c) 2006-2010, Applied Informatics Software Engineering GmbH.
 // and Contributors.
 //
 // Permission is hereby granted, free of charge, to any person or organization
@@ -36,6 +36,7 @@
 
 #include "Poco/Net/SecureStreamSocketImpl.h"
 #include "Poco/Net/SSLException.h"
+#include "Poco/Thread.h"
 
 
 namespace Poco {
@@ -127,13 +128,18 @@ int SecureStreamSocketImpl::sendBytes(const void* buffer, int length, int flags)
 	const char* p = reinterpret_cast<const char*>(buffer);
 	int remaining = length;
 	int sent = 0;
-	while (remaining > 0 && getBlocking())
+	bool blocking = getBlocking();
+	while (remaining > 0)
 	{
 		int n = _impl.sendBytes(p, remaining, flags);
-		if (n < 0) return n;
+		if (n < 0 && !blocking) return n;
 		p += n; 
-		remaining -= n;
 		sent += n;
+		remaining -= n;
+		if (blocking && remaining > 0)
+			Poco::Thread::yield();
+		else
+			break;
 	}
 	return sent;
 }
@@ -163,6 +169,12 @@ void SecureStreamSocketImpl::sendUrgent(unsigned char data)
 }
 
 
+int SecureStreamSocketImpl::available()
+{
+	return _impl.available();
+}
+
+
 void SecureStreamSocketImpl::shutdownReceive()
 {
 }
@@ -179,13 +191,31 @@ void SecureStreamSocketImpl::shutdown()
 }
 
 
+bool SecureStreamSocketImpl::secure() const
+{
+	return true;
+}
+
+
+bool SecureStreamSocketImpl::havePeerCertificate() const
+{
+	X509* pCert = _impl.peerCertificate();
+	if (pCert)
+	{
+		X509_free(pCert);
+		return true;
+	}
+	else return false;
+}
+
+
 X509Certificate SecureStreamSocketImpl::peerCertificate() const
 {
 	X509* pCert = _impl.peerCertificate();
 	if (pCert)
 		return X509Certificate(pCert);
 	else
-		throw SSLException("No certificate available yet");
+		throw SSLException("No certificate available");
 }
 
 

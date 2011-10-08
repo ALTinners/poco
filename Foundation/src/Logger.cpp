@@ -1,7 +1,7 @@
 //
 // Logger.cpp
 //
-// $Id: //poco/1.3/Foundation/src/Logger.cpp#3 $
+// $Id: //poco/1.4/Foundation/src/Logger.cpp#1 $
 //
 // Library: Foundation
 // Package: Logging
@@ -127,6 +127,12 @@ void Logger::log(const Message& msg)
 void Logger::log(const Exception& exc)
 {
 	error(exc.displayText());
+}
+
+
+void Logger::log(const Exception& exc, const char* file, int line)
+{
+	error(exc.displayText(), file, line);
 }
 
 
@@ -454,10 +460,14 @@ public:
 };
 
 
-void Logger::add(Logger* pLogger)
+namespace
 {
 	static AutoLoggerShutdown als;
+}
 
+
+void Logger::add(Logger* pLogger)
+{
 	if (!_pLoggerMap)
 		_pLoggerMap = new LoggerMap;
 	_pLoggerMap->insert(LoggerMap::value_type(pLogger->name(), pLogger));

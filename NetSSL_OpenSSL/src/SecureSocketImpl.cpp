@@ -1,13 +1,13 @@
 //
 // SecureSocketImpl.cpp
 //
-// $Id: //poco/1.3/NetSSL_OpenSSL/src/SecureSocketImpl.cpp#17 $
+// $Id: //poco/1.4/NetSSL_OpenSSL/src/SecureSocketImpl.cpp#1 $
 //
 // Library: NetSSL_OpenSSL
 // Package: SSLSockets
 // Module:  SecureSocketImpl
 //
-// Copyright (c) 2006-2009, Applied Informatics Software Engineering GmbH.
+// Copyright (c) 2006-2010, Applied Informatics Software Engineering GmbH.
 // and Contributors.
 //
 // Permission is hereby granted, free of charge, to any person or organization
@@ -47,6 +47,7 @@
 #include "Poco/Net/DNS.h"
 #include "Poco/NumberFormatter.h"
 #include "Poco/NumberParser.h"
+#include "Poco/Format.h"
 #include <openssl/x509v3.h>
 #include <openssl/err.h>
 
@@ -101,7 +102,7 @@ void SecureSocketImpl::acceptSSL()
 
 	BIO* pBIO = BIO_new(BIO_s_socket());
 	if (!pBIO) throw SSLException("Cannot create BIO object");
-	BIO_set_fd(pBIO, _pSocket->sockfd(), BIO_NOCLOSE);
+	BIO_set_fd(pBIO, static_cast<int>(_pSocket->sockfd()), BIO_NOCLOSE);
 
 	_pSSL = SSL_new(_pContext->sslContext());
 	if (!_pSSL)
@@ -155,7 +156,7 @@ void SecureSocketImpl::connectSSL(bool performHandshake)
 	
 	BIO* pBIO = BIO_new(BIO_s_socket());
 	if (!pBIO) throw SSLException("Cannot create SSL BIO object");
-	BIO_set_fd(pBIO, _pSocket->sockfd(), BIO_NOCLOSE);
+	BIO_set_fd(pBIO, static_cast<int>(_pSocket->sockfd()), BIO_NOCLOSE);
 
 	_pSSL = SSL_new(_pContext->sslContext());
 	if (!_pSSL) 
@@ -164,6 +165,11 @@ void SecureSocketImpl::connectSSL(bool performHandshake)
 		throw SSLException("Cannot create SSL object");
 	}
 	SSL_set_bio(_pSSL, pBIO, pBIO);
+	
+	if (_pSession)
+	{
+		SSL_set_session(_pSSL, _pSession->sslSession());
+	}
 	
 	try
 	{
@@ -207,16 +213,22 @@ void SecureSocketImpl::listen(int backlog)
 void SecureSocketImpl::shutdown()
 {
 	if (_pSSL)
-	{
-		// A proper clean shutdown would require us to
-		// retry the shutdown if we get a zero return
-		// value, until SSL_shutdown() returns 1.
-		// However, this will lead to problems with
-		// most web browsers, so we just set the shutdown
-		// flag by calling SSL_shutdown() once and be
-		// done with it.
-		int rc = SSL_shutdown(_pSSL);
-		if (rc < 0) handleError(rc);
+	{        
+        // Don't shut down the socket more than once.
+        int shutdownState = SSL_get_shutdown(_pSSL);
+        bool shutdownSent = (shutdownState & SSL_SENT_SHUTDOWN) == SSL_SENT_SHUTDOWN;
+        if (!shutdownSent)
+        {
+			// A proper clean shutdown would require us to
+			// retry the shutdown if we get a zero return
+			// value, until SSL_shutdown() returns 1.
+			// However, this will lead to problems with
+			// most web browsers, so we just set the shutdown
+			// flag by calling SSL_shutdown() once and be
+			// done with it.
+			int rc = SSL_shutdown(_pSSL);
+			if (rc < 0) handleError(rc);
+		}
 	}
 }
 
@@ -239,7 +251,9 @@ int SecureSocketImpl::sendBytes(const void* buffer, int length, int flags)
 		rc = completeHandshake();
 		if (rc == 1)
 			verifyPeerCertificate();
-		else 
+		else if (rc == 0)
+			throw SSLConnectionUnexpectedlyClosedException();
+		else
 			return rc;
 	}
 	do
@@ -249,7 +263,8 @@ int SecureSocketImpl::sendBytes(const void* buffer, int length, int flags)
 	while (rc <= 0 && _pSocket->lastError() == POCO_EINTR);
 	if (rc <= 0) 
 	{
-		return handleError(rc);
+		rc = handleError(rc);
+		if (rc == 0) throw SSLConnectionUnexpectedlyClosedException();
 	}
 	return rc;
 }
@@ -279,6 +294,14 @@ int SecureSocketImpl::receiveBytes(void* buffer, int length, int flags)
 		return handleError(rc);
 	}
 	return rc;
+}
+
+
+int SecureSocketImpl::available() const
+{
+	poco_check_ptr (_pSSL);
+
+	return SSL_pending(_pSSL);
 }
 
 
@@ -313,7 +336,7 @@ void SecureSocketImpl::verifyPeerCertificate()
 
 void SecureSocketImpl::verifyPeerCertificate(const std::string& hostName)
 {
-	long certErr = verifyCertificate(hostName);
+	long certErr = verifyPeerCertificateImpl(hostName);
 	if (certErr != X509_V_OK)
 	{
 		std::string msg = Utility::convertCertificateError(certErr);
@@ -322,10 +345,11 @@ void SecureSocketImpl::verifyPeerCertificate(const std::string& hostName)
 }
 
 
-long SecureSocketImpl::verifyCertificate(const std::string& hostName)
+long SecureSocketImpl::verifyPeerCertificateImpl(const std::string& hostName)
 {
 	Context::VerificationMode mode = _pContext->verificationMode();
-	if (mode == Context::VERIFY_NONE || (isLocalHost(hostName) && mode != Context::VERIFY_STRICT))
+	if (mode == Context::VERIFY_NONE || !_pContext->extendedCertificateVerificationEnabled() ||
+	    (isLocalHost(hostName) && mode != Context::VERIFY_STRICT))
 	{
 		return X509_V_OK;
 	}
@@ -334,7 +358,7 @@ long SecureSocketImpl::verifyCertificate(const std::string& hostName)
 	if (pCert)
 	{
 		X509Certificate cert(pCert);
-		return cert.verify(hostName);
+		return cert.verify(hostName) ? X509_V_OK : X509_V_ERR_APPLICATION_VERIFICATION;
 	}
 	else return X509_V_OK;
 }
@@ -375,19 +399,18 @@ int SecureSocketImpl::handleError(int rc)
 		// these should not occur
 		poco_bugcheck();
 		return rc;
-	case SSL_ERROR_SYSCALL:
-	case SSL_ERROR_SSL:
+	default:
 		{
 			long lastError = ERR_get_error();
 			if (lastError == 0)
 			{
 				if (rc == 0)
 				{
-					throw SSLException("The underlying socket connection has been unexpectedly closed");
+					throw SSLConnectionUnexpectedlyClosedException();
 				}
-				else if (rc == -1)
+				else
 				{
-					SecureStreamSocketImpl::error("The BIO reported an error");
+					SecureStreamSocketImpl::error(Poco::format("The BIO reported an error: %d", rc));
 				}
 			}
 			else
@@ -399,8 +422,6 @@ int SecureSocketImpl::handleError(int rc)
 			}
 		}
  		break;
-	default:
-		break;
 	}
 	return rc;
 }
@@ -420,6 +441,40 @@ void SecureSocketImpl::reset()
 		SSL_free(_pSSL);
 		_pSSL = 0;
 	}
+}
+
+
+Session::Ptr SecureSocketImpl::currentSession()
+{
+	if (_pSSL)
+	{
+		SSL_SESSION* pSession = SSL_get1_session(_pSSL);
+		if (pSession)
+		{
+			if (_pSession && pSession == _pSession->sslSession())
+			{
+				SSL_SESSION_free(pSession);
+				return _pSession;
+			}
+			else return new Session(pSession);
+		}
+	}
+	return 0;
+}
+
+	
+void SecureSocketImpl::useSession(Session::Ptr pSession)
+{
+	_pSession = pSession;
+}
+
+
+bool SecureSocketImpl::sessionWasReused()
+{
+	if (_pSSL)
+		return SSL_session_reused(_pSSL) != 0;
+	else
+		return false;
 }
 
 

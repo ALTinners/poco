@@ -1,7 +1,7 @@
 //
 // TextIterator.cpp
 //
-// $Id: //poco/1.3/Foundation/src/TextIterator.cpp#5 $
+// $Id: //poco/1.4/Foundation/src/TextIterator.cpp#1 $
 //
 // Library: Foundation
 // Package: Text
@@ -54,6 +54,7 @@ TextIterator::TextIterator(const std::string& str, const TextEncoding& encoding)
 	_end(str.end())
 {
 }
+
 
 TextIterator::TextIterator(const std::string::const_iterator& begin, const std::string::const_iterator& end, const TextEncoding& encoding):
 	_pEncoding(&encoding),

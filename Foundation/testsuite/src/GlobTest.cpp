@@ -1,7 +1,7 @@
 //
 // GlobTest.cpp
 //
-// $Id: //poco/1.3/Foundation/testsuite/src/GlobTest.cpp#2 $
+// $Id: //poco/1.4/Foundation/testsuite/src/GlobTest.cpp#1 $
 //
 // Copyright (c) 2004-2006, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -470,13 +470,32 @@ void GlobTest::testGlob()
 	assert (files.find("globtest/src/") != files.end());
 	assert (files.find("globtest/testsuite/") != files.end());
 
+#if !defined(_WIN32_WCE)
+	// won't work if current directory is root dir
 	files.clear();
 	Glob::glob("../*/globtest/*/", files);
 	translatePaths(files);
 	assert (files.size() == 3);
+#endif
 	
 	File dir("globtest");
 	dir.remove(true);
+}
+
+
+void GlobTest::testMatchEmptyPattern()
+{
+	// Run the empty pattern against a number of subjects with all different match options
+	const std::string empty;
+
+	assert (!Glob(empty, Glob::GLOB_DEFAULT).match("subject"));
+	assert (Glob(empty, Glob::GLOB_DEFAULT).match(empty));
+
+	assert (!Glob(empty, Glob::GLOB_DOT_SPECIAL).match("subject"));
+	assert (Glob(empty, Glob::GLOB_DOT_SPECIAL).match(empty));
+
+	assert (!Glob(empty, Glob::GLOB_CASELESS).match("subject"));
+	assert (Glob(empty, Glob::GLOB_CASELESS).match(empty));
 }
 
 
@@ -524,6 +543,7 @@ CppUnit::Test* GlobTest::suite()
 	CppUnit_addTest(pSuite, GlobTest, testMisc);
 	CppUnit_addTest(pSuite, GlobTest, testCaseless);
 	CppUnit_addTest(pSuite, GlobTest, testGlob);
+	CppUnit_addTest(pSuite, GlobTest, testMatchEmptyPattern);
 
 	return pSuite;
 }

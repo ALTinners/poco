@@ -1,7 +1,7 @@
 //
 // TextTestSuite.cpp
 //
-// $Id: //poco/1.3/Foundation/testsuite/src/TextTestSuite.cpp#5 $
+// $Id: //poco/1.4/Foundation/testsuite/src/TextTestSuite.cpp#1 $
 //
 // Copyright (c) 2004-2006, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -32,6 +32,7 @@
 
 #include "TextTestSuite.h"
 #include "TextIteratorTest.h"
+#include "TextBufferIteratorTest.h"
 #include "TextConverterTest.h"
 #include "StreamConverterTest.h"
 #include "TextEncodingTest.h"
@@ -46,6 +47,7 @@ CppUnit::Test* TextTestSuite::suite()
 	CppUnit::TestSuite* pSuite = new CppUnit::TestSuite("TextTestSuite");
 
 	pSuite->addTest(TextIteratorTest::suite());
+	pSuite->addTest(TextBufferIteratorTest::suite());
 	pSuite->addTest(TextConverterTest::suite());
 	pSuite->addTest(StreamConverterTest::suite());
 	pSuite->addTest(TextEncodingTest::suite());

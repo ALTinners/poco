@@ -1,7 +1,7 @@
 //
 // LogRotation.cpp
 //
-// $Id: //poco/1.3/Foundation/samples/LogRotation/src/LogRotation.cpp#1 $
+// $Id: //poco/1.4/Foundation/samples/LogRotation/src/LogRotation.cpp#1 $
 //
 // This class demonstrates the Log rotation feature.
 //

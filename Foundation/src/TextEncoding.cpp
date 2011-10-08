@@ -1,7 +1,7 @@
 //
 // TextEncoding.cpp
 //
-// $Id: //poco/1.3/Foundation/src/TextEncoding.cpp#5 $
+// $Id: //poco/1.4/Foundation/src/TextEncoding.cpp#1 $
 //
 // Library: Foundation
 // Package: Text
@@ -215,9 +215,14 @@ TextEncoding& TextEncoding::global()
 }
 
 
-TextEncodingManager& TextEncoding::manager()
+namespace
 {
 	static SingletonHolder<TextEncodingManager> sh;
+}
+
+
+TextEncodingManager& TextEncoding::manager()
+{
 	return *sh.get();
 }
 

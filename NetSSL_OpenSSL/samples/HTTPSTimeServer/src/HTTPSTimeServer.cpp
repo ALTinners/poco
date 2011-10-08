@@ -1,7 +1,7 @@
 //
 // TimeServer.cpp
 //
-// $Id: //poco/1.3/NetSSL_OpenSSL/samples/HTTPSTimeServer/src/HTTPSTimeServer.cpp#2 $
+// $Id: //poco/1.4/NetSSL_OpenSSL/samples/HTTPSTimeServer/src/HTTPSTimeServer.cpp#1 $
 //
 // This sample demonstrates the HTTPServer and related classes.
 //
@@ -36,10 +36,12 @@
 #include "Poco/Net/HTTPRequestHandler.h"
 #include "Poco/Net/HTTPRequestHandlerFactory.h"
 #include "Poco/Net/HTTPServerParams.h"
-#include "Poco/Net/HTTPServerRequest.h"
+#include "Poco/Net/HTTPServerRequestImpl.h"
 #include "Poco/Net/HTTPServerResponse.h"
 #include "Poco/Net/HTTPServerParams.h"
+#include "Poco/Net/SecureStreamSocket.h"
 #include "Poco/Net/SecureServerSocket.h"
+#include "Poco/Net/X509Certificate.h"
 #include "Poco/Timestamp.h"
 #include "Poco/DateTimeFormatter.h"
 #include "Poco/DateTimeFormat.h"
@@ -56,10 +58,13 @@
 
 
 using Poco::Net::SecureServerSocket;
+using Poco::Net::SecureStreamSocket;
 using Poco::Net::HTTPRequestHandler;
 using Poco::Net::HTTPRequestHandlerFactory;
 using Poco::Net::HTTPServer;
 using Poco::Net::HTTPServerRequest;
+using Poco::Net::HTTPServerRequestImpl;
+using Poco::Net::X509Certificate;
 using Poco::Net::HTTPServerResponse;
 using Poco::Net::HTTPServerParams;
 using Poco::Timestamp;
@@ -93,6 +98,17 @@ public:
 		Application& app = Application::instance();
 		app.logger().information("Request from " + request.clientAddress().toString());
 
+		SecureStreamSocket socket = static_cast<HTTPServerRequestImpl&>(request).socket();
+		if (socket.havePeerCertificate())
+		{
+			X509Certificate cert = socket.peerCertificate();
+			app.logger().information("Client certificate: " + cert.subjectName());
+		}
+		else
+		{
+			app.logger().information("No client certificate available.");
+		}
+		
 		Timestamp now;
 		std::string dt(DateTimeFormatter::format(now, _format));
 
@@ -155,10 +171,12 @@ class HTTPSTimeServer: public Poco::Util::ServerApplication
 public:
 	HTTPSTimeServer(): _helpRequested(false)
 	{
+		Poco::Net::initializeSSL();
 	}
 	
 	~HTTPSTimeServer()
 	{
+		Poco::Net::uninitializeSSL();
 	}
 
 protected:
@@ -209,8 +227,8 @@ protected:
 		else
 		{
 			// get parameters from configuration file
-			unsigned short port = (unsigned short) config().getInt("HTTPTimeServer.port", 9980);
-			std::string format(config().getString("HTTPTimeServer.format", DateTimeFormat::SORTABLE_FORMAT));
+			unsigned short port = (unsigned short) config().getInt("HTTPSTimeServer.port", 9443);
+			std::string format(config().getString("HTTPSTimeServer.format", DateTimeFormat::SORTABLE_FORMAT));
 			
 			// set-up a server socket
 			SecureServerSocket svs(port);

@@ -1,7 +1,7 @@
 //
 // RSATest.cpp
 //
-// $Id: //poco/1.3/Crypto/testsuite/src/RSATest.cpp#4 $
+// $Id: //poco/1.4/Crypto/testsuite/src/RSATest.cpp#1 $
 //
 // Copyright (c) 2008, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -133,7 +133,7 @@ void RSATest::testSign()
 	std::string msg("Test this sign message");
 	RSAKey key(RSAKey::KL_2048, RSAKey::EXP_LARGE);
 	RSADigestEngine eng(key);
-	eng.update(msg.c_str(), msg.length());
+	eng.update(msg.c_str(), static_cast<unsigned>(msg.length()));
 	const Poco::DigestEngine::Digest& sig = eng.signature();
 	std::string hexDig = Poco::DigestEngine::digestToHex(sig);
 
@@ -144,7 +144,7 @@ void RSATest::testSign()
 	std::istringstream iPub(pubKey);
 	RSAKey keyPub(&iPub);
 	RSADigestEngine eng2(key);
-	eng2.update(msg.c_str(), msg.length());
+	eng2.update(msg.c_str(), static_cast<unsigned>(msg.length()));
 	assert (eng2.verify(sig));
 }
 
@@ -155,7 +155,7 @@ void RSATest::testSignManipulated()
 	std::string msgManip("Test that sign message");
 	RSAKey key(RSAKey::KL_2048, RSAKey::EXP_LARGE);
 	RSADigestEngine eng(key);
-	eng.update(msg.c_str(), msg.length());
+	eng.update(msg.c_str(), static_cast<unsigned>(msg.length()));
 	const Poco::DigestEngine::Digest& sig = eng.signature();
 	std::string hexDig = Poco::DigestEngine::digestToHex(sig);
 
@@ -166,28 +166,48 @@ void RSATest::testSignManipulated()
 	std::istringstream iPub(pubKey);
 	RSAKey keyPub(&iPub);
 	RSADigestEngine eng2(key);
-	eng2.update(msgManip.c_str(), msgManip.length());
+	eng2.update(msgManip.c_str(), static_cast<unsigned>(msgManip.length()));
 	assert (!eng2.verify(sig));
 }
 
 
-void RSATest::createRSACipher()
+void RSATest::testRSACipher()
 {
-	Cipher::Ptr pCipher = CipherFactory::defaultFactory().createCipher(RSAKey(RSAKey::KL_1024,RSAKey::EXP_SMALL));
-	std::string val("lets do some encryption");
-	std::string enc = pCipher->encryptString(val);
-	std::string dec = pCipher->decryptString(enc);
-	assert (dec == val);
+	Cipher::Ptr pCipher = CipherFactory::defaultFactory().createCipher(RSAKey(RSAKey::KL_1024, RSAKey::EXP_SMALL));
+	for (std::size_t n = 1; n <= 1200; n++)
+	{
+		std::string val(n, 'x');
+		std::string enc = pCipher->encryptString(val);
+		std::string dec = pCipher->decryptString(enc);
+		assert (dec == val);
+	}
 }
 
 
-void RSATest::createRSACipherLarge()
+void RSATest::testRSACipherLarge()
 {
-	Cipher::Ptr pCipher = CipherFactory::defaultFactory().createCipher(RSAKey(RSAKey::KL_1024,RSAKey::EXP_SMALL));
-	std::string val(16385, 'x');
-	std::string enc = pCipher->encryptString(val);
-	std::string dec = pCipher->decryptString(enc);
-	assert (dec == val);
+	std::vector<std::size_t> sizes;
+	sizes.push_back (2047);
+	sizes.push_back (2048);
+	sizes.push_back (2049);
+	sizes.push_back (4095);
+	sizes.push_back (4096);
+	sizes.push_back (4097);
+	sizes.push_back (8191);
+	sizes.push_back (8192);
+	sizes.push_back (8193);
+	sizes.push_back (16383);
+	sizes.push_back (16384);
+	sizes.push_back (16385);
+	
+	Cipher::Ptr pCipher = CipherFactory::defaultFactory().createCipher(RSAKey(RSAKey::KL_1024, RSAKey::EXP_SMALL));
+	for (std::vector<std::size_t>::const_iterator it = sizes.begin(); it != sizes.end(); ++it)
+	{
+		std::string val(*it, 'x');
+		std::string enc = pCipher->encryptString(val);
+		std::string dec = pCipher->decryptString(enc);
+		assert (dec == val);
+	}
 }
 
 
@@ -195,12 +215,16 @@ void RSATest::testCertificate()
 {
 	std::istringstream str(anyPem);
 	X509Certificate cert(str);
-	
-	RSAKey key(cert);
-	Cipher::Ptr pCipher = CipherFactory::defaultFactory().createCipher(key);
+	RSAKey publicKey(cert);
+	std::istringstream str2(anyPem);
+	RSAKey privateKey(0, &str2, "test");
+	Cipher::Ptr pCipher = CipherFactory::defaultFactory().createCipher(publicKey);
+	Cipher::Ptr pCipher2 = CipherFactory::defaultFactory().createCipher(privateKey);
 	std::string val("lets do some encryption");
 	
 	std::string enc = pCipher->encryptString(val);
+	std::string dec = pCipher2->decryptString(enc);
+	assert (dec == val);
 }
 
 
@@ -221,8 +245,8 @@ CppUnit::Test* RSATest::suite()
 	CppUnit_addTest(pSuite, RSATest, testNewKeys);
 	CppUnit_addTest(pSuite, RSATest, testSign);
 	CppUnit_addTest(pSuite, RSATest, testSignManipulated);
-	CppUnit_addTest(pSuite, RSATest, createRSACipher);
-	CppUnit_addTest(pSuite, RSATest, createRSACipherLarge);
+	CppUnit_addTest(pSuite, RSATest, testRSACipher);
+	CppUnit_addTest(pSuite, RSATest, testRSACipherLarge);
 	CppUnit_addTest(pSuite, RSATest, testCertificate);
 
 	return pSuite;

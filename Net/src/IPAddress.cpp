@@ -1,7 +1,7 @@
 //
 // IPAddress.cpp
 //
-// $Id: //poco/1.3/Net/src/IPAddress.cpp#11 $
+// $Id: //poco/1.4/Net/src/IPAddress.cpp#1 $
 //
 // Library: Net
 // Package: NetCore
@@ -159,7 +159,7 @@ public:
 	
 	bool isLoopback() const
 	{
-		return ntohl(_addr.s_addr) == 0x7F000001; // 127.0.0.1
+		return (ntohl(_addr.s_addr) & 0xFF000000) == 0x7F000000; // 127.0.0.1 to 127.255.255.255
 	}
 	
 	bool isMulticast() const
@@ -366,25 +366,25 @@ public:
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
 		return words[0] == 0 && words[1] == 0 && words[2] == 0 && words[3] == 0 && 
-		       words[4] == 0 && words[5] == 0 && words[6] == 0 && words[7] == 1;
+		       words[4] == 0 && words[5] == 0 && words[6] == 0 && words[7] == 0x0100;
 	}
 	
 	bool isMulticast() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xFFE0) == 0xFF00;
+		return (words[0] & 0xE0FF) == 0x00FF;
 	}
 		
 	bool isLinkLocal() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xFFE0) == 0xFE80;
+		return (words[0] & 0xE0FF) == 0x80FE;
 	}
 	
 	bool isSiteLocal() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xFFE0) == 0xFEC0;
+		return (words[0] & 0xE0FF) == 0xC0FE;
 	}
 	
 	bool isIPv4Compatible() const
@@ -402,37 +402,37 @@ public:
 	bool isWellKnownMC() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xFFF0) == 0xFF00;
+		return (words[0] & 0xF0FF) == 0x00FF;
 	}
 	
 	bool isNodeLocalMC() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xFFEF) == 0xFF01;
+		return (words[0] & 0xEFFF) == 0x01FF;
 	}
 	
 	bool isLinkLocalMC() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xFFEF) == 0xFF02;
+		return (words[0] & 0xEFFF) == 0x02FF;
 	}
 	
 	bool isSiteLocalMC() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xFFEF) == 0xFF05;
+		return (words[0] & 0xEFFF) == 0x05FF;
 	}
 	
 	bool isOrgLocalMC() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xFFEF) == 0xFF08;
+		return (words[0] & 0xEFFF) == 0x08FF;
 	}
 	
 	bool isGlobalMC() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xFFEF) == 0xFF0F;
+		return (words[0] & 0xEFFF) == 0x0FFF;
 	}
 
 	static IPv6AddressImpl* parse(const std::string& addr)
@@ -809,6 +809,20 @@ void IPAddress::mask(const IPAddress& mask, const IPAddress& set)
 	_pImpl->release();
 	_pImpl = pClone;
 	_pImpl->mask(mask._pImpl, set._pImpl);
+}
+
+
+IPAddress IPAddress::wildcard(Family family)
+{
+	return IPAddress(family);
+}
+
+
+IPAddress IPAddress::broadcast()
+{
+	struct in_addr ia;
+	ia.s_addr = INADDR_NONE;
+	return IPAddress(&ia, sizeof(ia));
 }
 
 

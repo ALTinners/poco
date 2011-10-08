@@ -1,7 +1,7 @@
 //
 // SecureSocketImpl.h
 //
-// $Id: //poco/1.3/NetSSL_OpenSSL/include/Poco/Net/SecureSocketImpl.h#9 $
+// $Id: //poco/1.4/NetSSL_OpenSSL/include/Poco/Net/SecureSocketImpl.h#1 $
 //
 // Library: NetSSL_OpenSSL
 // Package: SSLSockets
@@ -9,7 +9,7 @@
 //
 // Definition of the SecureSocketImpl class.
 //
-// Copyright (c) 2006-2009, Applied Informatics Software Engineering GmbH.
+// Copyright (c) 2006-2010, Applied Informatics Software Engineering GmbH.
 // and Contributors.
 //
 // Permission is hereby granted, free of charge, to any person or organization
@@ -44,6 +44,7 @@
 #include "Poco/Net/SocketImpl.h"
 #include "Poco/Net/Context.h"
 #include "Poco/Net/X509Certificate.h"
+#include "Poco/Net/Session.h"
 #include <openssl/bio.h>
 #include <openssl/ssl.h>
 
@@ -140,13 +141,17 @@ public:
 		///
 		/// Returns the number of bytes received.
 		
+	int available() const;
+		/// Returns the number of bytes available from the
+		/// SSL buffer for immediate reading.
+	
 	int completeHandshake();
 		/// Completes the SSL handshake.
 		///
 		/// If the SSL connection was the result of an accept(),
 		/// the server-side handshake is completed, otherwise
 		/// a client-side handshake is performed. 
-	
+		
 	poco_socket_t sockfd();
 		/// Returns the underlying socket descriptor.
 
@@ -171,6 +176,27 @@ public:
 	const std::string& getPeerHostName() const;
 		/// Returns the peer host name.
 		
+	Session::Ptr currentSession();
+		/// Returns the SSL session of the current connection,
+		/// for reuse in a future connection (if session caching
+		/// is enabled).
+		///
+		/// If no connection is established, returns null.
+		
+	void useSession(Session::Ptr pSession);
+		/// Sets the SSL session to use for the next
+		/// connection. Setting a previously saved Session
+		/// object is necessary to enable session caching.
+		///
+		/// To remove the currently set session, a null pointer
+		/// can be given.
+		///
+		/// Must be called before connect() to be effective.
+		
+	bool sessionWasReused();
+		/// Returns true iff a reused session was negotiated during
+		/// the handshake.
+		
 protected:
 	void acceptSSL();
 		/// Performs a server-side SSL handshake and certificate verification.
@@ -179,7 +205,7 @@ protected:
 		/// Performs a client-side SSL handshake and establishes a secure 
 		/// connection over an already existing TCP connection.
 	
-	long verifyCertificate(const std::string& hostName);
+	long verifyPeerCertificateImpl(const std::string& hostName);
 		/// Performs post-connect (or post-accept) peer certificate validation.
 		
 	static bool isLocalHost(const std::string& hostName);
@@ -207,6 +233,7 @@ private:
 	Context::Ptr _pContext;
 	bool _needHandshake;
 	std::string _peerHostName;
+	Session::Ptr _pSession;
 	
 	friend class SecureStreamSocketImpl;
 };
