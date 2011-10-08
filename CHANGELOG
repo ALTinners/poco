@@ -1,6 +1,59 @@
 This is the changelog file for the POCO C++ Libraries.
 
 
+Release 1.4.1 (2011-01-29)
+==========================
+
+- fixed SF# 3150223: Poco::BinaryReader cannot read std::vector correctly
+- fixed SF# 3146326: SharedMemory issue
+- made Poco::Net::HTTPSession::abort() virtual
+- added Poco::Net::SecureStreamSocket::abort() to immediately close
+  a SSL/TLS connection without performing an orderly SSL/TLS shutdown.
+- fixed SF# 3148126: HTTPSClientSession destructor (!) throws an IOException.
+  Added try/catch block to Poco::Net::SecureSocketImpl destructor.
+- added additional constructor to Poco::Net::HTTPSClientSession, taking
+  both a socket and a session object.
+- Poco::Net::HTTPSession::abort() now also can be used with a
+  Poco::Net::HTTPSClientSession.
+- fixed SF# 3148045: make clean and distclean issues
+- changed Data library names on Unix/Linux platforms to
+  match the names on Windows (PocoSQLite -> PocoDataSQLite,
+  PocoMySQL -> PocoDataMySQL, PocoODBC -> PocoDataODBC)
+- added additional options to configure script
+- added additional documentation to Poco::Net::HTTPClientSession
+- Poco::Net::HTTPClientSession::receiveResponse() closes the connection 
+  if an exception is thrown while reading the response header. 
+  This ensures that a new connection will be set up for the next request 
+  if persistent connections are used.
+- improved Poco::Net::MultipartDecoder performance by reading directly from streambuf
+- improved performance of Poco::Base64Encoder, Poco::Base64Decoder, 
+  Poco::HexBinaryEncoder and Poco::HexBinaryDecoder by working directly with the 
+  given stream's streambuf.
+- improved performance of MessageHeader::read() by reading directly from streambuf 
+  instead of istream.
+- it is now possible to specify additional MIME part header fields
+  for a MIME part through the Poco::Net::PartSource class.
+- upgraded SQLite to release 3.7.4
+- added experimental VxWorks support for VxWorks 5.5.1/Tornado 2.2 and
+  newer. Please see the VxWorks Platform Notes in the reference documentation
+  for more information. Currently, the VxWorks is untested; full support
+  will be available in release 1.4.2.
+- fixed SF# 3165918: Poco::DynamicAny fails to convert from string to float
+- fixed SF# 3165910: Poco::Net::MessageHeader does not accept HTTP conforming header
+- made Poco::Task::cancel() virtual so that tasks can implement custom
+  cancellation behavior.
+- added optional argument to Poco::Util::WinRegistryKey constructor
+  to specify additional flags (in addition to KEY_READ and KEY_WRITE)
+  for the samDesired argument of RegOpenKeyEx() or RegCreateKeyEx().
+- improved Poco::BasicEvent::notify() performance by avoiding an unnecessary heap
+  allocation.  
+- added additional well-known port numbers to Poco::URI: rtsp, sip, sips, xmpp.
+- added Poco::Net::MediaType::matchesRange()
+- improved invalid socket handling: a Poco::Net::InvalidSocketException is 
+  now thrown instead of an assertion when an operation is attempted on a closed or 
+  otherwise uninitialized socket.
+
+
 Release 1.4.0 (2010-12-14)
 ==========================
 
@@ -1406,4 +1459,4 @@ building the libraries.
 
 
 --
-$Id: //poco/1.4/dist/CHANGELOG#1 $
+$Id: //poco/1.4/dist/CHANGELOG#12 $

@@ -52,12 +52,16 @@ build/script/makedepend.xlC
 build/script/makeldpath
 build/script/projname
 build/script/shlibln
+build/script/vxprogen
 build/vms
 build/vms/build.com
 build/vms/pococc.com
 build/vms/pococxx.com
 build/vms/pocolib.com
 build/vms/pocolnk.com
+build/vxconfig
+build/vxconfig/PPC440diab_debug
+build/vxconfig/PPC440diab_release
 build_CE_vs90.cmd
 build_vcexpress2008.cmd
 build_vcexpress2010.cmd
@@ -79,6 +83,7 @@ contrib/poco-doc.pl
 CONTRIBUTORS
 CppUnit
 CppUnit/cppunit.vmsbuild
+CppUnit/CppUnit.vxbuild
 CppUnit/CppUnit_CE_vs90.sln
 CppUnit/CppUnit_CE_vs90.vcproj
 CppUnit/CppUnit_vs100.sln
@@ -266,6 +271,7 @@ Crypto/testsuite/TestSuite_x64_vs90.vcproj
 Data
 Data/Data.progen
 Data/Data.vmsbuild
+Data/Data.vxbuild
 Data/Data_CE_vs90.sln
 Data/Data_CE_vs90.vcproj
 Data/Data_vs100.sln
@@ -569,6 +575,7 @@ Data/SQLite/include/Poco/Data/SQLite/Utility.h
 Data/SQLite/Makefile
 Data/SQLite/SQLite.progen
 Data/SQLite/SQLite.vmsbuild
+Data/SQLite/SQLite.vxbuild
 Data/SQLite/SQLite_CE_vs90.sln
 Data/SQLite/SQLite_CE_vs90.vcproj
 Data/SQLite/SQLite_vs100.sln
@@ -685,17 +692,20 @@ Data/testsuite/TestSuite_x64_vs100.vcxproj.user
 Data/testsuite/TestSuite_x64_vs90.vcproj
 doc
 doc/00100-GuidedTour.page
+doc/00200-GettingStarted.page
 doc/80100-HowToGetHelp.page
 doc/90100-Acknowledgements.page
 doc/99100-ReleaseNotes.page
 doc/99150-GMakeBuildNotes.page
 doc/99150-WindowsPlatformNotes.page
 doc/99200-WinCEPlatformNotes.page
+doc/99250-VxWorksPlatformNotes.page
 doc/Acknowledgements.html
 Foundation
 Foundation/.cdtproject
 Foundation/.project
 Foundation/foundation.vmsbuild
+Foundation/Foundation.vxbuild
 Foundation/Foundation_CE_vs90.sln
 Foundation/Foundation_CE_vs90.vcproj
 Foundation/Foundation_vs100.sln
@@ -782,6 +792,7 @@ Foundation/include/Poco/DynamicFactory.h
 Foundation/include/Poco/Environment.h
 Foundation/include/Poco/Environment_UNIX.h
 Foundation/include/Poco/Environment_VMS.h
+Foundation/include/Poco/Environment_VX.h
 Foundation/include/Poco/Environment_WIN32.h
 Foundation/include/Poco/Environment_WIN32U.h
 Foundation/include/Poco/Environment_WINCE.h
@@ -802,6 +813,7 @@ Foundation/include/Poco/FIFOStrategy.h
 Foundation/include/Poco/File.h
 Foundation/include/Poco/File_UNIX.h
 Foundation/include/Poco/File_VMS.h
+Foundation/include/Poco/File_VX.h
 Foundation/include/Poco/File_WIN32.h
 Foundation/include/Poco/File_WIN32U.h
 Foundation/include/Poco/File_WINCE.h
@@ -904,6 +916,7 @@ Foundation/include/Poco/PipeStream.h
 Foundation/include/Poco/Platform.h
 Foundation/include/Poco/Platform_POSIX.h
 Foundation/include/Poco/Platform_VMS.h
+Foundation/include/Poco/Platform_VX.h
 Foundation/include/Poco/Platform_WIN32.h
 Foundation/include/Poco/Poco.h
 Foundation/include/Poco/PriorityDelegate.h
@@ -926,6 +939,7 @@ Foundation/include/Poco/Runnable.h
 Foundation/include/Poco/RunnableAdapter.h
 Foundation/include/Poco/RWLock.h
 Foundation/include/Poco/RWLock_POSIX.h
+Foundation/include/Poco/RWLock_VX.h
 Foundation/include/Poco/RWLock_WIN32.h
 Foundation/include/Poco/RWLock_WINCE.h
 Foundation/include/Poco/ScopedLock.h
@@ -938,6 +952,7 @@ Foundation/include/Poco/SharedLibrary.h
 Foundation/include/Poco/SharedLibrary_HPUX.h
 Foundation/include/Poco/SharedLibrary_UNIX.h
 Foundation/include/Poco/SharedLibrary_VMS.h
+Foundation/include/Poco/SharedLibrary_VX.h
 Foundation/include/Poco/SharedLibrary_WIN32.h
 Foundation/include/Poco/SharedLibrary_WIN32U.h
 Foundation/include/Poco/SharedMemory.h
@@ -1389,6 +1404,7 @@ Foundation/src/DynamicAnyHolder.cpp
 Foundation/src/Environment.cpp
 Foundation/src/Environment_UNIX.cpp
 Foundation/src/Environment_VMS.cpp
+Foundation/src/Environment_VX.cpp
 Foundation/src/Environment_WIN32.cpp
 Foundation/src/Environment_WIN32U.cpp
 Foundation/src/Environment_WINCE.cpp
@@ -1402,6 +1418,7 @@ Foundation/src/Exception.cpp
 Foundation/src/File.cpp
 Foundation/src/File_UNIX.cpp
 Foundation/src/File_VMS.cpp
+Foundation/src/File_VX.cpp
 Foundation/src/File_WIN32.cpp
 Foundation/src/File_WIN32U.cpp
 Foundation/src/File_WINCE.cpp
@@ -1527,6 +1544,7 @@ Foundation/src/RotateStrategy.cpp
 Foundation/src/Runnable.cpp
 Foundation/src/RWLock.cpp
 Foundation/src/RWLock_POSIX.cpp
+Foundation/src/RWLock_VX.cpp
 Foundation/src/RWLock_WIN32.cpp
 Foundation/src/RWLock_WINCE.cpp
 Foundation/src/Semaphore.cpp
@@ -1537,6 +1555,7 @@ Foundation/src/SharedLibrary.cpp
 Foundation/src/SharedLibrary_HPUX.cpp
 Foundation/src/SharedLibrary_UNIX.cpp
 Foundation/src/SharedLibrary_VMS.cpp
+Foundation/src/SharedLibrary_VX.cpp
 Foundation/src/SharedLibrary_WIN32.cpp
 Foundation/src/SharedLibrary_WIN32U.cpp
 Foundation/src/SharedMemory.cpp
@@ -1577,6 +1596,7 @@ Foundation/src/Timespan.cpp
 Foundation/src/Timestamp.cpp
 Foundation/src/Timezone.cpp
 Foundation/src/Timezone_UNIX.cpp
+Foundation/src/Timezone_VX.cpp
 Foundation/src/Timezone_WIN32.cpp
 Foundation/src/Timezone_WINCE.cpp
 Foundation/src/Token.cpp
@@ -2060,6 +2080,7 @@ Net/include/Poco/Net/TCPServerParams.h
 Net/Makefile
 Net/Net.progen
 Net/Net.vmsbuild
+Net/Net.vxbuild
 Net/Net_CE_vs90.sln
 Net/Net_CE_vs90.vcproj
 Net/Net_vs100.sln
@@ -2750,6 +2771,11 @@ PageCompiler/src/Page.h
 PageCompiler/src/PageCompiler.cpp
 PageCompiler/src/PageReader.cpp
 PageCompiler/src/PageReader.h
+patches
+patches/AIX
+patches/AIX/xlC8.diff
+patches/VxWorks
+patches/VxWorks/sqlite3.c.patch
 README
 Util
 Util/.cdtproject
@@ -2951,6 +2977,7 @@ Util/testsuite/TestSuite_x64_vs100.vcxproj.user
 Util/testsuite/TestSuite_x64_vs90.vcproj
 Util/Util.progen
 Util/Util.vmsbuild
+Util/Util.vxbuild
 Util/Util_CE_vs90.sln
 Util/Util_CE_vs90.vcproj
 Util/Util_vs100.sln
@@ -3276,6 +3303,7 @@ XML/testsuite/TestSuite_x64_vs100.vcxproj.user
 XML/testsuite/TestSuite_x64_vs90.vcproj
 XML/XML.progen
 XML/XML.vmsbuild
+XML/XML.vxbuild
 XML/XML_CE_vs90.sln
 XML/XML_CE_vs90.vcproj
 XML/XML_vs100.sln
@@ -3423,6 +3451,7 @@ Zip/testsuite/TestSuite_x64_vs100.vcxproj.user
 Zip/testsuite/TestSuite_x64_vs90.vcproj
 Zip/Zip.progen
 Zip/Zip.vmsbuild
+Zip/Zip.vxbuild
 Zip/Zip_CE_vs90.sln
 Zip/Zip_CE_vs90.vcproj
 Zip/Zip_vs100.sln
