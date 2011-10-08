@@ -1,7 +1,7 @@
 //
 // File.cpp
 //
-// $Id: //poco/1.3/Foundation/src/File.cpp#6 $
+// $Id: //poco/1.4/Foundation/src/File.cpp#3 $
 //
 // Library: Foundation
 // Package: Filesystem
@@ -40,9 +40,15 @@
 
 
 #if defined(POCO_OS_FAMILY_WINDOWS) && defined(POCO_WIN32_UTF8)
+#if defined(_WIN32_WCE)
+#include "File_WINCE.cpp"
+#else
 #include "File_WIN32U.cpp"
+#endif
 #elif defined(POCO_OS_FAMILY_WINDOWS)
 #include "File_WIN32.cpp"
+#elif defined(POCO_VXWORKS)
+#include "File_VX.cpp"
 #elif defined(POCO_OS_FAMILY_UNIX)
 #include "File_UNIX.cpp"
 #else
@@ -184,9 +190,10 @@ Timestamp File::getLastModified() const
 }
 
 	
-void File::setLastModified(const Timestamp& ts)
+File& File::setLastModified(const Timestamp& ts)
 {
 	setLastModifiedImpl(ts);
+    return *this;
 }
 
 	
@@ -196,27 +203,31 @@ File::FileSize File::getSize() const
 }
 
 	
-void File::setSize(FileSizeImpl size)
+File& File::setSize(FileSizeImpl size)
 {
 	setSizeImpl(size);
+    return *this;
 }
 
 	
-void File::setWriteable(bool flag)
+File& File::setWriteable(bool flag)
 {
 	setWriteableImpl(flag);
+    return *this;
 }
 
 
-void File::setReadOnly(bool flag)
+File& File::setReadOnly(bool flag)
 {
 	setWriteableImpl(!flag);
+    return *this;
 }
 
 
-void File::setExecutable(bool flag)
+File& File::setExecutable(bool flag)
 {
 	setExecutableImpl(flag);
+    return *this;
 }
 
 	

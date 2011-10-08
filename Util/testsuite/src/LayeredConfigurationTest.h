@@ -1,7 +1,7 @@
 //
 // LayeredConfigurationTest.h
 //
-// $Id: //poco/1.3/Util/testsuite/src/LayeredConfigurationTest.h#2 $
+// $Id: //poco/1.4/Util/testsuite/src/LayeredConfigurationTest.h#1 $
 //
 // Definition of the LayeredConfigurationTest class.
 //
@@ -36,20 +36,21 @@
 #define LayeredConfigurationTest_INCLUDED
 
 
+#include "AbstractConfigurationTest.h"
 #include "Poco/Util/Util.h"
-#include "CppUnit/TestCase.h"
 
 
-class LayeredConfigurationTest: public CppUnit::TestCase
+class LayeredConfigurationTest: public AbstractConfigurationTest
 {
 public:
 	LayeredConfigurationTest(const std::string& name);
-	~LayeredConfigurationTest();
+	virtual ~LayeredConfigurationTest();
 
 	void testEmpty();
 	void testOneLayer();
 	void testTwoLayers();
 	void testThreeLayers();
+	void testRemove();
 
 	void setUp();
 	void tearDown();
@@ -57,6 +58,7 @@ public:
 	static CppUnit::Test* suite();
 
 private:
+	virtual Poco::Util::AbstractConfiguration* allocConfiguration() const;
 };
 
 

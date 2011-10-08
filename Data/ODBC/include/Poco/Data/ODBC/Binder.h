@@ -1,7 +1,7 @@
 //
 // Binder.h
 //
-// $Id: //poco/1.3/Data/ODBC/include/Poco/Data/ODBC/Binder.h#5 $
+// $Id: //poco/1.4/Data/ODBC/include/Poco/Data/ODBC/Binder.h#2 $
 //
 // Library: Data/ODBC
 // Package: ODBC
@@ -118,6 +118,9 @@ public:
 	void bind(std::size_t pos, const Poco::Data::BLOB& val);
 		/// Binds a BLOB.
 
+	void bind(std::size_t pos);
+		/// Binds a NULL value.
+
 	void setDataBinding(ParameterBinding binding);
 		/// Set data binding type.
 
@@ -138,6 +141,11 @@ private:
 	template <typename T>
 	void bindImpl(std::size_t pos, T& val, SQLSMALLINT cDataType)
 	{
+		if (pos == 0) 
+		{
+			reset();
+		}
+		
 		_lengthIndicator.push_back(0);
 		_dataSize.insert(SizeMap::value_type((SQLPOINTER) &val, sizeof(T)));
 
@@ -179,6 +187,8 @@ private:
 			throw StatementException(_rStmt, "SQLBindParameter()");
 		}
 	}
+	
+	void reset();
 
 	const StatementHandle& _rStmt;
 	std::vector<SQLLEN*> _lengthIndicator;

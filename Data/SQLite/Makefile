@@ -1,7 +1,7 @@
 #
 # Makefile
 #
-# $Id: //poco/1.3/Data/SQLite/Makefile#8 $
+# $Id: //poco/1.4/Data/SQLite/Makefile#2 $
 #
 # Makefile for Poco SQLite
 #
@@ -23,7 +23,7 @@ else
 	objects += $(sqlite_objects)
 endif
 
-target         = PocoSQLite
+target         = PocoDataSQLite
 target_version = $(LIBVERSION)
 target_libs    = PocoData PocoFoundation
 

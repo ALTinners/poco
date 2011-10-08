@@ -1,7 +1,7 @@
 //
 // CryptoTest.h
 //
-// $Id: //poco/1.3/Crypto/testsuite/src/CryptoTest.h#2 $
+// $Id: //poco/1.4/Crypto/testsuite/src/CryptoTest.h#2 $
 //
 // Definition of the CryptoTest class.
 //
@@ -43,13 +43,19 @@
 class CryptoTest: public CppUnit::TestCase
 {
 public:
+	enum 
+	{
+		MAX_DATA_SIZE = 10000
+	};
+	
 	CryptoTest(const std::string& name);
 	~CryptoTest();
 
 	void testEncryptDecrypt();
 	void testEncryptDecryptWithSalt();
+	void testStreams();
 	void testCertificate();
-
+	
 	void setUp();
 	void tearDown();
 

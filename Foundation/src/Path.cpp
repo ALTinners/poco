@@ -1,7 +1,7 @@
 //
 // Path.cpp
 //
-// $Id: //poco/1.3/Foundation/src/Path.cpp#5 $
+// $Id: //poco/1.4/Foundation/src/Path.cpp#4 $
 //
 // Library: Foundation
 // Package: Filesystem
@@ -50,7 +50,11 @@
 #elif defined(POCO_OS_FAMILY_UNIX)
 #include "Path_UNIX.cpp"
 #elif defined(POCO_OS_FAMILY_WINDOWS) && defined(POCO_WIN32_UTF8)
+#if defined(_WIN32_WCE)
+#include "Path_WINCE.cpp"
+#else
 #include "Path_WIN32U.cpp"
+#endif
 #elif defined(POCO_OS_FAMILY_WINDOWS)
 #include "Path_WIN32.cpp"
 #endif
@@ -450,17 +454,19 @@ Path& Path::resolve(const Path& path)
 }
 
 
-void Path::setNode(const std::string& node)
+Path& Path::setNode(const std::string& node)
 {
 	_node     = node;
 	_absolute = _absolute || !node.empty();
+	return *this;
 }
 
 	
-void Path::setDevice(const std::string& device)
+Path& Path::setDevice(const std::string& device)
 {
 	_device   = device;
 	_absolute = _absolute || !device.empty();
+	return *this;
 }
 
 	
@@ -486,7 +492,7 @@ const std::string& Path::operator [] (int n) const
 }
 
 	
-void Path::pushDirectory(const std::string& dir)
+Path& Path::pushDirectory(const std::string& dir)
 {
 	if (!dir.empty() && dir != ".")
 	{
@@ -510,24 +516,37 @@ void Path::pushDirectory(const std::string& dir)
 		else _dirs.push_back(dir);
 #endif
 	}
+	return *this;
 }
 
 	
-void Path::popDirectory()
+Path& Path::popDirectory()
 {
 	poco_assert (!_dirs.empty());
 	
 	_dirs.pop_back();
+	return *this;
+}
+
+
+Path& Path::popFrontDirectory()
+{
+	poco_assert (!_dirs.empty());
+	
+	StringVec::iterator it = _dirs.begin();
+	_dirs.erase(it);
+	return *this;
 }
 
 	
-void Path::setFileName(const std::string& name)
+Path& Path::setFileName(const std::string& name)
 {
 	_name = name;
+	return *this;
 }
 
 
-void Path::setBaseName(const std::string& name)
+Path& Path::setBaseName(const std::string& name)
 {
 	std::string ext = getExtension();
 	_name = name;
@@ -536,6 +555,7 @@ void Path::setBaseName(const std::string& name)
 		_name.append(".");
 		_name.append(ext);
 	}
+	return *this;
 }
 
 
@@ -549,7 +569,7 @@ std::string Path::getBaseName() const
 }
 
 
-void Path::setExtension(const std::string& extension)
+Path& Path::setExtension(const std::string& extension)
 {
 	_name = getBaseName();
 	if (!extension.empty())
@@ -557,6 +577,7 @@ void Path::setExtension(const std::string& extension)
 		_name.append(".");
 		_name.append(extension);
 	}
+	return *this;
 }
 
 			
@@ -570,7 +591,7 @@ std::string Path::getExtension() const
 }
 
 
-void Path::clear()
+Path& Path::clear()
 {
 	_node.clear();
 	_device.clear();
@@ -578,6 +599,7 @@ void Path::clear()
 	_dirs.clear();
 	_version.clear();
 	_absolute = false;
+    return *this;
 }
 
 
@@ -677,9 +699,14 @@ void Path::parseUnix(const std::string& path)
 				if (_dirs.empty())
 				{
 					if (!name.empty() && *(name.rbegin()) == ':')
+					{
+						_absolute = true;
 						_device.assign(name, 0, name.length() - 1);
+					}
 					else
+					{
 						pushDirectory(name);
+					}
 				}
 				else pushDirectory(name);
 			}

@@ -1,7 +1,7 @@
 //
 // Element.h
 //
-// $Id: //poco/1.3/XML/include/Poco/DOM/Element.h#2 $
+// $Id: //poco/1.4/XML/include/Poco/DOM/Element.h#2 $
 //
 // Library: XML
 // Package: DOM
@@ -175,8 +175,6 @@ public:
 	XMLString prefix() const;
 	const XMLString& localName() const;
 	bool hasAttributes() const;
-
-	// Non-standard extensions
 	XMLString innerText() const;
 
 	Element* getChildElement(const XMLString& name) const;

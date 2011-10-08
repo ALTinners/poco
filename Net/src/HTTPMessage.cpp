@@ -1,7 +1,7 @@
 //
 // HTTPMessage.cpp
 //
-// $Id: //poco/1.3/Net/src/HTTPMessage.cpp#2 $
+// $Id: //poco/1.4/Net/src/HTTPMessage.cpp#3 $
 //
 // Library: Net
 // Package: HTTP
@@ -88,7 +88,7 @@ void HTTPMessage::setVersion(const std::string& version)
 }
 
 
-void HTTPMessage::setContentLength(int length)
+void HTTPMessage::setContentLength(std::streamsize length)
 {
 	if (length != UNKNOWN_CONTENT_LENGTH)
 		set(CONTENT_LENGTH, NumberFormatter::format(length));
@@ -97,13 +97,17 @@ void HTTPMessage::setContentLength(int length)
 }
 
 	
-int HTTPMessage::getContentLength() const
+std::streamsize HTTPMessage::getContentLength() const
 {
 	const std::string& contentLength = get(CONTENT_LENGTH, EMPTY);
 	if (!contentLength.empty())
-		return NumberParser::parse(contentLength);
-	else
-		return UNKNOWN_CONTENT_LENGTH;
+	{
+		if (sizeof(std::streamsize) == sizeof(Poco::Int64))
+			return static_cast<std::streamsize>(NumberParser::parse64(contentLength));
+		else
+			return static_cast<std::streamsize>(NumberParser::parse(contentLength));
+	}
+	else return UNKNOWN_CONTENT_LENGTH;
 }
 
 
@@ -171,7 +175,7 @@ bool HTTPMessage::getKeepAlive() const
 {
 	const std::string& connection = get(CONNECTION, EMPTY);
 	if (!connection.empty())
-		return icompare(connection, CONNECTION_KEEP_ALIVE) == 0;
+		return icompare(connection, CONNECTION_CLOSE) != 0;
 	else
 		return getVersion() == HTTP_1_1;
 }

@@ -1,7 +1,7 @@
 //
 // URI.cpp
 //
-// $Id: //poco/1.3/Foundation/src/URI.cpp#3 $
+// $Id: //poco/1.4/Foundation/src/URI.cpp#5 $
 //
 // Library: Foundation
 // Package: URI
@@ -229,6 +229,10 @@ std::string URI::toString() const
 				uri += '/';
 			encode(_path, RESERVED_PATH, uri);
 		}
+		else if (!_query.empty() || !_fragment.empty())
+		{
+			uri += '/';
+		}
 	}
 	if (!_query.empty())
 	{
@@ -289,7 +293,13 @@ std::string URI::getAuthority() const
 		auth.append(_userInfo);
 		auth += '@';
 	}
-	auth.append(_host);
+	if (_host.find(':') != std::string::npos)
+	{
+		auth += '[';
+		auth += _host;
+		auth += ']';
+	}
+	else auth.append(_host);
 	if (_port && !isWellKnownPort())
 	{
 		auth += ':';
@@ -363,7 +373,7 @@ std::string URI::getPathEtc() const
 	if (!_query.empty())
 	{
 		pathEtc += '?';
-		encode(_query, RESERVED_QUERY, pathEtc);
+		pathEtc += _query;
 	}
 	if (!_fragment.empty())
 	{
@@ -381,7 +391,7 @@ std::string URI::getPathAndQuery() const
 	if (!_query.empty())
 	{
 		pathAndQuery += '?';
-		encode(_query, RESERVED_QUERY, pathAndQuery);
+		pathAndQuery += _query;
 	}
 	return pathAndQuery;
 }
@@ -439,7 +449,7 @@ void URI::resolve(const URI& relativeURI)
 			}
 		}
 	}
-	_fragment = relativeURI._fragment;	
+	_fragment = relativeURI._fragment;      
 }
 
 
@@ -641,6 +651,14 @@ unsigned short URI::getWellKnownPort() const
 		return 389;
 	else if (_scheme == "https")
 		return 443;
+	else if (_scheme == "rtsp")
+		return 554;
+	else if (_scheme == "sip")
+		return 5060;
+	else if (_scheme == "sips")
+		return 5061;
+	else if (_scheme == "xmpp")
+		return 5222;
 	else
 		return 0;
 }
@@ -710,9 +728,10 @@ void URI::parseHostAndPort(std::string::const_iterator& it, const std::string::c
 	if (*it == '[')
 	{
 		// IPv6 address
+		++it;
 		while (it != end && *it != ']') host += *it++;
 		if (it == end) throw SyntaxException("unterminated IPv6 address");
-		host += *it++;
+		++it;
 	}
 	else
 	{

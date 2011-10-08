@@ -1,14 +1,14 @@
 #
 # Makefile
 #
-# $Id: //poco/1.3/Foundation/Makefile#9 $
+# $Id: //poco/1.4/Foundation/Makefile#2 $
 #
 # Makefile for Poco Foundation
 #
 
 include $(POCO_BASE)/build/rules/global
 
-objects = ArchiveStrategy ASCIIEncoding AsyncChannel Base64Decoder Base64Encoder \
+objects = ArchiveStrategy Ascii ASCIIEncoding AsyncChannel Base64Decoder Base64Encoder \
 	BinaryReader BinaryWriter Bugcheck ByteOrder Channel Checksum Configurable ConsoleChannel \
 	CountingStream DateTime LocalDateTime DateTimeFormat DateTimeFormatter DateTimeParser \
 	Debugger DeflatingStream DigestEngine DigestStream DirectoryIterator \
@@ -16,7 +16,7 @@ objects = ArchiveStrategy ASCIIEncoding AsyncChannel Base64Decoder Base64Encoder
 	FileChannel Formatter FormattingChannel HexBinaryDecoder LineEndingConverter \
 	HexBinaryEncoder InflatingStream Latin1Encoding Latin9Encoding LogFile Logger \
 	LoggingFactory LoggingRegistry LogStream NamedEvent NamedMutex NullChannel \
-	MemoryPool MD2Engine MD4Engine MD5Engine Manifest Message Mutex \
+	MemoryPool MD4Engine MD5Engine Manifest Message Mutex \
 	NestedDiagnosticContext Notification NotificationCenter \
 	NotificationQueue PriorityNotificationQueue TimedNotificationQueue \
 	NullStream NumberFormatter NumberParser AbstractObserver \
@@ -26,7 +26,7 @@ objects = ArchiveStrategy ASCIIEncoding AsyncChannel Base64Decoder Base64Encoder
 	SignalHandler SplitterChannel Stopwatch StreamChannel StreamConverter StreamCopier \
 	StreamTokenizer String StringTokenizer SynchronizedObject \
 	Task TaskManager TaskNotification TeeStream Hash HashStatistic \
-	TemporaryFile TextConverter TextEncoding TextIterator Thread ThreadLocal \
+	TemporaryFile TextConverter TextEncoding TextIterator TextBufferIterator Thread ThreadLocal \
 	ThreadPool ThreadTarget ActiveDispatcher Timer Timespan Timestamp Timezone Token URI \
 	FileStreamFactory URIStreamFactory URIStreamOpener UTF16Encoding Windows1252Encoding \
 	UTF8Encoding UnicodeConverter UUID UUIDGenerator Void Format \
@@ -49,7 +49,7 @@ else
 	objects += $(zlib_objects) $(pcre_objects) $(pcre_utf8_objects)
 endif
 
-ifeq ($(POCO_CONFIG),MinGW)
+ifeq ($(findstring MinGW, $(POCO_CONFIG)), MinGW)
 	objects += EventLogChannel WindowsConsoleChannel
 else
 	objects += SyslogChannel

@@ -1,7 +1,7 @@
 //
 // Thread.cpp
 //
-// $Id: //poco/1.3/Foundation/src/Thread.cpp#4 $
+// $Id: //poco/1.4/Foundation/src/Thread.cpp#2 $
 //
 // Library: Foundation
 // Package: Threading
@@ -42,7 +42,13 @@
 
 
 #if defined(POCO_OS_FAMILY_WINDOWS)
+#if defined(_WIN32_WCE)
+#include "Thread_WINCE.cpp"
+#else
 #include "Thread_WIN32.cpp"
+#endif
+#elif defined(POCO_VXWORKS)
+#include "Thread_VX.cpp"
 #else
 #include "Thread_POSIX.cpp"
 #endif
@@ -142,10 +148,15 @@ std::string Thread::makeName()
 }
 
 
+namespace
+{
+	static FastMutex uniqueIdMutex;
+}
+
+
 int Thread::uniqueId()
 {
-	static FastMutex mtx;
-	FastMutex::ScopedLock lock(mtx);
+	FastMutex::ScopedLock lock(uniqueIdMutex);
 
 	static unsigned count = 0;
 	++count;

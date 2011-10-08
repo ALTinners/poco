@@ -1,7 +1,7 @@
 //
 // HTMLFormTest.cpp
 //
-// $Id: //poco/1.3/Net/testsuite/src/HTMLFormTest.cpp#3 $
+// $Id: //poco/1.4/Net/testsuite/src/HTMLFormTest.cpp#2 $
 //
 // Copyright (c) 2005-2006, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -129,7 +129,9 @@ void HTMLFormTest::testWriteMultipart()
 	form.set("field4", "value&4");
 	
 	form.addPart("attachment1", new StringPartSource("This is an attachment"));
-	form.addPart("attachment2", new StringPartSource("This is another attachment", "text/plain", "att2.txt"));
+	StringPartSource* pSPS = new StringPartSource("This is another attachment", "text/plain", "att2.txt");
+	pSPS->headers().set("Content-ID", "1234abcd");
+	form.addPart("attachment2", pSPS);
 	
 	std::ostringstream ostr;
 	form.write(ostr, "MIME_boundary_0123456789");
@@ -152,12 +154,13 @@ void HTMLFormTest::testWriteMultipart()
 		"\r\n"
 		"value&4\r\n"
 		"--MIME_boundary_0123456789\r\n"
-		"Content-Disposition: file; name=\"attachment1\"\r\n"
+		"Content-Disposition: form-data; name=\"attachment1\"\r\n"
 		"Content-Type: text/plain\r\n"
 		"\r\n"
 		"This is an attachment\r\n"
 		"--MIME_boundary_0123456789\r\n"
-		"Content-Disposition: file; name=\"attachment2\"; filename=\"att2.txt\"\r\n"
+		"Content-Disposition: form-data; name=\"attachment2\"; filename=\"att2.txt\"\r\n"
+		"Content-ID: 1234abcd\r\n"
 		"Content-Type: text/plain\r\n"
 		"\r\n"
 		"This is another attachment\r\n"

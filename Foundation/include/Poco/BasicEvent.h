@@ -1,7 +1,7 @@
 //
 // BasicEvent.h
 //
-// $Id: //poco/1.3/Foundation/include/Poco/BasicEvent.h#2 $
+// $Id: //poco/1.4/Foundation/include/Poco/BasicEvent.h#2 $
 //
 // Library: Foundation
 // Package: Events
@@ -9,7 +9,7 @@
 //
 // Implementation of the BasicEvent template.
 //
-// Copyright (c) 2006, Applied Informatics Software Engineering GmbH.
+// Copyright (c) 2006-2011, Applied Informatics Software Engineering GmbH.
 // and Contributors.
 //
 // Permission is hereby granted, free of charge, to any person or organization
@@ -36,36 +36,30 @@
 //
 
 
-#ifndef  Foundation_BasicEvent_INCLUDED
-#define  Foundation_BasicEvent_INCLUDED
+#ifndef Foundation_BasicEvent_INCLUDED
+#define Foundation_BasicEvent_INCLUDED
 
 
 #include "Poco/AbstractEvent.h"
 #include "Poco/DefaultStrategy.h"
 #include "Poco/AbstractDelegate.h"
-#include "Poco/CompareFunctions.h"
+#include "Poco/Mutex.h"
 
 
 namespace Poco {
 
 
-template <class TArgs> 
+template <class TArgs, class TMutex = FastMutex> 
 class BasicEvent: public AbstractEvent < 
-	TArgs, DefaultStrategy<TArgs, AbstractDelegate<TArgs>, p_less<AbstractDelegate<TArgs> > >,
-	AbstractDelegate<TArgs> 
+	TArgs, DefaultStrategy<TArgs, AbstractDelegate<TArgs> >,
+	AbstractDelegate<TArgs>,
+	TMutex
 >
-	/// A BasicEvent uses internally a DefaultStrategy which 
-	/// invokes delegates in an arbitrary manner.
-	/// Note that one object can only register one method to a BasicEvent.
-	/// Subsequent registrations will overwrite the existing delegate.
-	/// For example:
-	///     BasicEvent<int> event;
-	///     MyClass myObject;
-	///     event += delegate(&myObject, &MyClass::myMethod1);
-	///     event += delegate(&myObject, &MyClass::myMethod2);
+	/// A BasicEvent uses the DefaultStrategy which 
+	/// invokes delegates in the order they have been registered.
 	///
-	/// The second registration will overwrite the first one. The reason is simply that
-	/// function pointers can only be compared by equality but not by lower than.
+	/// Please see the AbstractEvent class template documentation
+	/// for more information.
 {
 public:
 	BasicEvent()
@@ -85,4 +79,4 @@ private:
 } // namespace Poco
 
 
-#endif
+#endif // Foundation_BasicEvent_INCLUDED

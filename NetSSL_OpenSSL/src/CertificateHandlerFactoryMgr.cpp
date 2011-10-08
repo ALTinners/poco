@@ -1,7 +1,7 @@
 //
 // CertificateHandlerFactoryMgr.cpp
 //
-// $Id: //poco/1.3/NetSSL_OpenSSL/src/CertificateHandlerFactoryMgr.cpp#3 $
+// $Id: //poco/1.4/NetSSL_OpenSSL/src/CertificateHandlerFactoryMgr.cpp#1 $
 //
 // Library: NetSSL_OpenSSL
 // Package: SSLCore
@@ -37,6 +37,7 @@
 #include "Poco/Net/CertificateHandlerFactoryMgr.h"
 #include "Poco/Net/ConsoleCertificateHandler.h"
 #include "Poco/Net/AcceptCertificateHandler.h"
+#include "Poco/Net/RejectCertificateHandler.h"
 
 
 namespace Poco {
@@ -47,7 +48,7 @@ CertificateHandlerFactoryMgr::CertificateHandlerFactoryMgr()
 {
 	setFactory("ConsoleCertificateHandler", new CertificateHandlerFactoryImpl<ConsoleCertificateHandler>());
 	setFactory("AcceptCertificateHandler", new CertificateHandlerFactoryImpl<AcceptCertificateHandler>());
-
+	setFactory("RejectCertificateHandler", new CertificateHandlerFactoryImpl<RejectCertificateHandler>());
 }
 
 

@@ -1,7 +1,7 @@
 //
 // Format.cpp
 //
-// $Id: //poco/1.3/Foundation/src/Format.cpp#7 $
+// $Id: //poco/1.4/Foundation/src/Format.cpp#2 $
 //
 // Library: Foundation
 // Package: Core
@@ -36,8 +36,8 @@
 
 #include "Poco/Format.h"
 #include "Poco/Exception.h"
+#include "Poco/Ascii.h"
 #include <sstream>
-#include <cctype>
 #include <cstddef>
 
 
@@ -66,7 +66,7 @@ namespace
 	void parseWidth(std::ostream& str, std::string::const_iterator& itFmt, const std::string::const_iterator& endFmt)
 	{
 		int width = 0;
-		while (itFmt != endFmt && std::isdigit(*itFmt))
+		while (itFmt != endFmt && Ascii::isDigit(*itFmt))
 		{
 			width = 10*width + *itFmt - '0';
 			++itFmt;
@@ -81,12 +81,12 @@ namespace
 		{
 			++itFmt;
 			int prec = 0;
-			while (itFmt != endFmt && std::isdigit(*itFmt))
+			while (itFmt != endFmt && Ascii::isDigit(*itFmt))
 			{
 				prec = 10*prec + *itFmt - '0';
 				++itFmt;
 			}
-			if (prec != 0) str.precision(prec);
+			if (prec >= 0) str.precision(prec);
 		}
 	}
 	
@@ -106,7 +106,18 @@ namespace
 		return mod;
 	}
 	
-	
+	std::size_t parseIndex(std::string::const_iterator& itFmt, const std::string::const_iterator& endFmt)
+	{
+		int index = 0;
+		while (itFmt != endFmt && Ascii::isDigit(*itFmt))
+		{
+			index = 10*index + *itFmt - '0';
+			++itFmt;
+		}
+		if (itFmt != endFmt && *itFmt == ']') ++itFmt;
+		return index;
+	}
+
 	void prepareFormat(std::ostream& str, char type)
 	{
 		switch (type)
@@ -347,9 +358,27 @@ void format(std::string& result, const std::string& fmt, const std::vector<Any>&
 		case '%':
 			++itFmt;
 			if (itFmt != endFmt && itVal != endVal)
-				formatOne(result, itFmt, endFmt, itVal);
+			{
+				if (*itFmt == '[')
+				{
+					++itFmt;
+					std::size_t index = parseIndex(itFmt, endFmt);
+					if (index < values.size())
+					{
+						std::vector<Any>::const_iterator it = values.begin() + index;
+						formatOne(result, itFmt, endFmt, it);
+					}
+					else throw InvalidArgumentException("format argument index out of range", fmt);
+				}
+				else
+				{
+					formatOne(result, itFmt, endFmt, itVal);
+				}
+			}
 			else if (itFmt != endFmt)
+			{
 				result += *itFmt++;
+			}
 			break;
 		default:
 			result += *itFmt;

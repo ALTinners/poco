@@ -1,7 +1,7 @@
 //
 // CodeWriter.cpp
 //
-// $Id: //poco/1.3/PageCompiler/src/CodeWriter.cpp#3 $
+// $Id: //poco/1.4/PageCompiler/src/CodeWriter.cpp#2 $
 //
 // Copyright (c) 2008, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -78,6 +78,7 @@ void CodeWriter::writeImpl(std::ostream& ostr, const std::string& headerFileName
 	writeImplIncludes(ostr);
 	if (_page.getBool("page.buffered", false))
 	{
+		ostr << "#include \"Poco/StreamCopier.h\"\n";
 		ostr << "#include <sstream>\n";
 	}
 	ostr << "\n\n";
@@ -196,7 +197,7 @@ void CodeWriter::writeHandlerClass(std::ostream& ostr)
 {
 	std::string base(_page.get("page.baseClass", "Poco::Net::HTTPRequestHandler"));
 	std::string ctorArg;
-	ctorArg = _page.get("page.ctorArg", "");
+	ctorArg = _page.get("page.context", _page.get("page.ctorArg", ""));
 
 	handlerClass(ostr, base, ctorArg);
 }
@@ -204,6 +205,19 @@ void CodeWriter::writeHandlerClass(std::ostream& ostr)
 
 void CodeWriter::writeHandlerMembers(std::ostream& ostr)
 {
+	std::string context(_page.get("page.context", ""));
+	if (!context.empty())
+	{
+		ostr << "\n";
+		ostr << "protected:\n";
+		ostr << "\t" << context << " context() const\n";
+		ostr << "\t{\n";
+		ostr << "\t\treturn _context;\n";
+		ostr << "\t}\n";
+		ostr << "\n";
+		ostr << "private:\n";
+		ostr << "\t" << context << " _context;\n";
+	}
 }
 
 
@@ -223,8 +237,16 @@ void CodeWriter::writeImplIncludes(std::ostream& ostr)
 void CodeWriter::writeConstructor(std::ostream& ostr)
 {
 	std::string base(_page.get("page.baseClass", "Poco::Net::HTTPRequestHandler"));
+	std::string context(_page.get("page.context", ""));
 	std::string ctorArg(_page.get("page.ctorArg", ""));
-	if (!ctorArg.empty())
+	if (!context.empty())
+	{
+		ostr << _class << "::" << _class << "(" << context << " context):\n";
+		ostr << "\t_context(context)\n";
+		ostr << "{\n}\n";
+		ostr << "\n\n";
+	}
+	else if (!ctorArg.empty())
 	{
 		ostr << _class << "::" << _class << "(" << ctorArg << " arg):\n";
 		ostr << "\t" << base << "(arg)\n";
@@ -288,6 +310,7 @@ void CodeWriter::writeForm(std::ostream& ostr)
 void CodeWriter::writeResponse(std::ostream& ostr)
 {
 	std::string contentType(_page.get("page.contentType", "text/html"));
+	std::string contentLang(_page.get("page.contentLanguage", ""));
 	bool buffered(_page.getBool("page.buffered", false));
 	bool chunked(_page.getBool("page.chunked", !buffered));
 
@@ -297,6 +320,11 @@ void CodeWriter::writeResponse(std::ostream& ostr)
 	}
 
 	ostr << "\tresponse.setContentType(\"" << contentType << "\");\n";
+	if (!contentLang.empty())
+	{
+		ostr << "\tif (request.has(\"Accept-Language\"))\n"
+			 << "\t\tresponse.set(\"Content-Language\", \"" << contentLang << "\");\n";
+	}
 	ostr << "\n";
 }
 
@@ -304,12 +332,17 @@ void CodeWriter::writeResponse(std::ostream& ostr)
 void CodeWriter::writeContent(std::ostream& ostr)
 {
 	bool buffered(_page.getBool("page.buffered", false));
+	bool chunked(_page.getBool("page.chunked", !buffered));
 	
 	if (buffered)
 	{
-		ostr << "\tstd::ostringstream responseStream;\n";
+		ostr << "\tstd::stringstream responseStream;\n";
 		ostr << _page.handler().str();
-		ostr << "\tresponse.send() << responseStream.str();\n";		
+		if (!chunked)
+		{
+			ostr << "\tresponse.setContentLength(static_cast<int>(responseStream.tellp()));\n";
+		}
+		ostr << "\tPoco::StreamCopier::copyStream(responseStream, response.send());\n";		
 	}
 	else
 	{

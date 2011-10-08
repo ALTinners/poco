@@ -1,7 +1,7 @@
 //
 // RSAKey.cpp
 //
-// $Id: //poco/1.3/Crypto/src/RSAKey.cpp#4 $
+// $Id: //poco/1.4/Crypto/src/RSAKey.cpp#2 $
 //
 // Library: Crypto
 // Package: RSA
@@ -82,6 +82,24 @@ int RSAKey::size() const
 }
 
 
+RSAKeyImpl::ByteVec RSAKey::modulus() const
+{
+	return _pImpl->modulus();
+}
+
+
+RSAKeyImpl::ByteVec RSAKey::encryptionExponent() const
+{
+	return _pImpl->encryptionExponent();
+}
+
+
+RSAKeyImpl::ByteVec RSAKey::decryptionExponent() const
+{
+	return _pImpl->decryptionExponent();
+}
+
+
 void RSAKey::save(const std::string& publicKeyFile, const std::string& privateKeyFile, const std::string& privateKeyPassphrase)
 {
 	_pImpl->save(publicKeyFile, privateKeyFile, privateKeyPassphrase);
@@ -94,10 +112,15 @@ void RSAKey::save(std::ostream* pPublicKeyStream, std::ostream* pPrivateKeyStrea
 }
 
 
+namespace
+{
+	static const std::string RSA("rsa");
+}
+
+
 const std::string& RSAKey::name() const
 {
-	static const std::string n("rsa");
-	return n;
+	return RSA;
 }
 
 

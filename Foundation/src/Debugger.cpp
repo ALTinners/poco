@@ -1,7 +1,7 @@
 //
 // Debugger.cpp
 //
-// $Id: //poco/1.3/Foundation/src/Debugger.cpp#4 $
+// $Id: //poco/1.4/Foundation/src/Debugger.cpp#3 $
 //
 // Library: Foundation
 // Package: Core
@@ -40,7 +40,7 @@
 #include <cstdio>
 #if defined(POCO_OS_FAMILY_WINDOWS)
 	#include "Poco/UnWindows.h"
-#elif defined(POCO_OS_FAMILY_UNIX)
+#elif defined(POCO_OS_FAMILY_UNIX) && !defined(POCO_VXWORKS)
 	#include <unistd.h>
 	#include <signal.h>
 #elif defined(POCO_OS_FAMILY_VMS)
@@ -64,7 +64,22 @@ bool Debugger::isAvailable()
 {
 #if defined(_DEBUG)
 	#if defined(POCO_OS_FAMILY_WINDOWS)
-		return IsDebuggerPresent() ? true : false;
+		#if defined(_WIN32_WCE)
+			#if (_WIN32_WCE >= 0x600)
+			    BOOL isDebuggerPresent;
+			    if (CheckRemoteDebuggerPresent(GetCurrentProcess(), &isDebuggerPresent))
+			    {
+					return isDebuggerPresent ? true : false;
+				}
+				return false;
+			#else
+				return false;
+			#endif
+		#else
+			return IsDebuggerPresent() ? true : false;
+		#endif
+	#elif defined(POCO_VXWORKS)
+		return false;
 	#elif defined(POCO_OS_FAMILY_UNIX)
 		return std::getenv("POCO_ENABLE_DEBUGGER") ? true : false;
 	#elif defined(POCO_OS_FAMILY_VMS)
@@ -83,7 +98,7 @@ void Debugger::message(const std::string& msg)
 	std::fputs(msg.c_str(), stderr);
 	std::fputs("\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n", stderr);
 	#if defined(POCO_OS_FAMILY_WINDOWS)
-	if (IsDebuggerPresent())
+	if (isAvailable())
 	{
 #if defined(POCO_WIN32_UTF8) && !defined(POCO_NO_WSTRING)
 		std::wstring umsg;
@@ -116,9 +131,13 @@ void Debugger::enter()
 {
 #if defined(_DEBUG)
 	#if defined(POCO_OS_FAMILY_WINDOWS)
-	if (IsDebuggerPresent())
+	if (isAvailable())
 	{
 		DebugBreak();
+	}
+	#elif defined(POCO_VXWORKS)
+	{
+		// not supported
 	}
 	#elif defined(POCO_OS_FAMILY_UNIX)
 	if (isAvailable())

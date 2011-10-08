@@ -1,7 +1,7 @@
 //
 // Thread_POSIX.h
 //
-// $Id: //poco/1.3/Foundation/include/Poco/Thread_POSIX.h#10 $
+// $Id: //poco/1.4/Foundation/include/Poco/Thread_POSIX.h#3 $
 //
 // Library: Foundation
 // Package: Threading
@@ -53,6 +53,9 @@
 #include <sys/select.h>
 #endif
 #include <errno.h>
+#if defined(POCO_VXWORKS)
+#include <cstring>
+#endif
 
 
 namespace Poco {
@@ -145,9 +148,15 @@ private:
 			pCallbackTarget(0),
 			thread(0),
 			prio(PRIO_NORMAL_IMPL),
+			osPrio(0),
 			done(false),
 			stackSize(POCO_THREAD_STACK_SIZE)
 		{
+		#if defined(POCO_VXWORKS)
+			// This workaround is for VxWorks 5.x where
+			// pthread_init() won't properly initialize the thread.
+			std::memset(&thread, 0, sizeof(thread));
+		#endif
 		}
 
 		Runnable*     pRunnableTarget;
@@ -163,7 +172,7 @@ private:
 
 	static CurrentThreadHolder _currentThreadHolder;
 	
-#if defined(POCO_OS_FAMILY_UNIX)
+#if defined(POCO_OS_FAMILY_UNIX) && !defined(POCO_VXWORKS)
 	SignalHandler::JumpBufferVec _jumpBufferVec;
 	friend class SignalHandler;
 #endif

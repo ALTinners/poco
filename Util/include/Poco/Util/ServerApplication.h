@@ -1,7 +1,7 @@
 //
 // ServerApplication.h
 //
-// $Id: //poco/1.3/Util/include/Poco/Util/ServerApplication.h#4 $
+// $Id: //poco/1.4/Util/include/Poco/Util/ServerApplication.h#3 $
 //
 // Library: Util
 // Package: Application
@@ -43,6 +43,9 @@
 #include "Poco/Util/Util.h"
 #include "Poco/Util/Application.h"
 #include "Poco/Event.h"
+#if defined(POCO_OS_FAMILY_WINDOWS)
+#include "Poco/NamedEvent.h"
+#endif
 
 
 namespace Poco {
@@ -64,6 +67,12 @@ class Util_API ServerApplication: public Application
 	///     initialize() method.
 	///   - At the end of the main() method, waitForTerminationRequest()
 	///     should be called.
+	///   - New threads must only be created in initialize() or main() or
+	///     methods called from there, but not in the application class'
+	///     constructor or in the constructor of instance variables.
+	///     The reason for this is that fork() will be called in order to
+	///     create the daemon process, and threads created prior to calling
+	///     fork() won't be taken over to the daemon process.
 	///   - The main(argc, argv) function must look as follows:
 	///
 	///   int main(int argc, char** argv)
@@ -88,7 +97,10 @@ class Util_API ServerApplication: public Application
 	/// be unregistered, by specifying the /unregisterService option.
 	/// The file name of the application executable (excluding the .exe suffix)
 	/// is used as the service name. Additionally, a more user-friendly name can be
-	/// specified, using the /displayName option (e.g., /displayName="Demo Service").
+	/// specified, using the /displayName option (e.g., /displayName="Demo Service")
+	/// and a service description can be added with the /description option.
+	/// The startup mode (automatic or manual) for the service can be specified
+	/// with the /startup option.
 	///
 	/// An application can determine whether it is running as a service by checking
 	/// for the "application.runAsService" configuration property.
@@ -149,6 +161,10 @@ public:
 	int run(int argc, char** argv);
 		/// Runs the application by performing additional initializations
 		/// and calling the main() method.
+		
+	int run(const std::vector<std::string>& args);
+		/// Runs the application by performing additional initializations
+		/// and calling the main() method.
 
 #if defined(POCO_WIN32_UTF8) && !defined(POCO_NO_WSTRING)
 	int run(int argc, wchar_t** argv);
@@ -159,18 +175,29 @@ public:
 		/// Unicode command line arguments from wmain().
 #endif
 
+	static void terminate();
+		/// Sends a friendly termination request to the application.
+		/// If the application's main thread is waiting in 
+		/// waitForTerminationRequest(), this method will return
+		/// and the application can shut down.
+		
 protected:
 	int run();
 	void waitForTerminationRequest();
+#if !defined(_WIN32_WCE)
 	void defineOptions(OptionSet& options);
-	void handleOption(const std::string& name, const std::string& value);
-	static void terminate();
+#endif
 
 private:
-#if defined(POCO_OS_FAMILY_UNIX)
+#if defined(POCO_VXWORKS)
+	static Poco::Event _terminate;
+#elif defined(POCO_OS_FAMILY_UNIX)
+	void handleDaemon(const std::string& name, const std::string& value);
+	void handlePidFile(const std::string& name, const std::string& value);
 	bool isDaemon(int argc, char** argv);
 	void beDaemon();
 #elif defined(POCO_OS_FAMILY_WINDOWS)
+#if !defined(_WIN32_WCE)
 	enum Action
 	{
 		SRV_RUN,
@@ -190,13 +217,22 @@ private:
 	void beService();
 	void registerService();
 	void unregisterService();
+	void handleRegisterService(const std::string& name, const std::string& value);
+	void handleUnregisterService(const std::string& name, const std::string& value);
+	void handleDisplayName(const std::string& name, const std::string& value);
+	void handleDescription(const std::string& name, const std::string& value);
+	void handleStartup(const std::string& name, const std::string& value);	
 	
 	Action      _action;
 	std::string _displayName;
+	std::string _description;
+	std::string _startup;
 
 	static Poco::Event           _terminated;
 	static SERVICE_STATUS        _serviceStatus; 
 	static SERVICE_STATUS_HANDLE _serviceStatusHandle; 
+#endif // _WIN32_WCE
+	static Poco::NamedEvent      _terminate;
 #endif
 };
 
@@ -213,6 +249,24 @@ private:
 	{									\
 		App app;						\
 		return app.run(argc, argv);		\
+	}
+#elif defined(POCO_VXWORKS)
+	#define POCO_SERVER_MAIN(App) \
+	int pocoSrvMain(const char* appName, ...) \
+	{ \
+		std::vector<std::string> args; \
+		args.push_back(std::string(appName)); \
+		va_list vargs; \
+		va_start(vargs, appName); \
+		const char* arg = va_arg(vargs, const char*); \
+		while (arg) \
+		{ \
+			args.push_back(std::string(arg)); \
+			arg = va_arg(vargs, const char*); \
+		} \
+		va_end(vargs); \
+		App app; \
+		return app.run(args); \
 	}
 #else
 	#define POCO_SERVER_MAIN(App) \

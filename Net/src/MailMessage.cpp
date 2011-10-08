@@ -1,7 +1,7 @@
 //
 // MailMessage.cpp
 //
-// $Id: //poco/1.3/Net/src/MailMessage.cpp#5 $
+// $Id: //poco/1.4/Net/src/MailMessage.cpp#2 $
 //
 // Library: Net
 // Package: Mail
@@ -49,9 +49,9 @@
 #include "Poco/DateTimeFormatter.h"
 #include "Poco/DateTimeParser.h"
 #include "Poco/String.h"
+#include "Poco/StreamCopier.h"
 #include "Poco/NumberFormatter.h"
 #include <sstream>
-#include <cctype>
 
 
 using Poco::Base64Encoder;
@@ -83,12 +83,7 @@ namespace
 		
 		void handlePart(const MessageHeader& header, std::istream& stream)
 		{
-			int ch = stream.get();
-			while (ch >= 0)
-			{
-				_str += (char) ch;
-				ch = stream.get();
-			}
+			Poco::StreamCopier::copyToString(stream, _str);
 		}
 		
 	private:
@@ -321,7 +316,7 @@ void MailMessage::writeMultipart(MessageHeader& header, std::ostream& ostr) cons
 
 void MailMessage::writePart(MultipartWriter& writer, const Part& part) const
 {
-	MessageHeader partHeader;
+	MessageHeader partHeader(part.pSource->headers());
 	MediaType mediaType(part.pSource->mediaType());
 	if (!part.name.empty())
 		mediaType.setParameter("name", part.name);
@@ -357,12 +352,14 @@ void MailMessage::writeEncoded(std::istream& istr, std::ostream& ostr, ContentTr
 		{
 			QuotedPrintableEncoder encoder(ostr);
 			StreamCopier::copyStream(istr, encoder);
+			encoder.close();
 		}
 		break;
 	case ENCODING_BASE64:
 		{
 			Base64Encoder encoder(ostr);
 			StreamCopier::copyStream(istr, encoder);
+			encoder.close();
 		}
 		break;
 	}

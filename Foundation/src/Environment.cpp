@@ -1,7 +1,7 @@
 //
 // Environment.cpp
 //
-// $Id: //poco/1.3/Foundation/src/Environment.cpp#5 $
+// $Id: //poco/1.4/Foundation/src/Environment.cpp#2 $
 //
 // Library: Foundation
 // Package: Core
@@ -35,16 +35,23 @@
 
 
 #include "Poco/Environment.h"
+#include "Poco/Version.h"
 #include <cstdlib>
 #include <cstdio> // sprintf()
 
 
 #if defined(POCO_OS_FAMILY_VMS)
 #include "Environment_VMS.cpp"
+#elif defined(POCO_VXWORKS)
+#include "Environment_VX.cpp"
 #elif defined(POCO_OS_FAMILY_UNIX)
 #include "Environment_UNIX.cpp"
 #elif defined(POCO_OS_FAMILY_WINDOWS) && defined(POCO_WIN32_UTF8)
+#if defined(_WIN32_WCE)
+#include "Environment_WINCE.cpp"
+#else
 #include "Environment_WIN32U.cpp"
+#endif
 #elif defined(POCO_OS_FAMILY_WINDOWS)
 #include "Environment_WIN32.cpp"
 #endif

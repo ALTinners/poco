@@ -1,7 +1,7 @@
 //
 // NotificationCenter.cpp
 //
-// $Id: //poco/1.3/Foundation/src/NotificationCenter.cpp#3 $
+// $Id: //poco/1.4/Foundation/src/NotificationCenter.cpp#2 $
 //
 // Library: Foundation
 // Package: Notifications
@@ -68,6 +68,7 @@ void NotificationCenter::removeObserver(const AbstractObserver& observer)
 	{
 		if (observer.equals(**it))
 		{
+			(*it)->disable();
 			_observers.erase(it);
 			return;
 		}
@@ -105,9 +106,14 @@ std::size_t NotificationCenter::countObservers() const
 }
 
 
-NotificationCenter& NotificationCenter::defaultCenter()
+namespace
 {
 	static SingletonHolder<NotificationCenter> sh;
+}
+
+
+NotificationCenter& NotificationCenter::defaultCenter()
+{
 	return *sh.get();
 }
 

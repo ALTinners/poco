@@ -1,7 +1,7 @@
 #
 # Makefile
 #
-# $Id: //poco/1.3/Util/Makefile#3 $
+# $Id: //poco/1.4/Util/Makefile#2 $
 #
 # Makefile for Poco Util
 #
@@ -17,8 +17,8 @@ objects = AbstractConfiguration Application ConfigurationMapper \
 	Validator IntValidator RegExpValidator OptionCallback \
 	Timer TimerTask
 
-ifeq ($(POCO_CONFIG),MinGW)
-	objects += WinService 
+ifeq ($(findstring MinGW, $(POCO_CONFIG)), MinGW)
+	objects += WinService WinRegistryKey WinRegistryConfiguration
 endif
 
 target         = PocoUtil

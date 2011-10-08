@@ -1,7 +1,7 @@
 //
 // TextIteratorTest.cpp
 //
-// $Id: //poco/1.3/Foundation/testsuite/src/TextIteratorTest.cpp#4 $
+// $Id: //poco/1.4/Foundation/testsuite/src/TextIteratorTest.cpp#1 $
 //
 // Copyright (c) 2004-2006, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -203,6 +203,7 @@ void TextIteratorTest::testUTF8()
 	assert (it == end);
 }
 
+
 void TextIteratorTest::testUTF8Supplementary()
 {
 	UTF8Encoding encoding; 
@@ -224,6 +225,7 @@ void TextIteratorTest::testUTF8Supplementary()
 	assert (it == end);
 }
 
+
 void TextIteratorTest::testUTF16Supplementary()
 {
 	UTF16Encoding encoding; 
@@ -244,6 +246,7 @@ void TextIteratorTest::testUTF16Supplementary()
 	assert (*it++ == 0x2fa1d);
 	assert (it == end);
 }
+
 
 void TextIteratorTest::testSwap()
 {

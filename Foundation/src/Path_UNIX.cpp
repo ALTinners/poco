@@ -1,7 +1,7 @@
 //
 // Path_UNIX.cpp
 //
-// $Id: //poco/1.3/Foundation/src/Path_UNIX.cpp#2 $
+// $Id: //poco/1.4/Foundation/src/Path_UNIX.cpp#3 $
 //
 // Library: Foundation
 // Package: Filesystem
@@ -37,11 +37,13 @@
 #include "Poco/Path_UNIX.h"
 #include "Poco/Exception.h"
 #include "Poco/Environment_UNIX.h"
+#include "Poco/Ascii.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#if !defined(POCO_VXWORKS)
 #include <pwd.h>
-#include <cctype>
+#endif
 #include <climits>
 
 
@@ -69,6 +71,12 @@ std::string PathImpl::currentImpl()
 
 std::string PathImpl::homeImpl()
 {
+#if defined(POCO_VXWORKS)
+	if (EnvironmentImpl::hasImpl("HOME"))
+		return EnvironmentImpl::getImpl("HOME");
+	else
+		return "/";
+#else
 	std::string path;
 	struct passwd* pwd = getpwuid(getuid());
 	if (pwd)
@@ -84,6 +92,7 @@ std::string PathImpl::homeImpl()
 	std::string::size_type n = path.size();
 	if (n > 0 && path[n - 1] != '/') path.append("/");
 	return path;
+#endif
 }
 
 
@@ -107,7 +116,11 @@ std::string PathImpl::tempImpl()
 
 std::string PathImpl::nullImpl()
 {
+#if defined(POCO_VXWORKS)
+	return "/null";
+#else
 	return "/dev/null";
+#endif
 }
 
 
@@ -139,7 +152,7 @@ std::string PathImpl::expandImpl(const std::string& path)
 			}
 			else
 			{
-				while (it != end && (std::isalnum(*it) || *it == '_')) var += *it++;
+				while (it != end && (Ascii::isAlphaNumeric(*it) || *it == '_')) var += *it++;
 			}
 			char* val = getenv(var.c_str());
 			if (val) result += val;

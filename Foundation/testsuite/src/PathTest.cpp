@@ -1,7 +1,7 @@
 //
 // PathTest.cpp
 //
-// $Id: //poco/1.3/Foundation/testsuite/src/PathTest.cpp#2 $
+// $Id: //poco/1.4/Foundation/testsuite/src/PathTest.cpp#2 $
 //
 // Copyright (c) 2004-2006, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -1563,6 +1563,9 @@ void PathTest::testFind()
 	bool found = Path::find(Environment::get("PATH"), "ls", p);
 	bool notfound = Path::find(Environment::get("PATH"), "xxxyyy123", p);
 #elif defined(POCO_OS_FAMILY_WINDOWS)
+#if defined(_WIN32_WCE)
+	return;
+#endif
 	bool found = Path::find(Environment::get("PATH"), "cmd.exe", p);
 	bool notfound = Path::find(Environment::get("PATH"), "xxxyyy123.zzz", p);
 #else
@@ -1607,6 +1610,22 @@ void PathTest::testResolve()
 }
 
 
+void PathTest::testPushPop()
+{
+	Path p;
+	p.pushDirectory("a");
+	p.pushDirectory("b");
+	p.pushDirectory("c");
+	assert (p.toString(Path::PATH_UNIX) == "a/b/c/");
+
+	p.popDirectory();
+	assert (p.toString(Path::PATH_UNIX) == "a/b/");
+
+	p.popFrontDirectory();
+	assert (p.toString(Path::PATH_UNIX) == "b/");
+}
+
+
 void PathTest::setUp()
 {
 }
@@ -1647,6 +1666,7 @@ CppUnit::Test* PathTest::suite()
 	CppUnit_addTest(pSuite, PathTest, testFind);
 	CppUnit_addTest(pSuite, PathTest, testSwap);
 	CppUnit_addTest(pSuite, PathTest, testResolve);
+	CppUnit_addTest(pSuite, PathTest, testPushPop);
 
 	return pSuite;
 }

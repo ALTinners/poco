@@ -1,7 +1,7 @@
 //
 // ThreadPool.cpp
 //
-// $Id: //poco/1.3/Foundation/src/ThreadPool.cpp#5 $
+// $Id: //poco/1.4/Foundation/src/ThreadPool.cpp#2 $
 //
 // Library: Foundation
 // Package: Threading
@@ -42,6 +42,9 @@
 #include "Poco/ErrorHandler.h"
 #include <sstream>
 #include <ctime>
+#if defined(_WIN32_WCE)
+#include "wce_time.h"
+#endif
 
 
 namespace Poco {
@@ -86,7 +89,11 @@ PooledThread::PooledThread(const std::string& name, int stackSize):
 {
 	poco_assert_dbg (stackSize >= 0);
 	_thread.setStackSize(stackSize);
-	_idleTime = time(NULL);
+#if defined(_WIN32_WCE)
+	_idleTime = wceex_time(NULL);
+#else
+	_idleTime = std::time(NULL);
+#endif
 }
 
 
@@ -149,7 +156,11 @@ int PooledThread::idleTime()
 {
 	FastMutex::ScopedLock lock(_mutex);
 
+#if defined(_WIN32_WCE)
+	return (int) (wceex_time(NULL) - _idleTime);
+#else
 	return (int) (time(NULL) - _idleTime);
+#endif	
 }
 
 
@@ -175,16 +186,17 @@ void PooledThread::activate()
 
 void PooledThread::release()
 {
+	const long JOIN_TIMEOUT = 10000;
+	
 	_mutex.lock();
 	_pTarget = 0;
 	_mutex.unlock();
-	// In case of a statically allocated thread pool (such
-	// as the default thread pool), Windows may have already
-	// terminated the thread before we got here.
-	if (_thread.isRunning()) 
-		_targetReady.set();
-	else
+
+	_targetReady.set();
+	if (_thread.tryJoin(JOIN_TIMEOUT))
+	{
 		delete this;
+	}
 }
 
 
@@ -216,7 +228,11 @@ void PooledThread::run()
 			}
 			FastMutex::ScopedLock lock(_mutex);
 			_pTarget  = 0;
+#if defined(_WIN32_WCE)
+			_idleTime = wceex_time(NULL);
+#else
 			_idleTime = time(NULL);
+#endif	
 			_idle     = true;
 			_targetCompleted.set();
 			ThreadLocalStorage::clear();
@@ -229,7 +245,6 @@ void PooledThread::run()
 			break;
 		}
 	}
-	delete this;
 }
 
 
@@ -448,9 +463,17 @@ PooledThread* ThreadPool::getThread()
 	{
 		if (_threads.size() < _maxCapacity)
 		{
-			pThread = createThread();
-			_threads.push_back(pThread);
-			pThread->start();
+            pThread = createThread();
+            try
+            {
+                pThread->start();
+                _threads.push_back(pThread);
+            }
+            catch (...)
+            {
+                delete pThread;
+                throw;
+            }
 		}
 		else throw NoThreadAvailableException();
 	}
@@ -497,9 +520,14 @@ private:
 };
 
 
-ThreadPool& ThreadPool::defaultPool()
+namespace
 {
 	static ThreadPoolSingletonHolder sh;
+}
+
+
+ThreadPool& ThreadPool::defaultPool()
+{
 	return *sh.pool();
 }
 

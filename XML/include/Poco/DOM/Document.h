@@ -1,7 +1,7 @@
 //
 // Document.h
 //
-// $Id: //poco/1.3/XML/include/Poco/DOM/Document.h#1 $
+// $Id: //poco/1.4/XML/include/Poco/DOM/Document.h#2 $
 //
 // Library: XML
 // Package: DOM
@@ -43,6 +43,7 @@
 #include "Poco/XML/XML.h"
 #include "Poco/DOM/AbstractContainerNode.h"
 #include "Poco/DOM/DocumentEvent.h"
+#include "Poco/DOM/Element.h"
 #include "Poco/XML/XMLString.h"
 #include "Poco/XML/NamePool.h"
 #include "Poco/AutoReleasePool.h"
@@ -55,7 +56,6 @@ namespace XML {
 class NamePool;
 class DocumentType;
 class DOMImplementation;
-class Element;
 class DocumentFragment;
 class Text;
 class Comment;

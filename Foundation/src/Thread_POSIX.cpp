@@ -1,7 +1,7 @@
 //
 // Thread_POSIX.cpp
 //
-// $Id: //poco/1.3/Foundation/src/Thread_POSIX.cpp#15 $
+// $Id: //poco/1.4/Foundation/src/Thread_POSIX.cpp#5 $
 //
 // Library: Foundation
 // Package: Threading
@@ -49,10 +49,11 @@
 #	include <time.h>
 #endif
 
+
 //
 // Block SIGPIPE in main thread.
 //
-#if defined(POCO_OS_FAMILY_UNIX)
+#if defined(POCO_OS_FAMILY_UNIX) && !defined(POCO_VXWORKS)
 namespace
 {
 	class SignalBlocker
@@ -129,7 +130,9 @@ void ThreadImpl::setOSPriorityImpl(int prio)
 
 int ThreadImpl::getMinOSPriorityImpl()
 {
-#if defined(__VMS) || defined(__digital__)
+#if defined(POCO_THREAD_PRIORITY_MIN)
+	return POCO_THREAD_PRIORITY_MIN;
+#elif defined(__VMS) || defined(__digital__)
 	return PRI_OTHER_MIN;
 #else
 	return sched_get_priority_min(SCHED_OTHER);
@@ -139,7 +142,9 @@ int ThreadImpl::getMinOSPriorityImpl()
 
 int ThreadImpl::getMaxOSPriorityImpl()
 {
-#if defined(__VMS) || defined(__digital__)
+#if defined(POCO_THREAD_PRIORITY_MAX)
+	return POCO_THREAD_PRIORITY_MAX;
+#elif defined(__VMS) || defined(__digital__)
 	return PRI_OTHER_MAX;
 #else
 	return sched_get_priority_max(SCHED_OTHER);
@@ -159,8 +164,10 @@ void ThreadImpl::setStackSizeImpl(int size)
 		const int PAGE_SIZE = 4096;
 		size = ((size + PAGE_SIZE - 1)/PAGE_SIZE)*PAGE_SIZE;
 #endif
+#if !defined(POCO_ANDROID)
  		if (size < PTHREAD_STACK_MIN)
  			size = PTHREAD_STACK_MIN;
+#endif
 	}
  	_pData->stackSize = size;
 #endif
@@ -277,7 +284,7 @@ void ThreadImpl::sleepImpl(long milliseconds)
 		interval.tv_sec  = milliseconds / 1000;
 		interval.tv_nsec = (milliseconds % 1000)*1000000; 
 		pthread_delay_np(&interval);
-#elif POCO_OS == POCO_OS_LINUX || POCO_OS == POCO_OS_MAC_OS_X || POCO_OS == POCO_OS_QNX
+#elif POCO_OS == POCO_OS_LINUX || POCO_OS == POCO_OS_MAC_OS_X || POCO_OS == POCO_OS_QNX || POCO_OS == POCO_OS_VXWORKS
 	Poco::Timespan remainingTime(1000*Poco::Timespan::TimeDiff(milliseconds));
 	int rc;
 	do
