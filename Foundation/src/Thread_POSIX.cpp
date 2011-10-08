@@ -1,7 +1,7 @@
 //
 // Thread_POSIX.cpp
 //
-// $Id: //poco/1.4/Foundation/src/Thread_POSIX.cpp#2 $
+// $Id: //poco/1.4/Foundation/src/Thread_POSIX.cpp#5 $
 //
 // Library: Foundation
 // Package: Threading
@@ -49,10 +49,11 @@
 #	include <time.h>
 #endif
 
+
 //
 // Block SIGPIPE in main thread.
 //
-#if defined(POCO_OS_FAMILY_UNIX)
+#if defined(POCO_OS_FAMILY_UNIX) && !defined(POCO_VXWORKS)
 namespace
 {
 	class SignalBlocker
@@ -163,8 +164,10 @@ void ThreadImpl::setStackSizeImpl(int size)
 		const int PAGE_SIZE = 4096;
 		size = ((size + PAGE_SIZE - 1)/PAGE_SIZE)*PAGE_SIZE;
 #endif
+#if !defined(POCO_ANDROID)
  		if (size < PTHREAD_STACK_MIN)
  			size = PTHREAD_STACK_MIN;
+#endif
 	}
  	_pData->stackSize = size;
 #endif

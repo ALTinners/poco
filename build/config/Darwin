@@ -1,5 +1,5 @@
 #
-# $Id: //poco/1.4/build/config/Darwin#3 $
+# $Id: //poco/1.4/build/config/Darwin#4 $
 #
 # Darwin
 #
@@ -16,9 +16,9 @@
 #
 LINKMODE ?= SHARED
 
-ARCHFLAGS          ?= -arch x86_64
 POCO_TARGET_OSARCH ?= x86_64
 POCO_HOST_OSARCH   := $(POCO_TARGET_OSARCH)
+ARCHFLAGS          ?= -arch $(POCO_TARGET_OSARCH)
 
 
 #

@@ -1,13 +1,13 @@
 //
 // IPAddress.cpp
 //
-// $Id: //poco/1.4/Net/src/IPAddress.cpp#2 $
+// $Id: //poco/1.4/Net/src/IPAddress.cpp#5 $
 //
 // Library: Net
 // Package: NetCore
 // Module:  IPAddress
 //
-// Copyright (c) 2005-2006, Applied Informatics Software Engineering GmbH.
+// Copyright (c) 2005-2011, Applied Informatics Software Engineering GmbH.
 // and Contributors.
 //
 // Permission is hereby granted, free of charge, to any person or organization
@@ -67,6 +67,7 @@ public:
 	virtual const void* addr() const = 0;
 	virtual IPAddress::Family family() const = 0;
 	virtual int af() const = 0;
+	virtual Poco::UInt32 scope() const = 0;
 	virtual bool isWildcard() const	= 0;
 	virtual bool isBroadcast() const = 0;
 	virtual bool isLoopback() const = 0;
@@ -87,10 +88,16 @@ public:
 protected:
 	IPAddressImpl()
 	{
+#if defined(_WIN32)
+		Poco::Net::initializeNetwork();
+#endif
 	}
 	
 	virtual ~IPAddressImpl()
 	{
+#if defined(_WIN32)
+		Poco::Net::uninitializeNetwork();
+#endif
 	}
 
 private:
@@ -145,6 +152,11 @@ public:
 	int af() const
 	{
 		return AF_INET;
+	}
+	
+	Poco::UInt32 scope() const
+	{
+		return 0;
 	}
 	
 	bool isWildcard() const
@@ -273,12 +285,20 @@ private:
 class IPv6AddressImpl: public IPAddressImpl
 {
 public:
-	IPv6AddressImpl()
+	IPv6AddressImpl():
+		_scope(0)
 	{
 		std::memset(&_addr, 0, sizeof(_addr));
 	}
 
-	IPv6AddressImpl(const void* addr)
+	IPv6AddressImpl(const void* addr):
+		_scope(0)
+	{
+		std::memcpy(&_addr, addr, sizeof(_addr));
+	}
+
+	IPv6AddressImpl(const void* addr, Poco::UInt32 scope):
+		_scope(scope)
 	{
 		std::memcpy(&_addr, addr, sizeof(_addr));
 	}
@@ -307,7 +327,7 @@ public:
 		else
 		{
 			std::string result;
-			result.reserve(46);
+			result.reserve(64);
 			bool zeroSequence = false;
 			int i = 0;
 			while (i < 8)
@@ -325,6 +345,23 @@ public:
 				}
 				if (i > 0) result.append(":");
 				if (i < 8) NumberFormatter::appendHex(result, ntohs(words[i++]));
+			}
+			if (_scope > 0)
+			{
+				result.append("%");
+#if defined(_WIN32)
+				NumberFormatter::append(result, _scope);
+#else
+				char buffer[IFNAMSIZ];
+				if (if_indextoname(_scope, buffer))
+				{
+					result.append(buffer);
+				}
+				else
+				{
+					NumberFormatter::append(result, _scope);
+				}
+#endif
 			}
 			return result;
 		}
@@ -349,6 +386,11 @@ public:
 	{
 		return AF_INET6;
 	}
+	
+	Poco::UInt32 scope() const
+	{
+		return _scope;
+	}
 
 	bool isWildcard() const
 	{
@@ -366,25 +408,25 @@ public:
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
 		return words[0] == 0 && words[1] == 0 && words[2] == 0 && words[3] == 0 && 
-		       words[4] == 0 && words[5] == 0 && words[6] == 0 && words[7] == 0x0100;
+		       words[4] == 0 && words[5] == 0 && words[6] == 0 && ntohs(words[7]) == 0x0001;
 	}
 	
 	bool isMulticast() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xE0FF) == 0x00FF;
+		return (ntohs(words[0]) & 0xFFE0) == 0xFF00;
 	}
 		
 	bool isLinkLocal() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xE0FF) == 0x80FE;
+		return (ntohs(words[0]) & 0xFFE0) == 0xFE80;
 	}
 	
 	bool isSiteLocal() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xE0FF) == 0xC0FE;
+		return (ntohs(words[0]) & 0xFFE0) == 0xFEC0;
 	}
 	
 	bool isIPv4Compatible() const
@@ -396,43 +438,43 @@ public:
 	bool isIPv4Mapped() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return words[0] == 0 && words[1] == 0 && words[2] == 0 && words[3] == 0 && words[4] == 0 && words[5] == 0xFFFF;
+		return words[0] == 0 && words[1] == 0 && words[2] == 0 && words[3] == 0 && words[4] == 0 && ntohs(words[5]) == 0xFFFF;
 	}
 
 	bool isWellKnownMC() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xF0FF) == 0x00FF;
+		return (ntohs(words[0]) & 0xFFF0) == 0xFF00;
 	}
 	
 	bool isNodeLocalMC() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xEFFF) == 0x01FF;
+		return (ntohs(words[0]) & 0xFFEF) == 0xFF01;
 	}
 	
 	bool isLinkLocalMC() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xEFFF) == 0x02FF;
+		return (ntohs(words[0]) & 0xFFEF) == 0xFF02;
 	}
 	
 	bool isSiteLocalMC() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xEFFF) == 0x05FF;
+		return (ntohs(words[0]) & 0xFFEF) == 0xFF05;
 	}
 	
 	bool isOrgLocalMC() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xEFFF) == 0x08FF;
+		return (ntohs(words[0]) & 0xFFEF) == 0xFF08;
 	}
 	
 	bool isGlobalMC() const
 	{
 		const UInt16* words = reinterpret_cast<const UInt16*>(&_addr);
-		return (words[0] & 0xEFFF) == 0x0FFF;
+		return (ntohs(words[0]) & 0xFFEF) == 0xFF0F;
 	}
 
 	static IPv6AddressImpl* parse(const std::string& addr)
@@ -446,20 +488,24 @@ public:
 		int rc = getaddrinfo(addr.c_str(), NULL, &hints, &pAI);
 		if (rc == 0)
 		{
-			IPv6AddressImpl* pResult = new IPv6AddressImpl(&reinterpret_cast<struct sockaddr_in6*>(pAI->ai_addr)->sin6_addr);
+			IPv6AddressImpl* pResult = new IPv6AddressImpl(&reinterpret_cast<struct sockaddr_in6*>(pAI->ai_addr)->sin6_addr, static_cast<int>(reinterpret_cast<struct sockaddr_in6*>(pAI->ai_addr)->sin6_scope_id));
 			freeaddrinfo(pAI);
 			return pResult;
 		}
 		else return 0;
 #else
 		struct in6_addr ia;
-		std::string::size_type idx = addr.find('%');
-		if (std::string::npos != idx)
+		std::string::size_type pos = addr.find('%');
+		if (std::string::npos != pos)
 		{
 			std::string::size_type start = ('[' == addr[0]) ? 1 : 0;
-			std::string myAddr(addr, start, idx - start);
-			if (inet_pton(AF_INET6, myAddr.c_str(), &ia) == 1)
-				return new IPv6AddressImpl(&ia);
+			std::string unscopedAddr(addr, start, pos - start);
+			std::string scope(addr, pos + 1, addr.size() - start - pos);
+			Poco::UInt32 scopeId(0);
+			if (!(scopeId = if_nametoindex(scope.c_str())))
+				return 0;
+			if (inet_pton(AF_INET6, unscopedAddr.c_str(), &ia) == 1)
+				return new IPv6AddressImpl(&ia, scopeId);
 			else
 				return 0;
 		}
@@ -480,11 +526,12 @@ public:
 
 	IPAddressImpl* clone() const
 	{
-		return new IPv6AddressImpl(&_addr);
+		return new IPv6AddressImpl(&_addr, _scope);
 	}
 
 private:
 	struct in6_addr _addr;	
+	Poco::UInt32    _scope;
 };
 
 
@@ -556,6 +603,18 @@ IPAddress::IPAddress(const void* addr, poco_socklen_t length)
 }
 
 
+IPAddress::IPAddress(const void* addr, poco_socklen_t length, Poco::UInt32 scope)
+{
+	if (length == sizeof(struct in_addr))
+		_pImpl = new IPv4AddressImpl(addr);
+#if defined(POCO_HAVE_IPv6)
+	else if (length == sizeof(struct in6_addr))
+		_pImpl = new IPv6AddressImpl(addr, scope);
+#endif
+	else throw Poco::InvalidArgumentException("Invalid address length passed to IPAddress()");
+}
+
+
 IPAddress::~IPAddress()
 {
 	_pImpl->release();
@@ -583,6 +642,12 @@ void IPAddress::swap(IPAddress& address)
 IPAddress::Family IPAddress::family() const
 {
 	return _pImpl->family();
+}
+
+
+Poco::UInt32 IPAddress::scope() const
+{
+	return _pImpl->scope();
 }
 
 	

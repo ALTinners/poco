@@ -2,6 +2,7 @@
 build
 build/config
 build/config/AIX
+build/config/Android
 build/config/Angstrom
 build/config/ARM-Linux
 build/config/CEGCCARM
@@ -23,6 +24,7 @@ build/config/Linux
 build/config/Linux-stlport
 build/config/MinGW
 build/config/MinGW-CrossEnv
+build/config/NIOS2-Linux
 build/config/OSF1
 build/config/PPC-Linux
 build/config/QNX
@@ -616,6 +618,7 @@ Data/SQLite/testsuite/src/WinCEDriver.cpp
 Data/SQLite/testsuite/src/WinDriver.cpp
 Data/SQLite/testsuite/TestSuite.progen
 Data/SQLite/testsuite/TestSuite.vmsbuild
+Data/SQLite/testsuite/TestSuite.vxbuild
 Data/SQLite/testsuite/TestSuite_CE_vs90.vcproj
 Data/SQLite/testsuite/TestSuite_vs100.vcxproj
 Data/SQLite/testsuite/TestSuite_vs100.vcxproj.filters
@@ -679,6 +682,7 @@ Data/testsuite/src/WinCEDriver.cpp
 Data/testsuite/src/WinDriver.cpp
 Data/testsuite/TestSuite.progen
 Data/testsuite/TestSuite.vmsbuild
+Data/testsuite/TestSuite.vxbuild
 Data/testsuite/TestSuite_CE_vs90.vcproj
 Data/testsuite/TestSuite_vs100.vcxproj
 Data/testsuite/TestSuite_vs100.vcxproj.filters
@@ -700,6 +704,7 @@ doc/99150-GMakeBuildNotes.page
 doc/99150-WindowsPlatformNotes.page
 doc/99200-WinCEPlatformNotes.page
 doc/99250-VxWorksPlatformNotes.page
+doc/99300-AndroidPlatformNotes.page
 doc/Acknowledgements.html
 Foundation
 Foundation/.cdtproject
@@ -765,7 +770,6 @@ Foundation/include/Poco/Channel.h
 Foundation/include/Poco/Checksum.h
 Foundation/include/Poco/ClassLibrary.h
 Foundation/include/Poco/ClassLoader.h
-Foundation/include/Poco/CompareFunctions.h
 Foundation/include/Poco/Condition.h
 Foundation/include/Poco/Config.h
 Foundation/include/Poco/Configurable.h
@@ -799,6 +803,7 @@ Foundation/include/Poco/Environment_WINCE.h
 Foundation/include/Poco/ErrorHandler.h
 Foundation/include/Poco/Event.h
 Foundation/include/Poco/Event_POSIX.h
+Foundation/include/Poco/Event_VX.h
 Foundation/include/Poco/Event_WIN32.h
 Foundation/include/Poco/EventArgs.h
 Foundation/include/Poco/EventLogChannel.h
@@ -864,7 +869,6 @@ Foundation/include/Poco/LogStream.h
 Foundation/include/Poco/LRUCache.h
 Foundation/include/Poco/LRUStrategy.h
 Foundation/include/Poco/Manifest.h
-Foundation/include/Poco/MD2Engine.h
 Foundation/include/Poco/MD4Engine.h
 Foundation/include/Poco/MD5Engine.h
 Foundation/include/Poco/MemoryPool.h
@@ -874,14 +878,17 @@ Foundation/include/Poco/MetaObject.h
 Foundation/include/Poco/MetaProgramming.h
 Foundation/include/Poco/Mutex.h
 Foundation/include/Poco/Mutex_POSIX.h
+Foundation/include/Poco/Mutex_VX.h
 Foundation/include/Poco/Mutex_WIN32.h
 Foundation/include/Poco/Mutex_WINCE.h
 Foundation/include/Poco/NamedEvent.h
+Foundation/include/Poco/NamedEvent_Android.h
 Foundation/include/Poco/NamedEvent_UNIX.h
 Foundation/include/Poco/NamedEvent_VMS.h
 Foundation/include/Poco/NamedEvent_WIN32.h
 Foundation/include/Poco/NamedEvent_WIN32U.h
 Foundation/include/Poco/NamedMutex.h
+Foundation/include/Poco/NamedMutex_Android.h
 Foundation/include/Poco/NamedMutex_UNIX.h
 Foundation/include/Poco/NamedMutex_VMS.h
 Foundation/include/Poco/NamedMutex_WIN32.h
@@ -923,9 +930,11 @@ Foundation/include/Poco/PriorityDelegate.h
 Foundation/include/Poco/PriorityEvent.h
 Foundation/include/Poco/PriorityExpire.h
 Foundation/include/Poco/PriorityNotificationQueue.h
+Foundation/include/Poco/PriorityStrategy.h
 Foundation/include/Poco/Process.h
 Foundation/include/Poco/Process_UNIX.h
 Foundation/include/Poco/Process_VMS.h
+Foundation/include/Poco/Process_VX.h
 Foundation/include/Poco/Process_WIN32.h
 Foundation/include/Poco/Process_WIN32U.h
 Foundation/include/Poco/Process_WINCE.h
@@ -938,6 +947,7 @@ Foundation/include/Poco/RotateStrategy.h
 Foundation/include/Poco/Runnable.h
 Foundation/include/Poco/RunnableAdapter.h
 Foundation/include/Poco/RWLock.h
+Foundation/include/Poco/RWLock_Android.h
 Foundation/include/Poco/RWLock_POSIX.h
 Foundation/include/Poco/RWLock_VX.h
 Foundation/include/Poco/RWLock_WIN32.h
@@ -946,6 +956,7 @@ Foundation/include/Poco/ScopedLock.h
 Foundation/include/Poco/ScopedUnlock.h
 Foundation/include/Poco/Semaphore.h
 Foundation/include/Poco/Semaphore_POSIX.h
+Foundation/include/Poco/Semaphore_VX.h
 Foundation/include/Poco/Semaphore_WIN32.h
 Foundation/include/Poco/SHA1Engine.h
 Foundation/include/Poco/SharedLibrary.h
@@ -987,6 +998,7 @@ Foundation/include/Poco/TextEncoding.h
 Foundation/include/Poco/TextIterator.h
 Foundation/include/Poco/Thread.h
 Foundation/include/Poco/Thread_POSIX.h
+Foundation/include/Poco/Thread_VX.h
 Foundation/include/Poco/Thread_WIN32.h
 Foundation/include/Poco/Thread_WINCE.h
 Foundation/include/Poco/ThreadLocal.h
@@ -1411,6 +1423,7 @@ Foundation/src/Environment_WINCE.cpp
 Foundation/src/ErrorHandler.cpp
 Foundation/src/Event.cpp
 Foundation/src/Event_POSIX.cpp
+Foundation/src/Event_VX.cpp
 Foundation/src/Event_WIN32.cpp
 Foundation/src/EventArgs.cpp
 Foundation/src/EventLogChannel.cpp
@@ -1465,7 +1478,6 @@ Foundation/src/LoggingFactory.cpp
 Foundation/src/LoggingRegistry.cpp
 Foundation/src/LogStream.cpp
 Foundation/src/Manifest.cpp
-Foundation/src/MD2Engine.cpp
 Foundation/src/MD4Engine.cpp
 Foundation/src/MD5Engine.cpp
 Foundation/src/MemoryPool.cpp
@@ -1474,14 +1486,17 @@ Foundation/src/Message.cpp
 Foundation/src/MSG00001.bin
 Foundation/src/Mutex.cpp
 Foundation/src/Mutex_POSIX.cpp
+Foundation/src/Mutex_VX.cpp
 Foundation/src/Mutex_WIN32.cpp
 Foundation/src/Mutex_WINCE.cpp
 Foundation/src/NamedEvent.cpp
+Foundation/src/NamedEvent_Android.cpp
 Foundation/src/NamedEvent_UNIX.cpp
 Foundation/src/NamedEvent_VMS.cpp
 Foundation/src/NamedEvent_WIN32.cpp
 Foundation/src/NamedEvent_WIN32U.cpp
 Foundation/src/NamedMutex.cpp
+Foundation/src/NamedMutex_Android.cpp
 Foundation/src/NamedMutex_UNIX.cpp
 Foundation/src/NamedMutex_VMS.cpp
 Foundation/src/NamedMutex_WIN32.cpp
@@ -1532,6 +1547,7 @@ Foundation/src/PriorityNotificationQueue.cpp
 Foundation/src/Process.cpp
 Foundation/src/Process_UNIX.cpp
 Foundation/src/Process_VMS.cpp
+Foundation/src/Process_VX.cpp
 Foundation/src/Process_WIN32.cpp
 Foundation/src/Process_WIN32U.cpp
 Foundation/src/Process_WINCE.cpp
@@ -1543,12 +1559,14 @@ Foundation/src/RegularExpression.cpp
 Foundation/src/RotateStrategy.cpp
 Foundation/src/Runnable.cpp
 Foundation/src/RWLock.cpp
+Foundation/src/RWLock_Android.cpp
 Foundation/src/RWLock_POSIX.cpp
 Foundation/src/RWLock_VX.cpp
 Foundation/src/RWLock_WIN32.cpp
 Foundation/src/RWLock_WINCE.cpp
 Foundation/src/Semaphore.cpp
 Foundation/src/Semaphore_POSIX.cpp
+Foundation/src/Semaphore_VX.cpp
 Foundation/src/Semaphore_WIN32.cpp
 Foundation/src/SHA1Engine.cpp
 Foundation/src/SharedLibrary.cpp
@@ -1585,6 +1603,7 @@ Foundation/src/TextEncoding.cpp
 Foundation/src/TextIterator.cpp
 Foundation/src/Thread.cpp
 Foundation/src/Thread_POSIX.cpp
+Foundation/src/Thread_VX.cpp
 Foundation/src/Thread_WIN32.cpp
 Foundation/src/Thread_WINCE.cpp
 Foundation/src/ThreadLocal.cpp
@@ -1737,8 +1756,6 @@ Foundation/testsuite/src/LRUCacheTest.cpp
 Foundation/testsuite/src/LRUCacheTest.h
 Foundation/testsuite/src/ManifestTest.cpp
 Foundation/testsuite/src/ManifestTest.h
-Foundation/testsuite/src/MD2EngineTest.cpp
-Foundation/testsuite/src/MD2EngineTest.h
 Foundation/testsuite/src/MD4EngineTest.cpp
 Foundation/testsuite/src/MD4EngineTest.h
 Foundation/testsuite/src/MD5EngineTest.cpp
@@ -1914,6 +1931,7 @@ Foundation/testsuite/TestLibrary_x64_vs100.vcxproj.filters
 Foundation/testsuite/TestLibrary_x64_vs100.vcxproj.user
 Foundation/testsuite/TestLibrary_x64_vs90.vcproj
 Foundation/testsuite/testsuite.vmsbuild
+Foundation/testsuite/TestSuite.vxbuild
 Foundation/testsuite/TestSuite_CE_vs90.vcproj
 Foundation/testsuite/TestSuite_vs100.vcxproj
 Foundation/testsuite/TestSuite_vs100.vcxproj.filters
@@ -2205,6 +2223,7 @@ Net/samples/HTTPLoadTest/Makefile
 Net/samples/HTTPLoadTest/src
 Net/samples/HTTPLoadTest/src/HTTPLoadTest.cpp
 Net/samples/HTTPTimeServer
+Net/samples/HTTPTimeServer/bin
 Net/samples/HTTPTimeServer/HTTPTimeServer.progen
 Net/samples/HTTPTimeServer/HTTPTimeServer.properties
 Net/samples/HTTPTimeServer/HTTPTimeServer.vmsbuild
@@ -2502,6 +2521,7 @@ Net/testsuite/src/WinCEDriver.cpp
 Net/testsuite/src/WinDriver.cpp
 Net/testsuite/TestSuite.progen
 Net/testsuite/TestSuite.vmsbuild
+Net/testsuite/TestSuite.vxbuild
 Net/testsuite/TestSuite_CE_vs90.vcproj
 Net/testsuite/TestSuite_vs100.vcxproj
 Net/testsuite/TestSuite_vs100.vcxproj.filters
@@ -2964,6 +2984,7 @@ Util/testsuite/src/XMLConfigurationTest.cpp
 Util/testsuite/src/XMLConfigurationTest.h
 Util/testsuite/TestSuite.progen
 Util/testsuite/TestSuite.vmsbuild
+Util/testsuite/TestSuite.vxbuild
 Util/testsuite/TestSuite_CE_vs90.vcproj
 Util/testsuite/TestSuite_vs100.vcxproj
 Util/testsuite/TestSuite_vs100.vcxproj.filters
@@ -3244,6 +3265,7 @@ XML/src/xmltok_ns.c
 XML/src/XMLWriter.cpp
 XML/testsuite
 XML/testsuite/Makefile
+XML/testsuite/rss.xml
 XML/testsuite/src
 XML/testsuite/src/AttributesImplTest.cpp
 XML/testsuite/src/AttributesImplTest.h
@@ -3290,6 +3312,7 @@ XML/testsuite/src/XMLWriterTest.cpp
 XML/testsuite/src/XMLWriterTest.h
 XML/testsuite/TestSuite.progen
 XML/testsuite/TestSuite.vmsbuild
+XML/testsuite/TestSuite.vxbuild
 XML/testsuite/TestSuite_CE_vs90.vcproj
 XML/testsuite/TestSuite_vs100.vcxproj
 XML/testsuite/TestSuite_vs100.vcxproj.filters
@@ -3438,6 +3461,7 @@ Zip/testsuite/src/ZipTestSuite.cpp
 Zip/testsuite/src/ZipTestSuite.h
 Zip/testsuite/TestSuite.progen
 Zip/testsuite/TestSuite.vmsbuild
+Zip/testsuite/TestSuite.vxbuild
 Zip/testsuite/TestSuite_CE_vs90.vcproj
 Zip/testsuite/TestSuite_vs100.vcxproj
 Zip/testsuite/TestSuite_vs100.vcxproj.filters

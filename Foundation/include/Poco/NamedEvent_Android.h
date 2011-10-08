@@ -1,11 +1,15 @@
 //
-// MD2EngineTest.h
+// NamedEvent_Android.h
 //
-// $Id: //poco/1.4/Foundation/testsuite/src/MD2EngineTest.h#1 $
+// $Id: //poco/1.4/Foundation/include/Poco/NamedEvent_Android.h#1 $
 //
-// Definition of the MD2EngineTest class.
+// Library: Foundation
+// Package: Processes
+// Module:  NamedEvent
 //
-// Copyright (c) 2004-2006, Applied Informatics Software Engineering GmbH.
+// Definition of the NamedEventImpl class for Android.
+//
+// Copyright (c) 2004-2011, Applied Informatics Software Engineering GmbH.
 // and Contributors.
 //
 // Permission is hereby granted, free of charge, to any person or organization
@@ -32,29 +36,27 @@
 //
 
 
-#ifndef MD2EngineTest_INCLUDED
-#define MD2EngineTest_INCLUDED
+#ifndef Foundation_NamedEvent_Android_INCLUDED
+#define Foundation_NamedEvent_Android_INCLUDED
 
 
 #include "Poco/Foundation.h"
-#include "CppUnit/TestCase.h"
 
 
-class MD2EngineTest: public CppUnit::TestCase
+namespace Poco {
+
+
+class Foundation_API NamedEventImpl
 {
-public:
-	MD2EngineTest(const std::string& name);
-	~MD2EngineTest();
-
-	void testMD2();
-
-	void setUp();
-	void tearDown();
-
-	static CppUnit::Test* suite();
-
-private:
+protected:
+	NamedEventImpl(const std::string& name);	
+	~NamedEventImpl();
+	void setImpl();
+	void waitImpl();
 };
 
 
-#endif // MD2EngineTest_INCLUDED
+} // namespace Poco
+
+
+#endif // Foundation_NamedEvent_Android_INCLUDED

@@ -1,7 +1,7 @@
 //
 // Format.cpp
 //
-// $Id: //poco/1.4/Foundation/src/Format.cpp#1 $
+// $Id: //poco/1.4/Foundation/src/Format.cpp#2 $
 //
 // Library: Foundation
 // Package: Core
@@ -86,7 +86,7 @@ namespace
 				prec = 10*prec + *itFmt - '0';
 				++itFmt;
 			}
-			if (prec != 0) str.precision(prec);
+			if (prec >= 0) str.precision(prec);
 		}
 	}
 	

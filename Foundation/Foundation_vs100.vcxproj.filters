@@ -435,9 +435,6 @@
     <ClCompile Include="src\DigestStream.cpp">
       <Filter>Crypt\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MD2Engine.cpp">
-      <Filter>Crypt\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\MD4Engine.cpp">
       <Filter>Crypt\Source Files</Filter>
     </ClCompile>
@@ -1229,9 +1226,6 @@
     <ClInclude Include="include\Poco\HMACEngine.h">
       <Filter>Crypt\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Poco\MD2Engine.h">
-      <Filter>Crypt\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Poco\MD4Engine.h">
       <Filter>Crypt\Header Files</Filter>
     </ClInclude>
@@ -1637,13 +1631,7 @@
     <ClInclude Include="include\Poco\AbstractPriorityDelegate.h">
       <Filter>Events\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Poco\AccessExpirationDecorator.h">
-      <Filter>Events\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Poco\BasicEvent.h">
-      <Filter>Events\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Poco\CompareFunctions.h">
       <Filter>Events\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Poco\DefaultStrategy.h">
@@ -1765,6 +1753,12 @@
     </ClInclude>
     <ClInclude Include="include\Poco\SimpleHashTable.h">
       <Filter>Hashing\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Poco\AccessExpirationDecorator.h">
+      <Filter>Cache\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Poco\PriorityStrategy.h">
+      <Filter>Events\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

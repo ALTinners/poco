@@ -1,7 +1,7 @@
 //
 // ThreadPool.cpp
 //
-// $Id: //poco/1.4/Foundation/src/ThreadPool.cpp#1 $
+// $Id: //poco/1.4/Foundation/src/ThreadPool.cpp#2 $
 //
 // Library: Foundation
 // Package: Threading
@@ -463,9 +463,17 @@ PooledThread* ThreadPool::getThread()
 	{
 		if (_threads.size() < _maxCapacity)
 		{
-			pThread = createThread();
-			_threads.push_back(pThread);
-			pThread->start();
+            pThread = createThread();
+            try
+            {
+                pThread->start();
+                _threads.push_back(pThread);
+            }
+            catch (...)
+            {
+                delete pThread;
+                throw;
+            }
 		}
 		else throw NoThreadAvailableException();
 	}

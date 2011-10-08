@@ -301,6 +301,7 @@
 				ForceConformanceInForLoopScope="true"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="..\lib\PocoFoundationmdd.pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -373,6 +374,7 @@
 				ForceConformanceInForLoopScope="true"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="..\lib\PocoFoundationmtd.pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -2359,10 +2361,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\MD2Engine.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\MD4Engine.cpp"
 					>
 				</File>
@@ -2396,10 +2394,6 @@
 				</File>
 				<File
 					RelativePath=".\include\Poco\HMACEngine.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\Poco\MD2Engine.h"
 					>
 				</File>
 				<File
@@ -3390,7 +3384,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="mc -h &quot;$(InputDir).&quot; -r &quot;$(InputDir).&quot; &quot;$(InputPath)"
+							CommandLine="mc -h &quot;$(InputDir).&quot; -r &quot;$(InputDir).&quot; &quot;$(InputPath)&#x0D;&#x0A;"
 							Outputs="$(InputDir)\pocomsg.rc;$(InputDir)\pocomsg.h;"
 						/>
 					</FileConfiguration>
@@ -5757,15 +5751,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\Poco\AccessExpirationDecorator.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\Poco\BasicEvent.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\Poco\CompareFunctions.h"
 					>
 				</File>
 				<File
@@ -5816,6 +5802,10 @@
 					RelativePath=".\include\Poco\PriorityExpire.h"
 					>
 				</File>
+				<File
+					RelativePath=".\include\Poco\PriorityStrategy.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Source Files"
@@ -5838,6 +5828,10 @@
 				</File>
 				<File
 					RelativePath=".\include\Poco\AbstractStrategy.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Poco\AccessExpirationDecorator.h"
 					>
 				</File>
 				<File

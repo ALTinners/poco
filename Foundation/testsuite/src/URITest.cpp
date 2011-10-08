@@ -1,7 +1,7 @@
 //
 // URITest.cpp
 //
-// $Id: //poco/1.4/Foundation/testsuite/src/URITest.cpp#1 $
+// $Id: //poco/1.4/Foundation/testsuite/src/URITest.cpp#3 $
 //
 // Copyright (c) 2004-2006, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -180,7 +180,6 @@ void URITest::testConstruction()
 	assert (uri11.getPathEtc() == "/index.html?query=test#fragment");
 	assert (uri11.getQuery() == "query=test");
 	assert (uri11.getFragment() == "fragment");
-
 }
 
 
@@ -543,6 +542,10 @@ void URITest::testToString()
 
 	uri = "./c:/Windows/system32/";
 	assert (uri.toString() == "./c:/Windows/system32/");
+	
+	uri = "http://www.appinf.com";
+	uri.setRawQuery("query=test");
+	assert (uri.toString() == "http://www.appinf.com/?query=test");
 }
 
 
@@ -735,6 +738,34 @@ void URITest::testSwap()
 	assert (uri2.toString() == "http://www.appinf.com/search.cgi?keyword=test%20encoded&scope=all#result");
 }
 
+void URITest::testOther()
+{
+    // The search string is "hello%world"; google happens to ignore the '%'
+    // character, so it finds lots of hits for "hello world" programs. This is
+    // a convenient reproduction case, and a URL that actually works.
+    Poco::URI uri("http://google.com/search?q=hello%25world#frag%20ment");
+
+    assert(uri.getHost() == "google.com");
+    assert(uri.getPath() == "/search");
+    assert(uri.getQuery() == "q=hello%world");
+    assert(uri.getRawQuery() == "q=hello%25world");
+    assert(uri.getFragment() == "frag ment");
+    assert(uri.toString() == "http://google.com/search?q=hello%25world#frag%20ment");
+    assert(uri.getPathEtc() == "/search?q=hello%25world#frag%20ment");
+
+    uri.setQuery("q=goodbye cruel world");
+    assert(uri.getQuery() == "q=goodbye cruel world");
+    assert(uri.getRawQuery() == "q=goodbye%20cruel%20world");
+    assert(uri.toString() == "http://google.com/search?q=goodbye%20cruel%20world#frag%20ment");
+    assert(uri.getPathEtc() == "/search?q=goodbye%20cruel%20world#frag%20ment");
+
+    uri.setRawQuery("q=pony%7eride");
+    assert(uri.getQuery() == "q=pony~ride");
+    assert(uri.getRawQuery() == "q=pony%7eride");
+    assert(uri.toString() == "http://google.com/search?q=pony%7eride#frag%20ment");
+    assert(uri.getPathEtc() == "/search?q=pony%7eride#frag%20ment");
+}
+
 
 void URITest::setUp()
 {
@@ -757,6 +788,7 @@ CppUnit::Test* URITest::suite()
 	CppUnit_addTest(pSuite, URITest, testNormalize);
 	CppUnit_addTest(pSuite, URITest, testResolve);
 	CppUnit_addTest(pSuite, URITest, testSwap);
+	CppUnit_addTest(pSuite, URITest, testOther);
 
 	return pSuite;
 }

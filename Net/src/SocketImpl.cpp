@@ -1,7 +1,7 @@
 //
 // SocketImpl.cpp
 //
-// $Id: //poco/1.4/Net/src/SocketImpl.cpp#3 $
+// $Id: //poco/1.4/Net/src/SocketImpl.cpp#6 $
 //
 // Library: Net
 // Package: Sockets
@@ -60,6 +60,9 @@ SocketImpl::SocketImpl():
 	_sockfd(POCO_INVALID_SOCKET),
 	_blocking(true)
 {
+#if defined(_WIN32)
+	Poco::Net::initializeNetwork();
+#endif
 }
 
 
@@ -67,12 +70,18 @@ SocketImpl::SocketImpl(poco_socket_t sockfd):
 	_sockfd(sockfd),
 	_blocking(true)
 {
+#if defined(_WIN32)
+	Poco::Net::initializeNetwork();
+#endif
 }
 
 
 SocketImpl::~SocketImpl()
 {
 	close();
+#if defined(_WIN32)
+	Poco::Net::uninitializeNetwork();
+#endif
 }
 
 	
@@ -195,6 +204,30 @@ void SocketImpl::bind(const SocketAddress& address, bool reuseAddress)
 	int rc = ::bind(_sockfd, address.addr(), address.length());
 #endif
 	if (rc != 0) error(address.toString());
+}
+
+
+void SocketImpl::bind6(const SocketAddress& address, bool reuseAddress, bool ipV6Only)
+{
+#if defined(POCO_HAVE_IPv6)
+	if (address.family() != IPAddress::IPv6)
+		throw Poco::InvalidArgumentException("SocketAddress must be an IPv6 address");
+		
+	if (_sockfd == POCO_INVALID_SOCKET)
+	{
+		init(address.af());
+	}
+	setOption(IPPROTO_IPV6, IPV6_V6ONLY, ipV6Only ? 1 : 0);
+	if (reuseAddress)
+	{
+		setReuseAddress(true);
+		setReusePort(true);
+	}
+	int rc = ::bind(_sockfd, address.addr(), address.length());
+	if (rc != 0) error(address.toString());
+#else
+	throw Poco::NotImplementedException("No IPv6 support available");
+#endif
 }
 
 	
@@ -848,7 +881,7 @@ void SocketImpl::initSocket(int af, int type, int proto)
 }
 
 
-void SocketImpl::ioctl(int request, int& arg)
+void SocketImpl::ioctl(poco_ioctl_request_t request, int& arg)
 {
 #if defined(_WIN32)
 	int rc = ioctlsocket(_sockfd, request, reinterpret_cast<u_long*>(&arg));
@@ -861,7 +894,7 @@ void SocketImpl::ioctl(int request, int& arg)
 }
 
 
-void SocketImpl::ioctl(int request, void* arg)
+void SocketImpl::ioctl(poco_ioctl_request_t request, void* arg)
 {
 #if defined(_WIN32)
 	int rc = ioctlsocket(_sockfd, request, reinterpret_cast<u_long*>(arg));
