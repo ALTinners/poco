@@ -1,0 +1,29 @@
+Description: Use multiarch tuple when detecting odbc library path.
+Origin: vendor
+Forwarded: not-needed
+Author: Cristian Greco <cristian@debian.org>
+
+--- a/Data/ODBC/Makefile
++++ b/Data/ODBC/Makefile
+@@ -9,7 +9,8 @@
+ include $(POCO_BASE)/build/rules/global
+ 
+ # adjust for the target system (usually '/usr/lib' or '/usr/local/lib')
+-ODBCLIBDIR = /usr/lib
++MULTIARCH_TUPLE = $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
++ODBCLIBDIR = /usr/lib/$(MULTIARCH_TUPLE)
+ 
+ INCLUDE += -I/usr/local/include -I/usr/include -I/usr/include/odbc -I/usr/local/include/odbc
+ SYSLIBS += -L/usr/local/lib/odbc -L/usr/lib/odbc -L/usr/lib -L/usr/local/lib
+--- a/Data/ODBC/testsuite/Makefile
++++ b/Data/ODBC/testsuite/Makefile
+@@ -9,7 +9,8 @@
+ include $(POCO_BASE)/build/rules/global
+ 
+ # adjust for the target system (usually '/usr/lib' or '/usr/local/lib')
+-ODBCLIBDIR = /usr/lib
++MULTIARCH_TUPLE = $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
++ODBCLIBDIR = /usr/lib/$(MULTIARCH_TUPLE)
+ 
+ INCLUDE += -I/usr/local/include -I/usr/include -I/usr/include/odbc -I/usr/local/include/odbc
+ SYSLIBS += -L/usr/local/lib/odbc -L/usr/lib/odbc -L/usr/lib -L/usr/local/lib
