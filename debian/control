@@ -12,7 +12,7 @@ Vcs-Git: git://git.debian.org/git/collab-maint/poco.git
 Package: libpoco-dev
 Section: libdevel
 Architecture: any
-Depends: libpococrypto11 (= ${binary:Version}), libpocodata11 (= ${binary:Version}), libpocofoundation11 (= ${binary:Version}), libpocodatamysql11 (= ${binary:Version}), libpoconet11 (= ${binary:Version}), libpoconetssl11 (= ${binary:Version}), libpocodataodbc11 (= ${binary:Version}), libpocodatasqlite11 (= ${binary:Version}), libpocoutil11 (= ${binary:Version}), libpocoxml11 (= ${binary:Version}), libpocozip11 (= ${binary:Version})
+Depends: ${misc:Depends}, libpococrypto11 (= ${binary:Version}), libpocodata11 (= ${binary:Version}), libpocofoundation11 (= ${binary:Version}), libpocodatamysql11 (= ${binary:Version}), libpoconet11 (= ${binary:Version}), libpoconetssl11 (= ${binary:Version}), libpocodataodbc11 (= ${binary:Version}), libpocodatasqlite11 (= ${binary:Version}), libpocoutil11 (= ${binary:Version}), libpocoxml11 (= ${binary:Version}), libpocozip11 (= ${binary:Version})
 Suggests: libpoco-doc, libpococrypto11-dbg (= ${binary:Version}), libpocodata11-dbg (= ${binary:Version}), libpocofoundation11-dbg (= ${binary:Version}), libpocodatamysql11-dbg (= ${binary:Version}), libpoconet11-dbg (= ${binary:Version}), libpoconetssl11-dbg (= ${binary:Version}), libpocodataodbc11-dbg (= ${binary:Version}), libpocodatasqlite11-dbg (= ${binary:Version}), libpocoutil11-dbg (= ${binary:Version}), libpocoxml11-dbg (= ${binary:Version}), libpocozip11-dbg (= ${binary:Version})
 Provides: libpoco5-dev
 Conflicts: libpoco5-dev
