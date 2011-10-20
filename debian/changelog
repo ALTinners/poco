@@ -1,8 +1,23 @@
-poco (1.4.2p1-1) unstable; urgency=low
+poco (1.4.2p1-1) experimental; urgency=low
 
-  * New Upstream Version
+  [ Patrick Gansterer ]
+  * New Upstream Version (Closes: #612360)
+    - Upload to experimental.
 
- -- Patrick Gansterer <paroga@paroga.com>  Sat, 08 Oct 2011 21:00:00 +0200
+  [ Cristian Greco ]
+  * Convert package to source format 3.0 (quilt).
+  * fix-odbc-makefile.patch: new patch, use multiarch tuple when
+    detecting odbc library path. (Closes: #642733)
+  * Switch to debhelper compatibility level 8 and reduce debian/rules
+    in size. Also enable parallel build.
+  * debian/rules: don't build the testsuite as we are not running it anyway.
+  * debian/control:
+    - add myself as uploader.
+    - add  to libpoco-dev.
+    - fix lintian warnings about short descriptions.
+  * debian/watch: track the .bz2 archive.
+
+ -- Cristian Greco <cristian@debian.org>  Thu, 20 Oct 2011 21:20:36 +0200
 
 poco (1.3.6p2-1) unstable; urgency=low
 
