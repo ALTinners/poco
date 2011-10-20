@@ -5,7 +5,7 @@ poco (1.4.2p1-2) experimental; urgency=low
   * Switch to debhelper compatibility level 8 and reduce debian/rules in size.
     Also enable parallel build.
   * fix-odbc-makefile.patch: new patch, use multiarch tuple when detecting
-    odbc library path.
+    odbc library path. (Closes: #642733)
   * debian/rules: don't build the testsuite as we are not running it anyway.
   * debian/control: fix lintian warnings about short descriptions.
   * debian/control: add  to libpoco-dev.
@@ -15,7 +15,7 @@ poco (1.4.2p1-2) experimental; urgency=low
 
 poco (1.4.2p1-1) unstable; urgency=low
 
-  * New Upstream Version
+  * New Upstream Version (Closes: #612360)
 
  -- Patrick Gansterer <paroga@paroga.com>  Sat, 08 Oct 2011 21:00:00 +0200
 
