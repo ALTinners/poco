@@ -12,16 +12,16 @@ ifeq ($(shell dpkg --print-architecture),arm)
 CONFFLAGS += --no-fpenvironment
 endif
 
+POCO_LIBS := $(shell dh_listpackages | grep dbg | sed -e 's/-dbg//')
+
+
 %:
 	dh $@ --parallel
 
 override_dh_auto_configure:
 	./configure $(CONFFLAGS)
 
-override_dh_install:
-	dh_install
-# generate lintian overrides for -dbg packages
-	( cd debian ; for i in *-dbg/usr/lib/*.so.* ; do override=`echo $$i | sed 's|/usr/lib/|: package-name-doesnt-match-sonames |' | sed 's/\.so\.//'` ; pkg=`echo $$i | sed 's|/usr/.*||'` ; dir=`echo $$pkg/usr/share/lintian/overrides` ; mkdir -p $$dir ; file=$$dir/$$pkg ; echo $$override > $$file ; done )
+override_dh_strip-%:
+	dh_strip -p$* --dbg-package=$*-dbg
 
-override_dh_strip:
-	dh_strip -k
+override_dh_strip: $(POCO_LIBS:%=override_dh_strip-%)
