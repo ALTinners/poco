@@ -1,2 +1,3 @@
 10_disable-rpath.patch
 fix-odbc-makefile.patch
+no-debug-build.patch
