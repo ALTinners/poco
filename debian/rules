@@ -22,8 +22,6 @@ override_dh_install:
 	dh_install
 # generate lintian overrides for -dbg packages
 	( cd debian ; for i in *-dbg/usr/lib/*.so.* ; do override=`echo $$i | sed 's|/usr/lib/|: package-name-doesnt-match-sonames |' | sed 's/\.so\.//'` ; pkg=`echo $$i | sed 's|/usr/.*||'` ; dir=`echo $$pkg/usr/share/lintian/overrides` ; mkdir -p $$dir ; file=$$dir/$$pkg ; echo $$override > $$file ; done )
-# remove Mac OS X related files (.DS_Store and ._.DS_Store)
-	rm -f debian/libpoco-dev/usr/include/Poco/.DS_Store debian/libpoco-dev/usr/include/Poco/._.DS_Store
 
 override_dh_strip:
 	dh_strip -k
