@@ -34,7 +34,7 @@ Package: libpococrypto11-dbg
 Priority: extra
 Section: debug
 Architecture: any
-Depends: libpococrypto11 (= ${binary:Version}), libpocofoundation11-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpococrypto11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Crypto library (debug version)
  The C++ Portable Components consist of various C++ libraries. This package
  provides libPocoCryptod library (debug version of POCO Crypto library).
@@ -50,7 +50,7 @@ Package: libpocodata11-dbg
 Priority: extra
 Section: debug
 Architecture: any
-Depends: libpocodata11 (= ${binary:Version}), libpocofoundation11-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocodata11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Data library (debug version)
  The C++ Portable Components consist of various C++ libraries. This package
  provides libPocoDatad library (debug version of POCO Data library).
@@ -66,7 +66,7 @@ Package: libpocodatamysql11-dbg
 Priority: extra
 Section: debug
 Architecture: any
-Depends: libpocodatamysql11 (= ${binary:Version}), libpocofoundation11-dbg (= ${binary:Version}), libpocodata11-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocodatamysql11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) MySQL library (debug version)
  The C++ Portable Components consist of various C++ libraries. This package
  provides libPocoDataMySQLd library (debug version of POCO MySQL library).
@@ -82,7 +82,7 @@ Package: libpocodataodbc11-dbg
 Priority: extra
 Section: debug
 Architecture: any
-Depends: libpocodataodbc11 (= ${binary:Version}), libpocofoundation11-dbg (= ${binary:Version}), libpocodata11-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocodataodbc11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) ODBC library (debug version)
  The C++ Portable Components consist of various C++ libraries. This package
  provides libPocoDataODBCd library (debug version of POCO ODBC library).
@@ -102,7 +102,7 @@ Package: libpocodatasqlite11-dbg
 Priority: extra
 Section: debug
 Architecture: any
-Depends: libpocodatasqlite11 (= ${binary:Version}), libpocofoundation11-dbg (= ${binary:Version}), libpocodata11-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocodatasqlite11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) SQLite library (debug version)
  The C++ Portable Components consist of various C++ libraries. This package
  provides libPocoDataSQLited library (debug version of POCO SQLite library).
@@ -118,7 +118,7 @@ Package: libpocofoundation11-dbg
 Priority: extra
 Section: debug
 Architecture: any
-Depends: libpocofoundation11 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocofoundation11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Foundation library (debug version)
  The C++ Portable Components consist of various C++ libraries. This package
  provides libPocoFoundationd library (debug version of POCO Foundation library).
@@ -134,7 +134,7 @@ Package: libpoconet11-dbg
 Priority: extra
 Section: debug
 Architecture: any
-Depends: libpoconet11 (= ${binary:Version}), libpocofoundation11-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpoconet11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Network library (debug version)
  The C++ Portable Components consist of various C++ libraries. This package
  provides libPocoNetd library (debug version of POCO Network library).
@@ -150,7 +150,7 @@ Package: libpoconetssl11-dbg
 Priority: extra
 Section: debug
 Architecture: any
-Depends: libpoconetssl11 (= ${binary:Version}), libpocofoundation11-dbg (= ${binary:Version}), libpococrypto11-dbg (= ${binary:Version}), libpoconet11-dbg (= ${binary:Version}), libpocoutil11-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpoconetssl11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Network library with SSL (debug version)
  The C++ Portable Components consist of various C++ libraries. This package
  provides libPocoNetSSLd library (debug version of POCO Network library compiled
@@ -168,7 +168,7 @@ Package: libpocoutil11-dbg
 Priority: extra
 Section: debug
 Architecture: any
-Depends: libpocoutil11 (= ${binary:Version}), libpocofoundation11-dbg (= ${binary:Version}), libpocoxml11-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocoutil11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Util library (debug version)
  The C++ Portable Components consist of various C++ libraries. This package
  provides libPocoUtild library (debug version of POCO Util library).
@@ -184,7 +184,7 @@ Package: libpocoxml11-dbg
 Priority: extra
 Section: debug
 Architecture: any
-Depends: libpocoxml11 (= ${binary:Version}), libpocofoundation11-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocoxml11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) XML library (debug version)
  The C++ Portable Components consist of various C++ libraries. This package
  provides libPocoXMLd library (debug version of POCO XML library).
@@ -200,7 +200,7 @@ Package: libpocozip11-dbg
 Priority: extra
 Section: debug
 Architecture: any
-Depends: libpocozip11 (= ${binary:Version}), libpocofoundation11-dbg (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocozip11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Zip library (debug version)
  The C++ Portable Components consist of various C++ libraries. This package
  provides libPocoZipd library (debug version of POCO Zip library).
