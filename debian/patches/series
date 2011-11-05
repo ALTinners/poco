@@ -1,4 +1,4 @@
-10_disable-rpath.patch
+disable-rpath.patch
 fix-odbc-makefile.patch
 no-debug-build.patch
 no-strip-release-build.patch
