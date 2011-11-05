@@ -2,3 +2,4 @@ disable-rpath.patch
 fix-odbc-makefile.patch
 no-debug-build.patch
 no-strip-release-build.patch
+no-link-dl-rt.patch
