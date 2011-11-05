@@ -13,11 +13,13 @@ Author: Cristian Greco <cristian@debian.org>
 +SYSLIBS  = -lpthread
 --- a/Foundation/Makefile
 +++ b/Foundation/Makefile
-@@ -55,6 +55,8 @@
+@@ -55,6 +55,10 @@
  	objects += SyslogChannel
  endif
  
-+SYSLIBS += -ldl -lrt
++ifeq ($(findstring Linux, $(POCO_CONFIG)), Linux)
++	SYSLIBS += -ldl -lrt
++endif
 +
  target         = PocoFoundation
  target_version = $(LIBVERSION)
