@@ -1,3 +1,24 @@
+poco (1.4.2p1-2) experimental; urgency=low
+
+  * debian/patches:
+    - 10_disable-rpath.patch: renamed to disable-rpath.patch, refreshed
+      and added information.
+    - no-debug-build.patch: do not build libraries in debug mode, either
+      shared or static.
+    - no-strip-release-build.patch: do not strip libraries built in release
+      mode by default, let dh_strip to the job instead.
+    - no-link-dl-rt.patch: link only Foundation library against dl/rt libs
+      on Linux.
+  * debian/rules:
+    - strip release libraries in their corrisponding -dbg packages and drop
+      lintian overrides.
+    - select the right configuration options for kfreebsd, trying to fix
+      the FTBFS.
+    - drop now useless command to remove hidden files.
+  * debian/control: adjust dependencies for -dbg packages.
+
+ -- Cristian Greco <cristian@debian.org>  Sun, 06 Nov 2011 13:27:26 +0100
+
 poco (1.4.2p1-1) experimental; urgency=low
 
   [ Patrick Gansterer ]
