@@ -1,4 +1,4 @@
-Description: Link only Foundation library against -ldl and -lrt on Linux.
+Description: Link only Foundation library against -ldl and -lrt on Linux and FreeBSD.
 Origin: vendor
 Forwarded: no
 Author: Cristian Greco <cristian@debian.org>
@@ -17,7 +17,7 @@ Author: Cristian Greco <cristian@debian.org>
  	objects += SyslogChannel
  endif
  
-+ifeq ($(findstring Linux, $(POCO_CONFIG)), Linux)
++ifneq ($(or $(findstring Linux, $(POCO_CONFIG)), $(findstring FreeBSD, $(POCO_CONFIG))), )
 +	SYSLIBS += -ldl -lrt
 +endif
 +
