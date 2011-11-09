@@ -18,17 +18,20 @@ Provides: libpoco5-dev
 Conflicts: libpoco5-dev
 Replaces: libpoco5-dev
 Description: C++ Portable Components (POCO) Development files
- The C++ Portable Components currently consist of eleven libraries:
-  * The Foundation library (contains a platform abstraction layer)
-  * The XML library (contains an XML parser as well as an XMLWriter)
-  * The Util library (contains classes for working with configuration files and
-    command line arguments)
-  * The Net and the NetSSL libraries (contains network classes like sockets,
-    SMTP, HTTP, Secure Socket Layer, SSL secured HTTP, etc.)
-  * The Data library (contains data abstraction layer)
-  * The ODBC, MySQL and the SQLite libraries (contains database connectivity)
-  * The Crypto library (contains implementation of DES, AES, RSA, etc.)
-  * The Zip library
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ POCO consists of four core libraries, and a number of add-on libraries. The
+ core libraries are Foundation, XML, Util and Net. Two of the add-on libraries
+ are NetSSL, providing SSL support for the network classes in the Net library,
+ and Data, a library for uniformly accessing different SQL databases.
 
 Package: libpococrypto11-dbg
 Priority: extra
@@ -36,15 +39,33 @@ Section: debug
 Architecture: any
 Depends: libpococrypto11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Crypto library (debug version)
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoCryptod library (debug version of POCO Crypto library).
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the debug version of the POCO Crypto library.
 
 Package: libpococrypto11
 Architecture: any
 Depends: libpocofoundation11 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Crypto library
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoCrypto library (POCO Crypto library).
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the POCO Crypto library.
 
 Package: libpocodata11-dbg
 Priority: extra
@@ -52,67 +73,136 @@ Section: debug
 Architecture: any
 Depends: libpocodata11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Data library (debug version)
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoDatad library (debug version of POCO Data library).
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the debug version of the POCO Data library.
 
 Package: libpocodata11
 Architecture: any
 Depends: libpocofoundation11 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Data library
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoData library.
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the POCO Data library.
 
 Package: libpocodatamysql11-dbg
 Priority: extra
 Section: debug
 Architecture: any
 Depends: libpocodatamysql11 (= ${binary:Version}), ${misc:Depends}
-Description: C++ Portable Components (POCO) MySQL library (debug version)
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoDataMySQLd library (debug version of POCO MySQL library).
+Description: C++ Portable Components (POCO) Data MySQL library (debug version)
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the debug version of the POCO Data MySQL library.
 
 Package: libpocodatamysql11
 Architecture: any
 Depends: libpocofoundation11 (= ${binary:Version}), libpocodata11 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
-Description: C++ Portable Components (POCO) MySQL library
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoDataMySQL library.
+Description: C++ Portable Components (POCO) Data MySQL library
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the POCO Data MySQL library.
 
 Package: libpocodataodbc11-dbg
 Priority: extra
 Section: debug
 Architecture: any
 Depends: libpocodataodbc11 (= ${binary:Version}), ${misc:Depends}
-Description: C++ Portable Components (POCO) ODBC library (debug version)
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoDataODBCd library (debug version of POCO ODBC library).
+Description: C++ Portable Components (POCO) Data ODBC library (debug version)
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
  .
- Debian version is linked against unixODBC however POCO can also use iODBC.
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the debug version of the POCO Data ODBC library.
 
 Package: libpocodataodbc11
 Architecture: any
 Depends: libpocofoundation11 (= ${binary:Version}), libpocodata11 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) ODBC library
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoDataODBC library.
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
  .
- Debian version is linked against unixODBC however POCO can also use iODBC.
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the POCO Data ODBC library. In Debian, it is linked
+ against unixODBC but also iODBC can be used instead.
 
 Package: libpocodatasqlite11-dbg
 Priority: extra
 Section: debug
 Architecture: any
 Depends: libpocodatasqlite11 (= ${binary:Version}), ${misc:Depends}
-Description: C++ Portable Components (POCO) SQLite library (debug version)
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoDataSQLited library (debug version of POCO SQLite library).
+Description: C++ Portable Components (POCO) Data SQLite library (debug version)
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the debug version of the POCO Data SQLite library.
 
 Package: libpocodatasqlite11
 Architecture: any
 Depends: libpocofoundation11 (= ${binary:Version}), libpocodata11 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
-Description: C++ Portable Components (POCO) SQLite library
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoDataSQLite library.
+Description: C++ Portable Components (POCO) Data SQLite library
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the POCO Data SQLite library.
 
 Package: libpocofoundation11-dbg
 Priority: extra
@@ -120,15 +210,33 @@ Section: debug
 Architecture: any
 Depends: libpocofoundation11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Foundation library (debug version)
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoFoundationd library (debug version of POCO Foundation library).
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the debug version of POCO Foundation library.
 
 Package: libpocofoundation11
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Foundation library
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoFoundation library.
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the POCO Foundation library.
 
 Package: libpoconet11-dbg
 Priority: extra
@@ -136,15 +244,33 @@ Section: debug
 Architecture: any
 Depends: libpoconet11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Network library (debug version)
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoNetd library (debug version of POCO Network library).
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the debug version of POCO Network library.
 
 Package: libpoconet11
 Architecture: any
 Depends: libpocofoundation11 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Network library
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoNet library.
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the POCO Net library.
 
 Package: libpoconetssl11-dbg
 Priority: extra
@@ -152,17 +278,33 @@ Section: debug
 Architecture: any
 Depends: libpoconetssl11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Network library with SSL (debug version)
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoNetSSLd library (debug version of POCO Network library compiled
- with OpenSSL support).
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the debug version of POCO Network SSL library.
 
 Package: libpoconetssl11
 Architecture: any
 Depends: libpocofoundation11 (= ${binary:Version}), libpococrypto11 (= ${binary:Version}), libpoconet11 (= ${binary:Version}), libpocoutil11 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Network library with SSL
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoNetSSL library (POCO Network library compiled with OpenSSL
- support).
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the POCO Network SSL library.
 
 Package: libpocoutil11-dbg
 Priority: extra
@@ -170,15 +312,33 @@ Section: debug
 Architecture: any
 Depends: libpocoutil11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Util library (debug version)
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoUtild library (debug version of POCO Util library).
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the debug version of POCO Util library.
 
 Package: libpocoutil11
 Architecture: any
 Depends: libpocofoundation11 (= ${binary:Version}), libpocoxml11 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Util library
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoUtil library.
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides POCO Util library.
 
 Package: libpocoxml11-dbg
 Priority: extra
@@ -186,15 +346,33 @@ Section: debug
 Architecture: any
 Depends: libpocoxml11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) XML library (debug version)
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoXMLd library (debug version of POCO XML library).
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the debug version of POCO XML library.
 
 Package: libpocoxml11
 Architecture: any
 Depends: libpocofoundation11 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) XML library
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoXML library.
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the POCO XML library.
 
 Package: libpocozip11-dbg
 Priority: extra
@@ -202,12 +380,30 @@ Section: debug
 Architecture: any
 Depends: libpocozip11 (= ${binary:Version}), ${misc:Depends}
 Description: C++ Portable Components (POCO) Zip library (debug version)
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoZipd library (debug version of POCO Zip library).
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the debug version of POCO Zip library.
 
 Package: libpocozip11
 Architecture: any
 Depends: libpocofoundation11 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Zip library
- The C++ Portable Components consist of various C++ libraries. This package
- provides libPocoZip library.
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the POCO Zip library.
