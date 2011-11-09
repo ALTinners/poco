@@ -1,0 +1,159 @@
+Description: Fix FTBFS on GNU/kFreeBSD.
+Origin: vendor
+Forwarded: no
+Author: Cristian Greco <cristian@debian.org>
+
+--- a/Foundation/include/Poco/NamedEvent_UNIX.h
++++ b/Foundation/include/Poco/NamedEvent_UNIX.h
+@@ -41,7 +41,7 @@
+ 
+ 
+ #include "Poco/Foundation.h"
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ #include <semaphore.h>
+ #endif
+ 
+@@ -61,7 +61,7 @@
+ 	std::string getFileName();
+ 
+ 	std::string _name;
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ 	sem_t* _sem;
+ #else
+ 	int _lockfd; // lock file descriptor
+--- a/Foundation/include/Poco/Platform.h
++++ b/Foundation/include/Poco/Platform.h
+@@ -65,7 +65,7 @@
+ #define POCO_OS_VMS           0x2001
+ 
+ 
+-#if defined(__FreeBSD__)
++#if defined(__FreeBSD__) || defined(__FreeBSD_kernel)
+ 	#define POCO_OS_FAMILY_UNIX 1
+ 	#define POCO_OS_FAMILY_BSD 1
+ 	#define POCO_OS POCO_OS_FREE_BSD
+--- a/Foundation/src/NamedEvent_UNIX.cpp
++++ b/Foundation/src/NamedEvent_UNIX.cpp
+@@ -39,7 +39,7 @@
+ #include <fcntl.h>
+ #include <sys/stat.h>
+ #include <errno.h>
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ #include <semaphore.h>
+ #else
+ #include <unistd.h>
+@@ -74,7 +74,7 @@
+ 	_name(name)
+ {
+ 	std::string fileName = getFileName();
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ 	_sem = sem_open(fileName.c_str(), O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 0);
+ 	if ((long) _sem == (long) SEM_FAILED) 
+ 		throw SystemException("cannot create named event (sem_open() failed)", _name);
+@@ -105,7 +105,7 @@
+ 
+ NamedEventImpl::~NamedEventImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ 	sem_close(_sem);
+ #endif
+ }
+@@ -113,7 +113,7 @@
+ 
+ void NamedEventImpl::setImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ 	if (sem_post(_sem) != 0)
+ 	   	throw SystemException("cannot set named event", _name);
+ #else
+@@ -129,7 +129,7 @@
+ 
+ void NamedEventImpl::waitImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ 	int err;
+ 	do
+ 	{
+--- a/Foundation/include/Poco/NamedMutex_UNIX.h
++++ b/Foundation/include/Poco/NamedMutex_UNIX.h
+@@ -43,7 +43,7 @@
+ #include "Poco/Foundation.h"
+ #include <sys/types.h>
+ #include <sys/stat.h>
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ #include <semaphore.h>
+ #endif
+ 
+@@ -64,7 +64,7 @@
+ 	std::string getFileName();
+ 
+ 	std::string _name;
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ 	sem_t* _sem;
+ #else
+ 	int _lockfd; // lock file descriptor
+--- a/Foundation/src/NamedMutex_UNIX.cpp
++++ b/Foundation/src/NamedMutex_UNIX.cpp
+@@ -39,7 +39,7 @@
+ #include <fcntl.h>
+ #include <sys/stat.h>
+ #include <errno.h>
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ #include <semaphore.h>
+ #else
+ #include <unistd.h>
+@@ -74,7 +74,7 @@
+ 	_name(name)
+ {
+ 	std::string fileName = getFileName();
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ 	_sem = sem_open(fileName.c_str(), O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 1);
+ 	if ((long) _sem == (long) SEM_FAILED) 
+ 		throw SystemException("cannot create named mutex (sem_open() failed)", _name);
+@@ -105,7 +105,7 @@
+ 
+ NamedMutexImpl::~NamedMutexImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ 	sem_close(_sem);
+ #endif
+ }
+@@ -113,7 +113,7 @@
+ 
+ void NamedMutexImpl::lockImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ 	int err;
+ 	do
+ 	{
+@@ -139,7 +139,7 @@
+ 
+ bool NamedMutexImpl::tryLockImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ 	return sem_trywait(_sem) == 0;
+ #else
+ 	struct sembuf op;
+@@ -153,7 +153,7 @@
+ 
+ void NamedMutexImpl::unlockImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || (POCO_OS == POCO_OS_FREE_BSD)
+ 	if (sem_post(_sem) != 0)
+ 	   	throw SystemException("cannot unlock named mutex", _name);
+ #else

@@ -3,3 +3,4 @@ fix-odbc-makefile.patch
 no-debug-build.patch
 no-strip-release-build.patch
 no-link-dl-rt.patch
+fix-kfreebsd-ftbfs.patch
