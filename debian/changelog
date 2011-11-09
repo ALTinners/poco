@@ -1,3 +1,13 @@
+poco (1.4.2p1-3) experimental; urgency=low
+
+  * debian/patches:
+    - no-link-dl-rt.patch: updated to work also for kFreeBSD.
+    - fix-kfreebsd-ftbfs.patch: new patch, fix build failure on kFreeBSD.
+  * debian/control: expanded extended descriptions.
+  * Do not install empty NEWS file in libpoco.dev.
+
+ -- Cristian Greco <cristian@debian.org>  Wed, 09 Nov 2011 17:35:12 +0100
+
 poco (1.4.2p1-2) experimental; urgency=low
 
   * debian/patches:
