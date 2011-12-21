@@ -6,7 +6,9 @@ ENABLED_TEST_LIBS="Crypto Data Data/SQLite Foundation Net Util XML"
 DISABLED_TEST_LIBS="Data/MySQL Data/ODBC NetSSL_OpenSSL Zip"
 
 TESTDIR=$(mktemp -d /tmp/pocotest.XXXXXX)
-cp -d lib/*/*/* ${TESTDIR}
+LIBSDIR=$(find lib/ -name libPocoFoundation.so -printf '%h')
+
+cp -d ${LIBSDIR}/* ${TESTDIR}
 
 for testlib in ${ENABLED_TEST_LIBS}; do
   TESTRUNNER=$(find ${testlib}/testsuite -type f -name testrunner)
