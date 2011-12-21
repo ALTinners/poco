@@ -6,7 +6,7 @@ DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 DEB_HOST_ARCH_OS    ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 
-CONFFLAGS := --prefix=/usr --no-samples --no-tests --unbundled
+CONFFLAGS := --prefix=/usr --no-samples --unbundled
 
 # On ARM define POCO_NO_FPENVIRONMENT
 ifeq ($(shell dpkg --print-architecture),arm)
@@ -27,6 +27,9 @@ POCO_LIBS := $(shell dh_listpackages | grep dbg | sed -e 's/-dbg//')
 
 override_dh_auto_configure:
 	./configure $(CONFFLAGS)
+
+override_dh_auto_test:
+	./debian/testrunner.sh
 
 override_dh_strip-%:
 	dh_strip -p$* --dbg-package=$*-dbg
