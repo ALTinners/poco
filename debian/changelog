@@ -1,3 +1,11 @@
+poco (1.4.2p1-4) experimental; urgency=low
+
+  * debian/rules:
+    - enable selected tests using a testrunner.sh script.
+    - enable default hardening options from dpkg-buildflags.
+
+ -- Cristian Greco <cristian@debian.org>  Wed, 21 Dec 2011 17:02:18 +0100
+
 poco (1.4.2p1-3) experimental; urgency=low
 
   * debian/patches:
