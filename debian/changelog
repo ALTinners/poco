@@ -1,3 +1,17 @@
+poco (1.4.2p1-5) experimental; urgency=low
+
+  * debian/testrunner.sh:
+    - fix detection of libs directory.
+    - copy some more files needed by the Foundation testsuite.
+    - disable Net testsuite because there are some tests failing randomly.
+  * debian/rules: append --as-needed to LDFLAGS.
+  * debian/patches:
+    - honor-buildflags.patch: new patch, let the build system honor flags
+      obtained through dpkg-buildflags.
+    - no-link-dl-rt.patch: drop patch, now unneeded.
+
+ -- Cristian Greco <cristian@debian.org>  Fri, 23 Dec 2011 00:44:24 +0100
+
 poco (1.4.2p1-4) experimental; urgency=low
 
   * debian/rules:
