@@ -1,0 +1,79 @@
+Description: Let the build system honor flags obtained through dpkg-buildflags.
+Origin: vendor
+Forwarded: no
+Author: Cristian Greco <cristian@debian.org>
+
+--- a/build/config/Linux
++++ b/build/config/Linux
+@@ -20,7 +20,7 @@
+ LINK    = $(CXX)
+ LIB     = ar -cr
+ RANLIB  = ranlib
+-SHLIB   = $(CXX) -shared -Wl,-soname,$(notdir $@) -o $@
++SHLIB   = $(CXX) -shared $(LDFLAGS) -Wl,-soname,$(notdir $@) -o $@
+ SHLIBLN = $(POCO_BASE)/build/script/shlibln
+ STRIP   = strip
+ DEP     = $(POCO_BASE)/build/script/makedepend.gcc 
+@@ -38,13 +38,13 @@
+ #
+ # Compiler and Linker Flags
+ #
+-CFLAGS          = 
++CFLAGS         +=
+ CFLAGS32        =
+ CFLAGS64        =
+-CXXFLAGS        = -Wall -Wno-sign-compare
++CXXFLAGS       += -Wall -Wno-sign-compare
+ CXXFLAGS32      =
+ CXXFLAGS64      =
+-LINKFLAGS       =
++LINKFLAGS       = $(LDFLAGS)
+ LINKFLAGS32     =
+ LINKFLAGS64     =
+ STATICOPT_CC    =
+@@ -63,7 +63,7 @@
+ #
+ # System Specific Flags
+ #
+-SYSFLAGS = -D_XOPEN_SOURCE=500 -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DPOCO_HAVE_FD_EPOLL
++SYSFLAGS = $(CPPFLAGS) -D_XOPEN_SOURCE=500 -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DPOCO_HAVE_FD_EPOLL
+ 
+ #
+ # System Specific Libraries
+--- a/build/config/FreeBSD
++++ b/build/config/FreeBSD
+@@ -20,7 +20,7 @@
+ LINK    = $(CXX)
+ LIB     = ar -cr
+ RANLIB  = ranlib
+-SHLIB   = $(CXX) -shared -Wl,-soname,$(notdir $@) -o $@
++SHLIB   = $(CXX) -shared $(LDFLAGS) -Wl,-soname,$(notdir $@) -o $@
+ SHLIBLN = $(POCO_BASE)/build/script/shlibln
+ DEP     = $(POCO_BASE)/build/script/makedepend.gcc 
+ STRIP   = strip
+@@ -38,13 +38,13 @@
+ #
+ # Compiler and Linker Flags
+ #
+-CFLAGS          = 
++CFLAGS         +=
+ CFLAGS32        =
+ CFLAGS64        =
+-CXXFLAGS        =
++CXXFLAGS       +=
+ CXXFLAGS32      =
+ CXXFLAGS64      =
+-LINKFLAGS       =
++LINKFLAGS       = $(LDFLAGS)
+ LINKFLAGS32     =
+ LINKFLAGS64     =
+ STATICOPT_CC    =
+@@ -63,7 +63,7 @@
+ #
+ # System Specific Flags
+ #
+-SYSFLAGS = -D_REENTRANT -D_THREAD_SAFE 
++SYSFLAGS = $(CPPFLAGS) -D_REENTRANT -D_THREAD_SAFE
+ 
+ #
+ # System Specific Libraries
