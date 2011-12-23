@@ -1,3 +1,13 @@
+poco (1.4.2p1-6) experimental; urgency=low
+
+  * debian/rules: build testsuite with hardening flags disabled (seems
+    to require a lot of memory).
+  * Revert "no-link-dl-rt.patch: drop patch, now unneeded."
+    Revert the patch because -ldl and -lrt are needed on FreeBSD.
+    This should really be handled by upstream in build/config/FreeBSD.
+
+ -- Cristian Greco <cristian@debian.org>  Fri, 23 Dec 2011 15:21:51 +0100
+
 poco (1.4.2p1-5) experimental; urgency=low
 
   * debian/testrunner.sh:
