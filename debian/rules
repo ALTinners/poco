@@ -8,6 +8,11 @@ include /usr/share/dpkg/buildflags.mk
 CONFFLAGS = --prefix=/usr --no-samples --no-tests --unbundled
 CONFFLAGS_TESTS = $(filter-out --no-tests, $(CONFFLAGS))
 
+# Disable parallel build on armel and mipsel
+ifeq ($(or $(findstring armel, $(DEB_HOST_ARCH)), $(findstring mipsel, $(DEB_HOST_ARCH))), )
+	EXTRA_DH_OPTS += --parallel
+endif
+
 # On ARM define POCO_NO_FPENVIRONMENT
 ifeq ($(shell dpkg --print-architecture),arm)
 CONFFLAGS += --no-fpenvironment
@@ -23,7 +28,7 @@ POCO_LIBS = $(shell dh_listpackages | grep dbg | sed -e 's/-dbg//')
 
 
 %:
-	dh $@ --parallel
+	dh $@ $(EXTRA_DH_OPTS)
 
 override_dh_auto_configure:
 	./configure $(CONFFLAGS_TESTS)
