@@ -1,3 +1,9 @@
+poco (1.4.2p1-7) experimental; urgency=low
+
+  * fix-kfreebsd-ftbfs.patch: fix the patch so that code now builds and *works*.
+
+ -- Cristian Greco <cristian@debian.org>  Sat, 31 Dec 2011 02:10:43 +0100
+
 poco (1.4.2p1-6) experimental; urgency=low
 
   * debian/rules: build testsuite with hardening flags disabled (seems
