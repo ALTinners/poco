@@ -40,7 +40,7 @@ override_dh_auto_build:
 	dh_auto_build
 	# build tests with hardening flags disabled
 	mv config.make.tests config.make
-	dh_auto_build -- CFLAGS= CPPFLAGS= CXXFLAGS=
+	dh_auto_build -- CFLAGS= CPPFLAGS= CXXFLAGS= LDFLAGS=
 
 override_dh_auto_test:
 	./debian/testrunner.sh
