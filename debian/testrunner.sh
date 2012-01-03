@@ -19,6 +19,8 @@ cp ${FILE_TESTAPP} ${FILE_TESTLIB} ${TESTDIR}
 for testlib in ${ENABLED_TEST_LIBS}; do
   TESTRUNNER=$(find ${testlib}/testsuite -type f -name testrunner)
   cp ${TESTRUNNER} ${TESTDIR}
+  test -d ${TESTDIR}/data && rm -rf ${TESTDIR}/data
+  test -d ${testlib}/testsuite/data && cp -r ${testlib}/testsuite/data ${TESTDIR}/data
   (
     cd ${TESTDIR}; \
     echo "[Running test: ${testlib}]"; \
