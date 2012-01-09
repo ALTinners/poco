@@ -1,3 +1,15 @@
+poco (1.4.2p1-9) experimental; urgency=low
+
+  * fix-odbc-testsuite-armel.patch: new patch, disable building of
+    the Data/ODBC/SQLExecutor test object on armel.
+  * debian/testrunner.sh:
+    - copy additional test files from data/ dir, if any. This should fix
+      the SharedMemoryTest::testCreateFromFile test.
+    - also enable Zip library tests (which will now succeed thanks
+      to the previous change).
+
+ -- Cristian Greco <cristian@debian.org>  Mon, 09 Jan 2012 14:04:30 +0100
+
 poco (1.4.2p1-8) experimental; urgency=low
 
   * debian/rules:
