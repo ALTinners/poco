@@ -6,7 +6,8 @@ poco (1.4.2p1-10) experimental; urgency=low
     - honor-buildflags.patch: updated. Try to append (not prepend) flags where
       possible, and also remove the -Ox flags set by upstream. This should fix
       build failures on armel (second attempt).
-    - fix-mipsel-endianness.patch: new patch, correctly detect mipsel architecture.
+    - fix-mipsel-endianness.patch: new patch, correctly detect mipsel
+      architecture.
 
  -- Cristian Greco <cristian@debian.org>  Thu, 12 Jan 2012 22:25:32 +0100
 
