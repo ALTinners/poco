@@ -1,4 +1,5 @@
 Description: Let the build system honor flags obtained through dpkg-buildflags.
+ Try to append flags where possible. Also remove the -Ox flags set by upstream.
 Origin: vendor
 Forwarded: no
 Author: Cristian Greco <cristian@debian.org>
@@ -10,7 +11,7 @@ Author: Cristian Greco <cristian@debian.org>
  LIB     = ar -cr
  RANLIB  = ranlib
 -SHLIB   = $(CXX) -shared -Wl,-soname,$(notdir $@) -o $@
-+SHLIB   = $(CXX) -shared $(LDFLAGS) -Wl,-soname,$(notdir $@) -o $@
++SHLIB   = $(CXX) -shared -Wl,-soname,$(notdir $@) $(LDFLAGS) -o $@
  SHLIBLN = $(POCO_BASE)/build/script/shlibln
  STRIP   = strip
  DEP     = $(POCO_BASE)/build/script/makedepend.gcc 
@@ -31,12 +32,22 @@ Author: Cristian Greco <cristian@debian.org>
  LINKFLAGS32     =
  LINKFLAGS64     =
  STATICOPT_CC    =
-@@ -63,7 +63,7 @@
+@@ -56,14 +56,14 @@
+ DEBUGOPT_CC     = -g -D_DEBUG
+ DEBUGOPT_CXX    = -g -D_DEBUG
+ DEBUGOPT_LINK   = -g
+-RELEASEOPT_CC   = -O2 -DNDEBUG
+-RELEASEOPT_CXX  = -O2 -DNDEBUG
+-RELEASEOPT_LINK = -O2
++RELEASEOPT_CC   = -DNDEBUG
++RELEASEOPT_CXX  = -DNDEBUG
++RELEASEOPT_LINK =
+ 
  #
  # System Specific Flags
  #
 -SYSFLAGS = -D_XOPEN_SOURCE=500 -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DPOCO_HAVE_FD_EPOLL
-+SYSFLAGS = $(CPPFLAGS) -D_XOPEN_SOURCE=500 -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DPOCO_HAVE_FD_EPOLL
++SYSFLAGS = -D_XOPEN_SOURCE=500 -D_REENTRANT -D_THREAD_SAFE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DPOCO_HAVE_FD_EPOLL $(CPPFLAGS)
  
  #
  # System Specific Libraries
@@ -47,7 +58,7 @@ Author: Cristian Greco <cristian@debian.org>
  LIB     = ar -cr
  RANLIB  = ranlib
 -SHLIB   = $(CXX) -shared -Wl,-soname,$(notdir $@) -o $@
-+SHLIB   = $(CXX) -shared $(LDFLAGS) -Wl,-soname,$(notdir $@) -o $@
++SHLIB   = $(CXX) -shared -Wl,-soname,$(notdir $@) $(LDFLAGS) -o $@
  SHLIBLN = $(POCO_BASE)/build/script/shlibln
  DEP     = $(POCO_BASE)/build/script/makedepend.gcc 
  STRIP   = strip
@@ -68,12 +79,22 @@ Author: Cristian Greco <cristian@debian.org>
  LINKFLAGS32     =
  LINKFLAGS64     =
  STATICOPT_CC    =
-@@ -63,7 +63,7 @@
+@@ -56,14 +56,14 @@
+ DEBUGOPT_CC     = -g -D_DEBUG
+ DEBUGOPT_CXX    = -g -D_DEBUG
+ DEBUGOPT_LINK   = -g
+-RELEASEOPT_CC   = -O2 -DNDEBUG
+-RELEASEOPT_CXX  = -O2 -DNDEBUG
+-RELEASEOPT_LINK = -O2
++RELEASEOPT_CC   = -DNDEBUG
++RELEASEOPT_CXX  = -DNDEBUG
++RELEASEOPT_LINK =
+ 
  #
  # System Specific Flags
  #
 -SYSFLAGS = -D_REENTRANT -D_THREAD_SAFE 
-+SYSFLAGS = $(CPPFLAGS) -D_REENTRANT -D_THREAD_SAFE
++SYSFLAGS = -D_REENTRANT -D_THREAD_SAFE $(CPPFLAGS)
  
  #
  # System Specific Libraries
