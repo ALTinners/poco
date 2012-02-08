@@ -1,7 +1,7 @@
 //
 // SecureSocketImpl.cpp
 //
-// $Id: //poco/1.4/NetSSL_OpenSSL/src/SecureSocketImpl.cpp#3 $
+// $Id: //poco/1.4/NetSSL_OpenSSL/src/SecureSocketImpl.cpp#5 $
 //
 // Library: NetSSL_OpenSSL
 // Package: SSLSockets
@@ -172,6 +172,13 @@ void SecureSocketImpl::connectSSL(bool performHandshake)
 	}
 	SSL_set_bio(_pSSL, pBIO, pBIO);
 	
+#if OPENSSL_VERSION_NUMBER >= 0x0908060L && !defined(OPENSSL_NO_TLSEXT)
+	if (!_peerHostName.empty())
+	{
+		SSL_set_tlsext_host_name(_pSSL, _peerHostName.c_str());
+	}
+#endif
+
 	if (_pSession)
 	{
 		SSL_set_session(_pSSL, _pSession->sslSession());

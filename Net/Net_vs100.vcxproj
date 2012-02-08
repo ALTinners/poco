@@ -79,7 +79,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros"/>
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;debug_shared|Win32&apos;">..\bin\</OutDir>
     <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;debug_shared|Win32&apos;">obj\$(Configuration)\</IntDir>
     <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;debug_shared|Win32&apos;">true</LinkIncremental>
@@ -300,11 +300,14 @@
     <ClInclude Include="include\Poco\Net\QuotedPrintableDecoder.h"/>
     <ClInclude Include="include\Poco\Net\QuotedPrintableEncoder.h"/>
     <ClInclude Include="include\Poco\Net\StringPartSource.h"/>
+    <ClInclude Include="include\Poco\Net\HTTPAuthenticationParams.h"/>
     <ClInclude Include="include\Poco\Net\HTTPBasicCredentials.h"/>
     <ClInclude Include="include\Poco\Net\HTTPBasicStreamBuf.h"/>
     <ClInclude Include="include\Poco\Net\HTTPBufferAllocator.h"/>
     <ClInclude Include="include\Poco\Net\HTTPChunkedStream.h"/>
     <ClInclude Include="include\Poco\Net\HTTPCookie.h"/>
+    <ClInclude Include="include\Poco\Net\HTTPCredentials.h"/>
+    <ClInclude Include="include\Poco\Net\HTTPDigestCredentials.h"/>
     <ClInclude Include="include\Poco\Net\HTTPFixedLengthStream.h"/>
     <ClInclude Include="include\Poco\Net\HTTPHeaderStream.h"/>
     <ClInclude Include="include\Poco\Net\HTTPMessage.h"/>
@@ -356,6 +359,8 @@
     <ClInclude Include="include\Poco\Net\ICMPv4PacketImpl.h"/>
     <ClInclude Include="include\Poco\Net\RemoteSyslogChannel.h"/>
     <ClInclude Include="include\Poco\Net\RemoteSyslogListener.h"/>
+    <ClInclude Include="include\Poco\Net\WebSocket.h"/>
+    <ClInclude Include="include\Poco\Net\WebSocketImpl.h"/>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DNS.cpp"/>
@@ -389,10 +394,13 @@
     <ClCompile Include="src\QuotedPrintableDecoder.cpp"/>
     <ClCompile Include="src\QuotedPrintableEncoder.cpp"/>
     <ClCompile Include="src\StringPartSource.cpp"/>
+    <ClCompile Include="src\HTTPAuthenticationParams.cpp"/>
     <ClCompile Include="src\HTTPBasicCredentials.cpp"/>
     <ClCompile Include="src\HTTPBufferAllocator.cpp"/>
     <ClCompile Include="src\HTTPChunkedStream.cpp"/>
     <ClCompile Include="src\HTTPCookie.cpp"/>
+    <ClCompile Include="src\HTTPCredentials.cpp"/>
+    <ClCompile Include="src\HTTPDigestCredentials.cpp"/>
     <ClCompile Include="src\HTTPFixedLengthStream.cpp"/>
     <ClCompile Include="src\HTTPHeaderStream.cpp"/>
     <ClCompile Include="src\HTTPMessage.cpp"/>
@@ -442,6 +450,16 @@
     <ClCompile Include="src\ICMPv4PacketImpl.cpp"/>
     <ClCompile Include="src\RemoteSyslogChannel.cpp"/>
     <ClCompile Include="src\RemoteSyslogListener.cpp"/>
+    <ClCompile Include="src\WebSocket.cpp"/>
+    <ClCompile Include="src\WebSocketImpl.cpp"/>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\DLLVersion.rc">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;debug_static_md|Win32&apos;">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;debug_static_mt|Win32&apos;">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;release_static_md|Win32&apos;">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;release_static_mt|Win32&apos;">true</ExcludedFromBuild>
+    </ResourceCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
   <ImportGroup Label="ExtensionTargets"/>
