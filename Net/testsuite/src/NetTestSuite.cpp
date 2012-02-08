@@ -1,9 +1,9 @@
 //
 // NetTestSuite.cpp
 //
-// $Id: //poco/1.4/Net/testsuite/src/NetTestSuite.cpp#1 $
+// $Id: //poco/1.4/Net/testsuite/src/NetTestSuite.cpp#2 $
 //
-// Copyright (c) 2005-2006, Applied Informatics Software Engineering GmbH.
+// Copyright (c) 2005-2012, Applied Informatics Software Engineering GmbH.
 // and Contributors.
 //
 // Permission is hereby granted, free of charge, to any person or organization
@@ -43,6 +43,7 @@
 #include "FTPClientTestSuite.h"
 #include "MailTestSuite.h"
 #include "ICMPClientTestSuite.h"
+#include "WebSocketTestSuite.h"
 #include "SyslogTest.h"
 
 
@@ -62,6 +63,7 @@ CppUnit::Test* NetTestSuite::suite()
 	pSuite->addTest(FTPClientTestSuite::suite());
 	pSuite->addTest(MailTestSuite::suite());
 	pSuite->addTest(ICMPClientTestSuite::suite());
+	pSuite->addTest(WebSocketTestSuite::suite());
 	pSuite->addTest(SyslogTest::suite());
 
 	return pSuite;

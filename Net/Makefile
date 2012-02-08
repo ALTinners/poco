@@ -1,7 +1,7 @@
 #
 # Makefile
 #
-# $Id: //poco/1.4/Net/Makefile#1 $
+# $Id: //poco/1.4/Net/Makefile#3 $
 #
 # Makefile for Poco Net
 #
@@ -20,8 +20,9 @@ objects = \
 	HTTPFixedLengthStream HTTPServerRequest HTTPServerRequestImpl MultipartWriter StreamSocketImpl \
 	HTTPHeaderStream HTTPServerResponse HTTPServerResponseImpl NameValueCollection TCPServer \
 	HTTPMessage HTTPServerSession NetException TCPServerConnection HTTPBufferAllocator \
-	HTTPRequest HTTPSession HTTPSessionInstantiator HTTPSessionFactory NetworkInterface TCPServerConnectionFactory \
-	HTTPRequestHandler HTTPStream HTTPIOStream ServerSocket TCPServerDispatcher \
+	HTTPAuthenticationParams HTTPCredentials HTTPDigestCredentials \
+	HTTPRequest HTTPSession HTTPSessionInstantiator HTTPSessionFactory NetworkInterface  \
+	HTTPRequestHandler HTTPStream HTTPIOStream ServerSocket TCPServerDispatcher TCPServerConnectionFactory \
 	HTTPRequestHandlerFactory HTTPStreamFactory ServerSocketImpl TCPServerParams \
 	QuotedPrintableEncoder QuotedPrintableDecoder StringPartSource \
 	FTPClientSession FTPStreamFactory PartHandler PartSource NullPartHandler \
@@ -29,7 +30,8 @@ objects = \
 	MailRecipient MailMessage MailStream SMTPClientSession POP3ClientSession \
 	RawSocket RawSocketImpl ICMPClient ICMPEventArgs ICMPPacket ICMPPacketImpl \
 	ICMPSocket ICMPSocketImpl ICMPv4PacketImpl \
-	RemoteSyslogChannel RemoteSyslogListener
+	RemoteSyslogChannel RemoteSyslogListener \
+	WebSocket WebSocketImpl
 
 target         = PocoNet
 target_version = $(LIBVERSION)

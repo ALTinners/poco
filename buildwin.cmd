@@ -7,7 +7,7 @@ rem
 rem POCO C++ Libraries command-line build script 
 rem for MS Visual Studio 2003 to 2010
 rem
-rem $Id: //poco/1.4/dist/buildwin.cmd#1 $
+rem $Id: //poco/1.4/dist/buildwin.cmd#2 $
 rem
 rem Copyright (c) 2006-2010 by Applied Informatics Software Engineering GmbH
 rem and Contributors.
@@ -27,6 +27,12 @@ rem SAMPLES:    samples|nosamples
 rem DEVENV:     devenv|vcexpress
 rem
 rem VS_VERSION is required argument. Default is build all.
+
+if not defined VCINSTALLDIR (
+echo Error: No Visual C++ environment found.
+echo Please run this script from a Visual Studio Command Prompt
+echo or run "%%VSnnCOMNTOOLS%%\vcvars32.bat" first.
+goto :EOF)
 
 rem Change OPENSSL_DIR to match your setup
 set OPENSSL_DIR=c:\OpenSSL

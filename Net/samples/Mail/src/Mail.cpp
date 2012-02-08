@@ -1,11 +1,11 @@
 //
 // Mail.cpp
 //
-// $Id: //poco/1.4/Net/samples/Mail/src/Mail.cpp#1 $
+// $Id: //poco/1.4/Net/samples/Mail/src/Mail.cpp#2 $
 //
 // This sample demonstrates the MailMessage and SMTPClientSession classes.
 //
-// Copyright (c) 2005-2006, Applied Informatics Software Engineering GmbH.
+// Copyright (c) 2005-2011, Applied Informatics Software Engineering GmbH.
 // and Contributors.
 //
 // Permission is hereby granted, free of charge, to any person or organization
@@ -62,7 +62,7 @@ int main(int argc, char** argv)
 		Path p(argv[0]);
 		std::cerr << "usage: " << p.getBaseName() << " <mailhost> <sender> <recipient>" << std::endl;
 		std::cerr << "       Send an email greeting from <sender> to <recipient>," << std::endl;
-		std::cerr << "       the SMTP server at <mailhost>." << std::endl;
+		std::cerr << "       using the SMTP server at <mailhost>." << std::endl;
 		return 1;
 	}
 	
