@@ -1,3 +1,11 @@
+poco (1.4.3p1-1) experimental; urgency=low
+
+  * New Upstream Version
+  * debian/changelog: fix debian-changelog-line-too-long.
+  * debian/control: bump up libraries SONAME.
+
+ -- Cristian Greco <cristian@debian.org>  Fri, 11 Mar 2012 16:57:34 +0100
+
 poco (1.4.2p1-10) experimental; urgency=low
 
   * debian/patches:
