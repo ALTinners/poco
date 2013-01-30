@@ -1,7 +1,7 @@
 //
 // CipherImpl.cpp
 //
-// $Id: //poco/1.4/Crypto/src/CipherImpl.cpp#2 $
+// $Id: //poco/1.4/Crypto/src/CipherImpl.cpp#4 $
 //
 // Library: Crypto
 // Package: Cipher
@@ -83,6 +83,8 @@ namespace
 		
 		std::size_t blockSize() const;
 
+		int setPadding(int padding);	
+
 		std::streamsize transform(
 			const unsigned char* input,
 			std::streamsize      inputLength,
@@ -114,7 +116,7 @@ namespace
 			&_ctx,
 			_pCipher,
 			&_key[0],
-			&_iv[0],
+			_iv.empty() ? 0 : &_iv[0],
 			(dir == DIR_ENCRYPT) ? 1 : 0);
 	}
 
@@ -130,6 +132,12 @@ namespace
 		return EVP_CIPHER_CTX_block_size(&_ctx);
 	}
 
+	
+	int CryptoTransformImpl::setPadding(int padding)
+	{
+		return EVP_CIPHER_CTX_set_padding(&_ctx, padding);
+	}
+	
 
 	std::streamsize CryptoTransformImpl::transform(
 		const unsigned char* input,

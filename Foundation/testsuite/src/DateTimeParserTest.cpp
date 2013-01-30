@@ -1,7 +1,7 @@
 //
 // DateTimeParserTest.cpp
 //
-// $Id: //poco/1.4/Foundation/testsuite/src/DateTimeParserTest.cpp#2 $
+// $Id: //poco/1.4/Foundation/testsuite/src/DateTimeParserTest.cpp#4 $
 //
 // Copyright (c) 2004-2006, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -197,6 +197,17 @@ void DateTimeParserTest::testISO8601Frac()
 	assert (dt.millisecond() == 123);
 	assert (dt.microsecond() == 450);
 	assert (tzd == -3600);
+
+	dt = DateTimeParser::parse(DateTimeFormat::ISO8601_FRAC_FORMAT, "2010-09-23T16:17:01.2817002+02:00", tzd);
+	assert (dt.year() == 2010);
+	assert (dt.month() == 9);
+	assert (dt.day() == 23);
+	assert (dt.hour() == 16);
+	assert (dt.minute() == 17);
+	assert (dt.second() == 1);
+	assert (dt.millisecond() == 281);
+	assert (dt.microsecond() == 700);
+	assert (tzd == 7200);
 
 	dt = DateTimeParser::parse(DateTimeFormat::ISO8601_FRAC_FORMAT, "2005-01-08T12:30:00", tzd);
 	assert (dt.year() == 2005);
@@ -519,6 +530,80 @@ void DateTimeParserTest::testGuess()
 	assert (dt.minute() == 30);
 	assert (dt.second() == 0);
 	assert (tzd == 0);
+
+	dt = DateTimeParser::parse("20050108T123000Z", tzd);
+	assert (dt.year() == 2005);
+	assert (dt.month() == 1);
+	assert (dt.day() == 8);
+	assert (dt.hour() == 12);
+	assert (dt.minute() == 30);
+	assert (dt.second() == 0);
+	assert (tzd == 0);
+	
+	dt = DateTimeParser::parse("2005-01-08T12:30:00+01:00", tzd);
+	assert (dt.year() == 2005);
+	assert (dt.month() == 1);
+	assert (dt.day() == 8);
+	assert (dt.hour() == 12);
+	assert (dt.minute() == 30);
+	assert (dt.second() == 0);
+	assert (tzd == 3600);
+
+	dt = DateTimeParser::parse("2005-01-08T12:30:00.123456Z", tzd);
+	assert (dt.year() == 2005);
+	assert (dt.month() == 1);
+	assert (dt.day() == 8);
+	assert (dt.hour() == 12);
+	assert (dt.minute() == 30);
+	assert (dt.second() == 0);
+	assert (tzd == 0);
+	assert (dt.millisecond() == 123);
+	assert (dt.microsecond() == 456);
+
+	dt = DateTimeParser::parse("2005-01-08T12:30:00,123456Z", tzd);
+	assert (dt.year() == 2005);
+	assert (dt.month() == 1);
+	assert (dt.day() == 8);
+	assert (dt.hour() == 12);
+	assert (dt.minute() == 30);
+	assert (dt.second() == 0);
+	assert (tzd == 0);
+	assert (dt.millisecond() == 123);
+	assert (dt.microsecond() == 456);
+
+	dt = DateTimeParser::parse("20050108T123000,123456Z", tzd);
+	assert (dt.year() == 2005);
+	assert (dt.month() == 1);
+	assert (dt.day() == 8);
+	assert (dt.hour() == 12);
+	assert (dt.minute() == 30);
+	assert (dt.second() == 0);
+	assert (tzd == 0);
+	assert (dt.millisecond() == 123);
+	assert (dt.microsecond() == 456);
+
+	dt = DateTimeParser::parse("20050108T123000.123+0200", tzd);
+	assert (dt.year() == 2005);
+	assert (dt.month() == 1);
+	assert (dt.day() == 8);
+	assert (dt.hour() == 12);
+	assert (dt.minute() == 30);
+	assert (dt.second() == 0);
+	assert (tzd == 7200);
+	assert (dt.millisecond() == 123);
+	assert (dt.microsecond() == 0);
+
+
+	dt = DateTimeParser::parse("2005-01-08T12:30:00.123456-02:00", tzd);
+	assert (dt.year() == 2005);
+	assert (dt.month() == 1);
+	assert (dt.day() == 8);
+	assert (dt.hour() == 12);
+	assert (dt.minute() == 30);
+	assert (dt.second() == 0);
+	assert (tzd == -7200);
+	assert (dt.millisecond() == 123);
+	assert (dt.microsecond() == 456);
 
 	dt = DateTimeParser::parse("Sat, 8 Jan 05 12:30:00 +0100", tzd);
 	assert (dt.year() == 2005);

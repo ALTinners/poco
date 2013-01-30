@@ -1,7 +1,7 @@
 //
 // HTTPServerConnection.cpp
 //
-// $Id: //poco/1.4/Net/src/HTTPServerConnection.cpp#1 $
+// $Id: //poco/1.4/Net/src/HTTPServerConnection.cpp#7 $
 //
 // Library: Net
 // Package: HTTPServer
@@ -43,6 +43,7 @@
 #include "Poco/Net/NetException.h"
 #include "Poco/NumberFormatter.h"
 #include "Poco/Timestamp.h"
+#include "Poco/Delegate.h"
 #include <memory>
 
 
@@ -53,14 +54,18 @@ namespace Net {
 HTTPServerConnection::HTTPServerConnection(const StreamSocket& socket, HTTPServerParams::Ptr pParams, HTTPRequestHandlerFactory::Ptr pFactory):
 	TCPServerConnection(socket),
 	_pParams(pParams),
-	_pFactory(pFactory)
+	_pFactory(pFactory),
+	_stopped(false)
 {
 	poco_check_ptr (pFactory);
+	
+	_pFactory->serverStopped += Poco::delegate(this, &HTTPServerConnection::onServerStopped);
 }
 
 
 HTTPServerConnection::~HTTPServerConnection()
 {
+	_pFactory->serverStopped -= Poco::delegate(this, &HTTPServerConnection::onServerStopped);
 }
 
 
@@ -68,37 +73,50 @@ void HTTPServerConnection::run()
 {
 	std::string server = _pParams->getSoftwareVersion();
 	HTTPServerSession session(socket(), _pParams);
-	while (session.hasMoreRequests())
+	while (!_stopped && session.hasMoreRequests())
 	{
 		try
 		{
-			HTTPServerResponseImpl response(session);
-			HTTPServerRequestImpl request(response, session, _pParams);
-			
-			Poco::Timestamp now;
-			response.setDate(now);
-			response.setVersion(request.getVersion());
-			response.setKeepAlive(_pParams->getKeepAlive() && request.getKeepAlive() && session.canKeepAlive());
-			if (!server.empty())
-				response.set("Server", server);
-			try
+			Poco::FastMutex::ScopedLock lock(_mutex);
+
+			if (!_stopped)
 			{
-				std::auto_ptr<HTTPRequestHandler> pHandler(_pFactory->createRequestHandler(request));
-				if (pHandler.get())
+				HTTPServerResponseImpl response(session);
+				HTTPServerRequestImpl request(response, session, _pParams);
+
+				Poco::Timestamp now;
+				response.setDate(now);
+				response.setVersion(request.getVersion());
+				response.setKeepAlive(_pParams->getKeepAlive() && request.getKeepAlive() && session.canKeepAlive());
+				if (!server.empty())
+					response.set("Server", server);
+				try
 				{
-					if (request.expectContinue())
-						response.sendContinue();
-					
-					pHandler->handleRequest(request, response);
-					session.setKeepAlive(_pParams->getKeepAlive() && response.getKeepAlive() && session.canKeepAlive());
+					std::auto_ptr<HTTPRequestHandler> pHandler(_pFactory->createRequestHandler(request));
+					if (pHandler.get())
+					{
+						if (request.expectContinue())
+							response.sendContinue();
+						
+						pHandler->handleRequest(request, response);
+						session.setKeepAlive(_pParams->getKeepAlive() && response.getKeepAlive() && session.canKeepAlive());
+					}
+					else sendErrorResponse(session, HTTPResponse::HTTP_NOT_IMPLEMENTED);
 				}
-				else sendErrorResponse(session, HTTPResponse::HTTP_NOT_IMPLEMENTED);
-			}
-			catch (Poco::Exception&)
-			{
-				if (!response.sent())
-					sendErrorResponse(session, HTTPResponse::HTTP_INTERNAL_SERVER_ERROR);
-				throw;
+				catch (Poco::Exception&)
+				{
+					if (!response.sent())
+					{
+						try
+						{
+							sendErrorResponse(session, HTTPResponse::HTTP_INTERNAL_SERVER_ERROR);
+						}
+						catch (...)
+						{
+						}
+					}
+					throw;
+				}
 			}
 		}
 		catch (NoMessageException&)
@@ -121,6 +139,45 @@ void HTTPServerConnection::sendErrorResponse(HTTPServerSession& session, HTTPRes
 	response.setKeepAlive(false);
 	response.send();
 	session.setKeepAlive(false);
+}
+
+
+void HTTPServerConnection::onServerStopped(const bool& abortCurrent)
+{
+	_stopped = true;
+	if (abortCurrent)
+	{
+		try
+		{
+			// Note: On Windows, select() will not return if one of its socket is being
+			// shut down. Therefore we have to call close(), which works better.
+			// On other platforms, we do the more graceful thing.
+#if defined(_WIN32)
+			socket().close();
+#else
+			socket().shutdown();
+#endif
+		}
+		catch (...)
+		{
+		}
+	}
+	else
+	{
+		Poco::FastMutex::ScopedLock lock(_mutex);
+
+		try
+		{
+#if defined(_WIN32)
+			socket().close();
+#else
+			socket().shutdown();
+#endif
+		}
+		catch (...)
+		{
+		}
+	}
 }
 
 
