@@ -1,7 +1,7 @@
 //
 // NamedEvent_UNIX.cpp
 //
-// $Id: //poco/1.4/Foundation/src/NamedEvent_UNIX.cpp#1 $
+// $Id: //poco/1.4/Foundation/src/NamedEvent_UNIX.cpp#2 $
 //
 // Library: Foundation
 // Package: Processes
@@ -52,7 +52,7 @@
 namespace Poco {
 
 
-#if defined(linux) || defined(__CYGWIN__)
+#if (POCO_OS == POCO_OS_LINUX) || (POCO_OS == POCO_OS_CYGWIN)
 	union semun
 	{
 		int                 val;
@@ -60,7 +60,7 @@ namespace Poco {
 		unsigned short int* array;
 		struct seminfo*     __buf;
 	};
-#elif defined(__hpux)
+#elif (POCO_OS == POCO_OS_HPUX)
 	union semun
 	{
 		int              val;

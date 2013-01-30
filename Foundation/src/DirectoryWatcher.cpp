@@ -1,7 +1,7 @@
 //
 // DirectoryWatcher.cpp
 //
-// $Id: //poco/1.4/Foundation/src/DirectoryWatcher.cpp#6 $
+// $Id: //poco/1.4/Foundation/src/DirectoryWatcher.cpp#7 $
 //
 // Library: Foundation
 // Package: Filesystem
@@ -408,6 +408,9 @@ public:
 		_dirFD(-1),
 		_stopped(false)
 	{
+#ifndef O_EVTONLY
+	#define O_EVTONLY 0x8000
+#endif
 		_dirFD = open(owner.directory().path().c_str(), O_EVTONLY);
 		if (_dirFD < 0) throw Poco::FileNotFoundException(owner.directory().path());
 		_queueFD = kqueue();

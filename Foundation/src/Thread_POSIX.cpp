@@ -1,7 +1,7 @@
 //
 // Thread_POSIX.cpp
 //
-// $Id: //poco/1.4/Foundation/src/Thread_POSIX.cpp#8 $
+// $Id: //poco/1.4/Foundation/src/Thread_POSIX.cpp#9 $
 //
 // Library: Foundation
 // Package: Threading
@@ -160,7 +160,7 @@ void ThreadImpl::setStackSizeImpl(int size)
 #else
  	if (size != 0)
  	{
-#if defined(__APPLE__)
+#if defined(POCO_OS_FAMILY_BSD)
 		// we must round up to a multiple of the memory page size
 		const int PAGE_SIZE = 4096;
 		size = ((size + PAGE_SIZE - 1)/PAGE_SIZE)*PAGE_SIZE;
