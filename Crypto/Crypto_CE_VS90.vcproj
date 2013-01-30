@@ -55,7 +55,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/FORCE:MULTIPLE"
-				AdditionalDependencies="ws2_32.lib iphlpapi.lib libeay32mdd.lib ssleay32mdd.lib"
+				AdditionalDependencies="ws2_32.lib iphlpapi.lib libeay32.lib ssleay32.lib"
 				OutputFile="..\bin\$(PlatformName)\PocoCryptod.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\lib\$(PlatformName)"
@@ -134,7 +134,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/FORCE:MULTIPLE"
-				AdditionalDependencies="ws2_32.lib iphlpapi.lib libeay32md.lib ssleay32md.lib"
+				AdditionalDependencies="ws2_32.lib iphlpapi.lib libeay32.lib ssleay32.lib"
 				OutputFile="..\bin\$(PlatformName)\PocoCrypto.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\lib\$(PlatformName)"
@@ -516,6 +516,19 @@
 				Name="Source Files">
 				<File
 					RelativePath=".\src\OpenSSLInitializer.cpp"/>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Digest">
+			<Filter
+				Name="Header Files">
+				<File
+					RelativePath=".\include\Poco\Crypto\DigestEngine.h"/>
+			</Filter>
+			<Filter
+				Name="Source Files">
+				<File
+					RelativePath=".\src\DigestEngine.cpp"/>
 			</Filter>
 		</Filter>
 		<File

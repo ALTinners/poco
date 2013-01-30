@@ -199,6 +199,7 @@ Crypto/include/Poco/Crypto/CipherKeyImpl.h
 Crypto/include/Poco/Crypto/Crypto.h
 Crypto/include/Poco/Crypto/CryptoStream.h
 Crypto/include/Poco/Crypto/CryptoTransform.h
+Crypto/include/Poco/Crypto/DigestEngine.h
 Crypto/include/Poco/Crypto/OpenSSLInitializer.h
 Crypto/include/Poco/Crypto/RSACipherImpl.h
 Crypto/include/Poco/Crypto/RSADigestEngine.h
@@ -240,6 +241,7 @@ Crypto/src/CipherKey.cpp
 Crypto/src/CipherKeyImpl.cpp
 Crypto/src/CryptoStream.cpp
 Crypto/src/CryptoTransform.cpp
+Crypto/src/DigestEngine.cpp
 Crypto/src/OpenSSLInitializer.cpp
 Crypto/src/RSACipherImpl.cpp
 Crypto/src/RSADigestEngine.cpp
@@ -253,6 +255,8 @@ Crypto/testsuite/src/CryptoTest.cpp
 Crypto/testsuite/src/CryptoTest.h
 Crypto/testsuite/src/CryptoTestSuite.cpp
 Crypto/testsuite/src/CryptoTestSuite.h
+Crypto/testsuite/src/DigestEngineTest.cpp
+Crypto/testsuite/src/DigestEngineTest.h
 Crypto/testsuite/src/Driver.cpp
 Crypto/testsuite/src/RSATest.cpp
 Crypto/testsuite/src/RSATest.h
@@ -421,6 +425,7 @@ Data/ODBC/include/Poco/Data/ODBC/Preparation.h
 Data/ODBC/include/Poco/Data/ODBC/SessionImpl.h
 Data/ODBC/include/Poco/Data/ODBC/Utility.h
 Data/ODBC/Makefile
+Data/ODBC/ODBC.make
 Data/ODBC/ODBC.progen
 Data/ODBC/ODBC.vmsbuild
 Data/ODBC/ODBC_vs100.sln
@@ -792,6 +797,7 @@ Foundation/include/Poco/DirectoryIterator_UNIX.h
 Foundation/include/Poco/DirectoryIterator_VMS.h
 Foundation/include/Poco/DirectoryIterator_WIN32.h
 Foundation/include/Poco/DirectoryIterator_WIN32U.h
+Foundation/include/Poco/DirectoryWatcher.h
 Foundation/include/Poco/DynamicAny.h
 Foundation/include/Poco/DynamicAnyHolder.h
 Foundation/include/Poco/DynamicFactory.h
@@ -907,6 +913,7 @@ Foundation/include/Poco/NullChannel.h
 Foundation/include/Poco/NullStream.h
 Foundation/include/Poco/NumberFormatter.h
 Foundation/include/Poco/NumberParser.h
+Foundation/include/Poco/ObjectPool.h
 Foundation/include/Poco/Observer.h
 Foundation/include/Poco/OpcomChannel.h
 Foundation/include/Poco/Path.h
@@ -1413,6 +1420,7 @@ Foundation/src/DirectoryIterator_UNIX.cpp
 Foundation/src/DirectoryIterator_VMS.cpp
 Foundation/src/DirectoryIterator_WIN32.cpp
 Foundation/src/DirectoryIterator_WIN32U.cpp
+Foundation/src/DirectoryWatcher.cpp
 Foundation/src/DynamicAny.cpp
 Foundation/src/DynamicAnyHolder.cpp
 Foundation/src/Environment.cpp
@@ -1694,6 +1702,8 @@ Foundation/testsuite/src/DateTimeTestSuite.cpp
 Foundation/testsuite/src/DateTimeTestSuite.h
 Foundation/testsuite/src/DigestStreamTest.cpp
 Foundation/testsuite/src/DigestStreamTest.h
+Foundation/testsuite/src/DirectoryWatcherTest.cpp
+Foundation/testsuite/src/DirectoryWatcherTest.h
 Foundation/testsuite/src/Driver.cpp
 Foundation/testsuite/src/DummyDelegate.cpp
 Foundation/testsuite/src/DummyDelegate.h
@@ -1785,6 +1795,8 @@ Foundation/testsuite/src/NumberFormatterTest.cpp
 Foundation/testsuite/src/NumberFormatterTest.h
 Foundation/testsuite/src/NumberParserTest.cpp
 Foundation/testsuite/src/NumberParserTest.h
+Foundation/testsuite/src/ObjectPoolTest.cpp
+Foundation/testsuite/src/ObjectPoolTest.h
 Foundation/testsuite/src/PathTest.cpp
 Foundation/testsuite/src/PathTest.h
 Foundation/testsuite/src/PatternFormatterTest.cpp
@@ -2229,7 +2241,6 @@ Net/samples/HTTPLoadTest/Makefile
 Net/samples/HTTPLoadTest/src
 Net/samples/HTTPLoadTest/src/HTTPLoadTest.cpp
 Net/samples/HTTPTimeServer
-Net/samples/HTTPTimeServer/bin
 Net/samples/HTTPTimeServer/HTTPTimeServer.progen
 Net/samples/HTTPTimeServer/HTTPTimeServer.properties
 Net/samples/HTTPTimeServer/HTTPTimeServer.vmsbuild
@@ -3314,7 +3325,6 @@ XML/src/xmltok_ns.c
 XML/src/XMLWriter.cpp
 XML/testsuite
 XML/testsuite/Makefile
-XML/testsuite/rss.xml
 XML/testsuite/src
 XML/testsuite/src/AttributesImplTest.cpp
 XML/testsuite/src/AttributesImplTest.h

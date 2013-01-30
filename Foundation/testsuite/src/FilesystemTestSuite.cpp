@@ -1,7 +1,7 @@
 //
 // FilesystemTestSuite.cpp
 //
-// $Id: //poco/1.4/Foundation/testsuite/src/FilesystemTestSuite.cpp#1 $
+// $Id: //poco/1.4/Foundation/testsuite/src/FilesystemTestSuite.cpp#2 $
 //
 // Copyright (c) 2004-2006, Applied Informatics Software Engineering GmbH.
 // and Contributors.
@@ -34,6 +34,7 @@
 #include "PathTest.h"
 #include "FileTest.h"
 #include "GlobTest.h"
+#include "DirectoryWatcherTest.h"
 
 
 CppUnit::Test* FilesystemTestSuite::suite()
@@ -43,6 +44,7 @@ CppUnit::Test* FilesystemTestSuite::suite()
 	pSuite->addTest(PathTest::suite());
 	pSuite->addTest(FileTest::suite());
 	pSuite->addTest(GlobTest::suite());
+	pSuite->addTest(DirectoryWatcherTest::suite());
 
 	return pSuite;
 }

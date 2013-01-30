@@ -19,8 +19,10 @@ ifndef POCO_BUILD
 export POCO_BUILD=$(POCO_BASE)
 endif
 
-.PHONY: all libexecs cppunit tests samples clean distclean install
+.PHONY: poco all libexecs cppunit tests samples clean distclean install
 
+# TESTS and SAMPLES are set in config.make
+poco: libexecs $(if $(TESTS),tests) $(if $(SAMPLES),samples) 
 all: libexecs tests samples
 
 INSTALLDIR = $(DESTDIR)$(POCO_PREFIX)

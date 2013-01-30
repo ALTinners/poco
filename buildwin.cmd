@@ -7,7 +7,7 @@ rem
 rem POCO C++ Libraries command-line build script 
 rem for MS Visual Studio 2003 to 2010
 rem
-rem $Id: //poco/1.4/dist/buildwin.cmd#2 $
+rem $Id: //poco/1.4/dist/buildwin.cmd#3 $
 rem
 rem Copyright (c) 2006-2010 by Applied Informatics Software Engineering GmbH
 rem and Contributors.
@@ -276,6 +276,7 @@ for /f %%G in ('findstr /R "." components') do (
 )
 
 if "%SAMPLES%"=="no" goto :EOF
+if "%SAMPLES%"=="nosamples" goto :EOF
 
 rem root level component samples
 for /f %%G in ('findstr /R "." components') do (

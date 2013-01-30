@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="TestSuite"
 	ProjectGUID="{F1EE93DF-347F-4CB3-B191-C4E63F38E972}"
 	Keyword="Win32Proj"
@@ -592,6 +592,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\ObjectPoolTest.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\RegularExpressionTest.cpp"
 					>
 				</File>
@@ -677,6 +681,10 @@
 				</File>
 				<File
 					RelativePath=".\src\NumberParserTest.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\ObjectPoolTest.h"
 					>
 				</File>
 				<File
@@ -1200,6 +1208,10 @@
 				Name="Source Files"
 				>
 				<File
+					RelativePath=".\src\DirectoryWatcherTest.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\FilesystemTestSuite.cpp"
 					>
 				</File>
@@ -1219,6 +1231,10 @@
 			<Filter
 				Name="Header Files"
 				>
+				<File
+					RelativePath=".\src\DirectoryWatcherTest.h"
+					>
+				</File>
 				<File
 					RelativePath=".\src\FilesystemTestSuite.h"
 					>

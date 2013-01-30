@@ -1,7 +1,7 @@
 //
 // NetworkInterface.cpp
 //
-// $Id: //poco/1.4/Net/src/NetworkInterface.cpp#9 $
+// $Id: //poco/1.4/Net/src/NetworkInterface.cpp#11 $
 //
 // Library: Net
 // Package: Sockets
@@ -379,9 +379,11 @@ IPAddress subnetMaskForInterface(const std::string& name, bool isLoopback)
 	{
 		std::string subKey("SYSTEM\\CurrentControlSet\\services\\Tcpip\\Parameters\\Interfaces\\");
 		subKey += name;
+		std::string netmask;
+		HKEY hKey;
+#if defined(POCO_WIN32_UTF8) && !defined(POCO_NO_WSTRING)
 		std::wstring usubKey;
 		Poco::UnicodeConverter::toUTF16(subKey, usubKey);
-		HKEY hKey;
 		if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, usubKey.c_str(), 0, KEY_READ, &hKey) != ERROR_SUCCESS)
 			return IPAddress();
 		wchar_t unetmask[16];
@@ -394,9 +396,23 @@ IPAddress subnetMaskForInterface(const std::string& name, bool isLoopback)
 				return IPAddress();
 			}
 		}
-		RegCloseKey(hKey);
-		std::string netmask;
 		Poco::UnicodeConverter::toUTF8(unetmask, netmask);
+#else
+		if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, subKey.c_str(), 0, KEY_READ, &hKey) != ERROR_SUCCESS)
+			return IPAddress();
+		char unetmask[16];
+		DWORD size = sizeof(unetmask);
+		if (RegQueryValueExA(hKey, "DhcpSubnetMask", NULL, NULL, (LPBYTE) &unetmask, &size) != ERROR_SUCCESS)
+		{
+			if (RegQueryValueExA(hKey, "SubnetMask", NULL, NULL, (LPBYTE) &unetmask, &size) != ERROR_SUCCESS)
+			{
+				RegCloseKey(hKey);
+				return IPAddress();
+			}
+		}
+		netmask = unetmask;
+#endif
+		RegCloseKey(hKey);
 		return IPAddress::parse(netmask);
 	}
 }
@@ -512,14 +528,19 @@ NetworkInterface::NetworkInterfaceList NetworkInterface::list()
 			while (pInfo) 
 			{
 				IPAddress address(std::string(pInfo->IpAddressList.IpAddress.String));
-				if (!address.isWildcard()) // only return interfaces that have an address assigned.
+				PIP_ADDR_STRING pIpAddressList = &pInfo->IpAddressList;
+				while (pIpAddressList)
 				{
-					IPAddress subnetMask(std::string(pInfo->IpAddressList.IpMask.String));
-					IPAddress broadcastAddress(address);
-					broadcastAddress.mask(subnetMask, IPAddress::broadcast());
-					std::string name(pInfo->AdapterName);
-					std::string displayName(pInfo->Description);
-					result.push_back(NetworkInterface(name, displayName, address, subnetMask, broadcastAddress));
+					if (!address.isWildcard()) // only return interfaces that have an address assigned.
+					{
+						IPAddress subnetMask(std::string(pInfo->IpAddressList.IpMask.String));
+						IPAddress broadcastAddress(address);
+						broadcastAddress.mask(subnetMask, IPAddress::broadcast());
+						std::string name(pInfo->AdapterName);
+						std::string displayName(pInfo->Description);
+						result.push_back(NetworkInterface(name, displayName, address, subnetMask, broadcastAddress));
+					}
+					pIpAddressList = pIpAddressList->Next;
 				}
 				pInfo = pInfo->Next;
 			}

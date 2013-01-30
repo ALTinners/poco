@@ -1,7 +1,7 @@
 //
 // SecureSocketImpl.cpp
 //
-// $Id: //poco/1.4/NetSSL_OpenSSL/src/SecureSocketImpl.cpp#5 $
+// $Id: //poco/1.4/NetSSL_OpenSSL/src/SecureSocketImpl.cpp#9 $
 //
 // Library: NetSSL_OpenSSL
 // Package: SSLSockets
@@ -140,7 +140,13 @@ void SecureSocketImpl::connect(const SocketAddress& address, const Poco::Timespa
 	poco_assert (!_pSSL);
 
 	_pSocket->connect(address, timeout);
+	Poco::Timespan receiveTimeout = _pSocket->getReceiveTimeout();
+	Poco::Timespan sendTimeout = _pSocket->getSendTimeout();
+	_pSocket->setReceiveTimeout(timeout);
+	_pSocket->setSendTimeout(timeout);
 	connectSSL(performHandshake);
+	_pSocket->setReceiveTimeout(receiveTimeout);
+	_pSocket->setSendTimeout(sendTimeout);	
 }
 
 
@@ -241,6 +247,10 @@ void SecureSocketImpl::shutdown()
 			// done with it.
 			int rc = SSL_shutdown(_pSSL);
 			if (rc < 0) handleError(rc);
+			if (_pSocket->getBlocking())
+			{
+				_pSocket->shutdown();
+			}
 		}
 	}
 }
@@ -248,7 +258,13 @@ void SecureSocketImpl::shutdown()
 
 void SecureSocketImpl::close()
 {
-	shutdown();
+	try
+	{
+		shutdown();
+	}
+	catch (...)
+	{
+	}
 	_pSocket->close();
 }
 
@@ -417,7 +433,7 @@ int SecureSocketImpl::handleError(int rc)
 			long lastError = ERR_get_error();
 			if (lastError == 0)
 			{
-				if (rc == 0)
+				if (rc == 0 || rc == -1)
 				{
 					throw SSLConnectionUnexpectedlyClosedException();
 				}

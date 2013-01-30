@@ -1,7 +1,7 @@
 #
 # Makefile
 #
-# $Id: //poco/1.4/Foundation/Makefile#4 $
+# $Id: //poco/1.4/Foundation/Makefile#6 $
 #
 # Makefile for Poco Foundation
 #
@@ -11,7 +11,7 @@ include $(POCO_BASE)/build/rules/global
 objects = ArchiveStrategy Ascii ASCIIEncoding AsyncChannel Base64Decoder Base64Encoder \
 	BinaryReader BinaryWriter Bugcheck ByteOrder Channel Checksum Configurable ConsoleChannel \
 	CountingStream DateTime LocalDateTime DateTimeFormat DateTimeFormatter DateTimeParser \
-	Debugger DeflatingStream DigestEngine DigestStream DirectoryIterator \
+	Debugger DeflatingStream DigestEngine DigestStream DirectoryIterator DirectoryWatcher \
 	Environment Event EventArgs ErrorHandler Exception FPEnvironment File Glob \
 	FileChannel Formatter FormattingChannel HexBinaryDecoder LineEndingConverter \
 	HexBinaryEncoder InflatingStream Latin1Encoding Latin9Encoding LogFile Logger \
@@ -43,7 +43,6 @@ pcre_objects = pcre_chartables pcre_compile pcre_globals pcre_maketables \
 pcre_utf8_objects = pcre_ucd pcre_tables
 
 ifdef POCO_UNBUNDLED
-	objects += $(pcre_utf8_objects) 
 	SYSLIBS += -lpcre -lz
 else
 	objects += $(zlib_objects) $(pcre_objects) $(pcre_utf8_objects)

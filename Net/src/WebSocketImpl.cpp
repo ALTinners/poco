@@ -1,7 +1,7 @@
 //
 // WebSocketImpl.cpp
 //
-// $Id: //poco/1.4/Net/src/WebSocketImpl.cpp#2 $
+// $Id: //poco/1.4/Net/src/WebSocketImpl.cpp#5 $
 //
 // Library: Net
 // Package: WebSocket
@@ -118,9 +118,27 @@ int WebSocketImpl::sendBytes(const void* buffer, int length, int flags)
 int WebSocketImpl::receiveBytes(void* buffer, int length, int)
 {
 	char header[MAX_HEADER_LENGTH];
-	int n = _pStreamSocketImpl->receiveBytes(header, MAX_HEADER_LENGTH);
+	int n = _pStreamSocketImpl->receiveBytes(header, 2);
+	if (n == 1)
+	{
+		n += _pStreamSocketImpl->receiveBytes(header + 1, 1);
+	}
+	if (n == 2)
+	{
+		Poco::UInt8 lengthByte = static_cast<Poco::UInt8>(header[1]) & 0x7f;
+		if (lengthByte + 2 < MAX_HEADER_LENGTH)
+		{
+			n = _pStreamSocketImpl->receiveBytes(header + 2, lengthByte);
+		}
+		else
+		{
+			n = _pStreamSocketImpl->receiveBytes(header + 2, MAX_HEADER_LENGTH - 2);
+		}
+	}
+	else throw WebSocketException("Incomplete frame received", WebSocket::WS_ERR_INCOMPLETE_FRAME);
 	if (n > 0)
 	{
+		n += 2;
 		Poco::MemoryInputStream istr(header, n);
 		Poco::BinaryReader reader(istr, Poco::BinaryReader::NETWORK_BYTE_ORDER);
 		Poco::UInt8 flags;
@@ -203,7 +221,7 @@ void WebSocketImpl::connect(const SocketAddress& address, const Poco::Timespan& 
 }
 
 
-void WebSocketImpl::connectNB(const SocketAddress& address, const Poco::Timespan& timeout)
+void WebSocketImpl::connectNB(const SocketAddress& address)
 {
 	throw Poco::InvalidAccessException("Cannot connectNB() a WebSocketImpl");
 }

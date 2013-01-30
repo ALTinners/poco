@@ -1,7 +1,7 @@
 //
 // EnvironmentHandle.h
 //
-// $Id: //poco/1.4/Data/ODBC/include/Poco/Data/ODBC/EnvironmentHandle.h#1 $
+// $Id: //poco/1.4/Data/ODBC/include/Poco/Data/ODBC/EnvironmentHandle.h#2 $
 //
 // Library: Data/ODBC
 // Package: ODBC
@@ -41,7 +41,7 @@
 
 
 #include "Poco/Data/ODBC/ODBC.h"
-#if defined(POCO_OS_FAMILY_WINDOWS) || defined(__CYGWIN__)
+#if defined(POCO_OS_FAMILY_WINDOWS)
 #include <windows.h>
 #endif
 #include <sqltypes.h>

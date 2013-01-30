@@ -2,7 +2,7 @@
 #
 # configure
 #
-# $Id: //poco/1.4/dist/configure#2 $
+# $Id: //poco/1.4/dist/configure#4 $
 #
 # Configuration script for POCO.
 #
@@ -108,8 +108,8 @@ else
 	NOTFOUND=""
 fi
 
-tests="tests"
-samples="samples"
+tests=1
+samples=1
 flags=""
 omit=""
 includepath=""
@@ -293,7 +293,9 @@ fi
 if [ "$linkmode" != "" ] ; then
 	echo "export LINKMODE" >>$build/config.make
 fi
-echo ".PHONY: poco" >>$build/config.make
-echo "poco: libexecs $tests $samples" >>$build/config.make
+cat <<END >>$build/config.make
+TESTS = $tests
+SAMPLES = $samples
+END
 
 echo "Configured for $config"

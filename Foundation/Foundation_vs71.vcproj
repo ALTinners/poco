@@ -890,6 +890,9 @@
 					RelativePath=".\include\Poco\NumberParser.h">
 				</File>
 				<File
+					RelativePath=".\include\Poco\ObjectPool.h">
+				</File>
+				<File
 					RelativePath=".\include\Poco\Platform.h">
 				</File>
 				<File
@@ -2901,6 +2904,9 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\src\DirectoryWatcher.cpp">
+				</File>
+				<File
 					RelativePath=".\src\File.cpp">
 				</File>
 				<File
@@ -3242,6 +3248,9 @@
 				</File>
 				<File
 					RelativePath=".\include\Poco\DirectoryIterator_WIN32U.h">
+				</File>
+				<File
+					RelativePath=".\include\Poco\DirectoryWatcher.h">
 				</File>
 				<File
 					RelativePath=".\include\Poco\File.h">
