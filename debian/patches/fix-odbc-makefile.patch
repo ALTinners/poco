@@ -3,27 +3,21 @@ Origin: vendor
 Forwarded: not-needed
 Author: Cristian Greco <cristian@debian.org>
 
---- a/Data/ODBC/Makefile
-+++ b/Data/ODBC/Makefile
-@@ -9,7 +9,8 @@
- include $(POCO_BASE)/build/rules/global
+--- a/Data/ODBC/ODBC.make
++++ b/Data/ODBC/ODBC.make
+@@ -11,13 +11,8 @@ ODBCINCDIR = /usr/include
+ endif
  
- # adjust for the target system (usually '/usr/lib' or '/usr/local/lib')
+ ifndef ODBCLIBDIR
+-ifeq (0, $(shell test -d /usr/lib/$(OSARCH)-linux-gnu; echo $$?))
+-ODBCLIBDIR = /usr/lib/$(OSARCH)-linux-gnu
+-else ifeq (0, $(shell test -d /usr/lib64; echo $$?))
+-ODBCLIBDIR = /usr/lib64
+-else 
 -ODBCLIBDIR = /usr/lib
+-endif
 +MULTIARCH_TUPLE = $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 +ODBCLIBDIR = /usr/lib/$(MULTIARCH_TUPLE)
+ endif
  
- INCLUDE += -I/usr/local/include -I/usr/include -I/usr/include/odbc -I/usr/local/include/odbc
- SYSLIBS += -L/usr/local/lib/odbc -L/usr/lib/odbc -L/usr/lib -L/usr/local/lib
---- a/Data/ODBC/testsuite/Makefile
-+++ b/Data/ODBC/testsuite/Makefile
-@@ -9,7 +9,8 @@
- include $(POCO_BASE)/build/rules/global
- 
- # adjust for the target system (usually '/usr/lib' or '/usr/local/lib')
--ODBCLIBDIR = /usr/lib
-+MULTIARCH_TUPLE = $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
-+ODBCLIBDIR = /usr/lib/$(MULTIARCH_TUPLE)
- 
- INCLUDE += -I/usr/local/include -I/usr/include -I/usr/include/odbc -I/usr/local/include/odbc
- SYSLIBS += -L/usr/local/lib/odbc -L/usr/lib/odbc -L/usr/lib -L/usr/local/lib
+ ifeq ($(LINKMODE),STATIC)
