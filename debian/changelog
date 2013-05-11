@@ -1,10 +1,14 @@
-poco (1.4.6-1) UNRELEASED; urgency=low
+poco (1.4.6-1) experimental; urgency=low
 
+  [ Patrick Gansterer ]
   * New Upstream Version
   * debian/patches:
     - fix-odbc-makefile.patch: drop patch, merged upstream
 
- -- Patrick Gansterer <paroga@paroga.com>  Wed, 30 Jan 2013 17:07:27 +0100
+  [ Cristian Greco ]
+  * patches/fix-odbc-makefile.patch: really drop the patch.
+
+ -- Cristian Greco <cristian@debian.org>  Sat, 11 May 2013 18:36:03 +0200
 
 poco (1.4.3p1-1) experimental; urgency=low
 
