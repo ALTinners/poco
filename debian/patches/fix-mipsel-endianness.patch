@@ -11,7 +11,7 @@ Author: Cristian Greco <cristian@debian.org>
 
 --- a/Foundation/include/Poco/Platform.h
 +++ b/Foundation/include/Poco/Platform.h
-@@ -160,7 +160,11 @@
+@@ -165,7 +165,11 @@
  	#define POCO_ARCH_LITTLE_ENDIAN 1
  #elif defined(__mips__) || defined(__mips) || defined(__MIPS__) || defined(_M_MRX000)
  	#define POCO_ARCH POCO_ARCH_MIPS
