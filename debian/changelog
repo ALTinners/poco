@@ -1,3 +1,12 @@
+poco (1.4.6p1-1) experimental; urgency=low
+
+  * New Upstream version 1.4.6p1
+  * debian/patches: refresh patches.
+  * debian/patches: reintroduce fix-odbc-makefile.patch,
+    it seems to be still needed.
+
+ -- Cristian Greco <cristian@debian.org>  Sun, 26 May 2013 15:45:51 +0200
+
 poco (1.4.6-1) experimental; urgency=low
 
   [ Patrick Gansterer ]
