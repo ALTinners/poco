@@ -1,2 +1,2 @@
-version=3
-http://sf.net/poco/poco-(.*)-all\.tar\.bz2
+version=4
+https://pocoproject.org/releases/poco-([\.\d]+)/poco-([\.\d]+)-all.tar.bz2
