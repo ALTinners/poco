@@ -33,7 +33,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include"
+				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include;..\JSON\include"
 				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;$(ProjectName)_EXPORTS;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;Util_EXPORTS"
 				StringPooling="true"
 				MinimalRebuild="false"
@@ -44,7 +44,8 @@
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4800;"
 				CompileForArchitecture="2"
-				InterworkCalls="false"/>
+				InterworkCalls="false"
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"/>
 			<Tool
@@ -54,7 +55,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/FORCE:MULTIPLE"
+				AdditionalOptions="/FORCE:MULTIPLE "
 				AdditionalDependencies=""
 				OutputFile="..\bin\$(PlatformName)\PocoUtild.dll"
 				LinkIncremental="2"
@@ -112,7 +113,7 @@
 				Optimization="4"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include"
+				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include;..\JSON\include"
 				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;$(ProjectName)_EXPORTS;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;Util_EXPORTS"
 				StringPooling="true"
 				MinimalRebuild="false"
@@ -123,7 +124,8 @@
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4800;"
 				CompileForArchitecture="2"
-				InterworkCalls="false"/>
+				InterworkCalls="false"
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"/>
 			<Tool
@@ -133,7 +135,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/FORCE:MULTIPLE"
+				AdditionalOptions="/FORCE:MULTIPLE "
 				AdditionalDependencies=""
 				OutputFile="..\bin\$(PlatformName)\PocoUtil.dll"
 				LinkIncremental="1"
@@ -188,7 +190,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include"
+				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include;..\JSON\include"
 				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;POCO_STATIC;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;"
 				StringPooling="true"
 				MinimalRebuild="false"
@@ -202,7 +204,8 @@
 				CompileAs="0"
 				DisableSpecificWarnings="4800;"
 				CompileForArchitecture="2"
-				InterworkCalls="false"/>
+				InterworkCalls="false"
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"/>
 			<Tool
@@ -254,7 +257,7 @@
 				Optimization="4"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include"
+				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include;..\JSON\include"
 				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;POCO_STATIC;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;"
 				StringPooling="true"
 				MinimalRebuild="false"
@@ -267,7 +270,8 @@
 				CompileAs="0"
 				DisableSpecificWarnings="4800;"
 				CompileForArchitecture="2"
-				InterworkCalls="false"/>
+				InterworkCalls="false"
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"/>
 			<Tool
@@ -317,7 +321,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include"
+				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include;..\JSON\include"
 				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;POCO_STATIC;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;"
 				StringPooling="true"
 				MinimalRebuild="false"
@@ -331,7 +335,8 @@
 				CompileAs="0"
 				DisableSpecificWarnings="4800;"
 				CompileForArchitecture="2"
-				InterworkCalls="false"/>
+				InterworkCalls="false"
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"/>
 			<Tool
@@ -383,7 +388,7 @@
 				Optimization="4"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include"
+				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include;..\JSON\include"
 				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;POCO_STATIC;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;"
 				StringPooling="true"
 				MinimalRebuild="false"
@@ -396,7 +401,8 @@
 				CompileAs="0"
 				DisableSpecificWarnings="4800;"
 				CompileForArchitecture="2"
-				InterworkCalls="false"/>
+				InterworkCalls="false"
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"/>
 			<Tool
@@ -468,6 +474,8 @@
 				<File
 					RelativePath=".\include\Poco\Util\IniFileConfiguration.h"/>
 				<File
+					RelativePath=".\include\Poco\Util\JSONConfiguration.h"/>
+				<File
 					RelativePath=".\include\Poco\Util\LayeredConfiguration.h"/>
 				<File
 					RelativePath=".\include\Poco\Util\LoggingConfigurator.h"/>
@@ -492,6 +500,8 @@
 					RelativePath=".\src\FilesystemConfiguration.cpp"/>
 				<File
 					RelativePath=".\src\IniFileConfiguration.cpp"/>
+				<File
+					RelativePath=".\src\JSONConfiguration.cpp"/>
 				<File
 					RelativePath=".\src\LayeredConfiguration.cpp"/>
 				<File
@@ -604,12 +614,14 @@
 		<File
 			RelativePath="..\DLLVersion.rc">
 			<FileConfiguration
-				Name="debug_shared|Digi JumpStart (ARMV4I)">
+				Name="debug_shared|Digi JumpStart (ARMV4I)"
+				ExcludedFromBuild="true">
 				<Tool
 					Name="VCResourceCompilerTool"/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="release_shared|Digi JumpStart (ARMV4I)">
+				Name="release_shared|Digi JumpStart (ARMV4I)"
+				ExcludedFromBuild="true">
 				<Tool
 					Name="VCResourceCompilerTool"/>
 			</FileConfiguration>
