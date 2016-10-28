@@ -8,7 +8,12 @@
 
 include $(POCO_BASE)/build/rules/global
 
+# Note: linking order is important, do not change it.
+ifeq ($(POCO_CONFIG),FreeBSD)
+SYSLIBS += -lssl -lcrypto -lz
+else
 SYSLIBS += -lssl -lcrypto -lz -ldl
+endif
 
 objects = NetSSLTestSuite Driver \
 	HTTPSClientSessionTest HTTPSClientTestSuite HTTPSServerTest HTTPSServerTestSuite \
@@ -16,6 +21,6 @@ objects = NetSSLTestSuite Driver \
 
 target         = testrunner
 target_version = 1
-target_libs    = PocoNetSSL PocoNet PocoCrypto PocoUtil PocoXML PocoFoundation CppUnit
+target_libs    = PocoNetSSL PocoNet PocoCrypto PocoUtil PocoJSON PocoXML PocoFoundation CppUnit
 
 include $(POCO_BASE)/build/rules/exec

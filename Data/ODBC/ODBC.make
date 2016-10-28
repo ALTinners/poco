@@ -6,45 +6,62 @@
 # Makefile fragment for finding ODBC library
 #
 
-ifndef ODBCINCDIR
-ODBCINCDIR = /usr/include
+ifndef POCO_ODBC_INCLUDE
+POCO_ODBC_INCLUDE = /usr/include
 endif
 
-ifndef ODBCLIBDIR
+ifndef POCO_ODBC_LIB
 ifeq (0, $(shell test -d /usr/lib/$(OSARCH)-linux-gnu; echo $$?))
-ODBCLIBDIR = /usr/lib/$(OSARCH)-linux-gnu
+POCO_ODBC_LIB = /usr/lib/$(OSARCH)-linux-gnu
 else ifeq (0, $(shell test -d /usr/lib64; echo $$?))
-ODBCLIBDIR = /usr/lib64
+POCO_ODBC_LIB = /usr/lib64
 else 
-ODBCLIBDIR = /usr/lib
+POCO_ODBC_LIB = /usr/lib
 endif
 endif
 
 ifeq ($(LINKMODE),STATIC)
 LIBLINKEXT = .a
 else
+ifeq ($(OSNAME), CYGWIN)
+LIBLINKEXT = $(IMPLIBLINKEXT)
+else
 LIBLINKEXT = $(SHAREDLIBLINKEXT)
 endif
+endif
 
-INCLUDE += -I$(ODBCINCDIR)
-SYSLIBS += -L$(ODBCLIBDIR)
+INCLUDE += -I$(POCO_ODBC_INCLUDE)
+SYSLIBS += -L$(POCO_ODBC_LIB)
 
+##
+## MinGW
+##
 ifeq ($(POCO_CONFIG),MinGW)
 # -DODBCVER=0x0300: SQLHandle declaration issue
 # -DNOMINMAX      : MIN/MAX macros defined in windows conflict with libstdc++
 CXXFLAGS += -DODBCVER=0x0300 -DNOMINMAX
-else ifeq ($(POCO_CONFIG),CYGWIN)
-# -DODBCVER=0x0300: SQLHandle declaration issue
-# -DNOMINMAX      : MIN/MAX macros defined in windows conflict with libstdc++
-CXXFLAGS += -DODBCVER=0x0300 -DNOMINMAX
-# CYGWIN platform has its own ODBC library in /lib/w32api 
-SYSLIBS += -L/lib/w32api -lodbc32 -lodbccp32
-else ifeq (0, $(shell test -e $(ODBCLIBDIR)/libodbc$(LIBLINKEXT); echo $$?))
-SYSLIBS += -lodbc -lodbcinst
+
+##
+## unixODBC
+##
+else ifeq (0, $(shell test -e $(POCO_ODBC_LIB)/libodbc$(LIBLINKEXT); echo $$?))
+SYSLIBS += -lodbc
+ifeq (0, $(shell test -e $(POCO_ODBC_LIB)/libodbcinst$(LIBLINKEXT); echo $$?))
+SYSLIBS += -lodbcinst
+endif
 COMMONFLAGS += -DPOCO_UNIXODBC
-else ifeq (0, $(shell test -e $(ODBCLIBDIR)/libiodbc$(LIBLINKEXT); echo $$?))
+
+##
+## iODBC
+##
+else ifeq (0, $(shell test -e $(POCO_ODBC_LIB)/libiodbc$(LIBLINKEXT); echo $$?))
 SYSLIBS += -liodbc -liodbcinst
 COMMONFLAGS += -DPOCO_IODBC -I/usr/include/iodbc
+
+# TODO: OSX >= 10.8 deprecated non-Unicode ODBC API functions, silence warnings until iODBC Unicode support
+COMMONFLAGS += -Wno-deprecated-declarations
+
 else
-$(error No ODBC library found. Please install unixODBC or iODBC or specify ODBCLIBDIR and try again)
+$(error No ODBC library found. Please install unixODBC or iODBC or specify POCO_ODBC_LIB and try again)
 endif
+

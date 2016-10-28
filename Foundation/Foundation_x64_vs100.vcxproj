@@ -108,7 +108,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;Foundation_EXPORTS;PCRE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WIN64;_DEBUG;_WINDOWS;_USRDLL;Foundation_EXPORTS;PCRE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -137,13 +137,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release_shared|x64'">
     <ClCompile>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;Foundation_EXPORTS;PCRE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WIN64;NDEBUG;_WINDOWS;_USRDLL;Foundation_EXPORTS;PCRE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <PreprocessKeepComments>false</PreprocessKeepComments>
@@ -177,13 +177,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release_static_md|x64'">
     <ClCompile>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;Foundation_EXPORTS;POCO_STATIC;PCRE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WIN64;NDEBUG;_WINDOWS;Foundation_EXPORTS;POCO_STATIC;PCRE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <PreprocessKeepComments>false</PreprocessKeepComments>
@@ -211,7 +211,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;Foundation_EXPORTS;POCO_STATIC;PCRE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WIN64;_DEBUG;_WINDOWS;Foundation_EXPORTS;POCO_STATIC;PCRE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -238,7 +238,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;Foundation_EXPORTS;POCO_STATIC;PCRE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WIN64;_DEBUG;_WINDOWS;Foundation_EXPORTS;POCO_STATIC;PCRE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -263,13 +263,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release_static_mt|x64'">
     <ClCompile>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;Foundation_EXPORTS;POCO_STATIC;PCRE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WIN64;NDEBUG;_WINDOWS;Foundation_EXPORTS;POCO_STATIC;PCRE_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <PreprocessKeepComments>false</PreprocessKeepComments>
@@ -297,12 +297,17 @@
     <ClCompile Include="src\Ascii.cpp" />
     <ClCompile Include="src\AtomicCounter.cpp" />
     <ClCompile Include="src\Bugcheck.cpp" />
-    <ClCompile Include="src\ByteOrder.cpp" />
+    <ClCompile Include="src\ByteOrder.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug_shared|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug_static_md|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug_static_mt|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_shared|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_md|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_mt|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\Checksum.cpp" />
     <ClCompile Include="src\Debugger.cpp" />
     <ClCompile Include="src\DirectoryWatcher.cpp" />
-    <ClCompile Include="src\DynamicAny.cpp" />
-    <ClCompile Include="src\DynamicAnyHolder.cpp" />
     <ClCompile Include="src\Environment.cpp" />
     <ClCompile Include="src\Environment_UNIX.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug_shared|x64'">true</ExcludedFromBuild>
@@ -336,7 +341,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_md|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_mt|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="src\Error.cpp" />
+    <ClCompile Include="src\EventChannel.cpp" />
     <ClCompile Include="src\Exception.cpp" />
+    <ClCompile Include="src\FIFOBufferStream.cpp" />
     <ClCompile Include="src\Format.cpp" />
     <ClCompile Include="src\FPEnvironment.cpp" />
     <ClCompile Include="src\FPEnvironment_C99.cpp">
@@ -379,14 +387,31 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_md|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_mt|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="src\Latin2Encoding.cpp" />
     <ClCompile Include="src\MemoryPool.cpp" />
     <ClCompile Include="src\NestedDiagnosticContext.cpp" />
     <ClCompile Include="src\NumberFormatter.cpp" />
     <ClCompile Include="src\NumberParser.cpp" />
     <ClCompile Include="src\RefCountedObject.cpp" />
-    <ClCompile Include="src\String.cpp" />
+    <ClCompile Include="src\SortedDirectoryIterator.cpp" />
+    <ClCompile Include="src\String.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug_shared|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug_static_md|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug_static_mt|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_shared|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_md|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_mt|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\NumericString.cpp" />
+    <ClCompile Include="src\DirectoryIteratorStrategy.cpp" />
     <ClCompile Include="src\StringTokenizer.cpp" />
+    <ClCompile Include="src\UTF32Encoding.cpp" />
+    <ClCompile Include="src\Var.cpp" />
+    <ClCompile Include="src\VarHolder.cpp" />
+    <ClCompile Include="src\VarIterator.cpp" />
     <ClCompile Include="src\Void.cpp" />
+    <ClCompile Include="src\Base32Decoder.cpp" />
+    <ClCompile Include="src\Base32Encoder.cpp" />
     <ClCompile Include="src\Base64Decoder.cpp" />
     <ClCompile Include="src\Base64Encoder.cpp" />
     <ClCompile Include="src\BinaryReader.cpp" />
@@ -429,6 +454,8 @@
     <ClCompile Include="src\inflate.c" />
     <ClCompile Include="src\inftrees.c" />
     <ClCompile Include="src\trees.c" />
+    <ClCompile Include="src\Windows1250Encoding.cpp" />
+    <ClCompile Include="src\Windows1251Encoding.cpp" />
     <ClCompile Include="src\zutil.c" />
     <ClCompile Include="src\ActiveDispatcher.cpp" />
     <ClCompile Include="src\Condition.cpp" />
@@ -502,7 +529,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_md|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_mt|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="src\SignalHandler.cpp" />
+    <ClCompile Include="src\SignalHandler.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug_shared|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug_static_md|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug_static_mt|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_shared|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_md|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_mt|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\SynchronizedObject.cpp" />
     <ClCompile Include="src\Thread.cpp" />
     <ClCompile Include="src\Thread_POSIX.cpp">
@@ -575,8 +609,16 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release_static_mt|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\RegularExpression.cpp" />
+    <ClCompile Include="src\pcre_version.c" />
+    <ClCompile Include="src\pcre_byte_order.c" />
     <ClCompile Include="src\pcre_chartables.c" />
+    <ClCompile Include="src\pcre_config.c" />
     <ClCompile Include="src\pcre_compile.c" />
+    <ClCompile Include="src\pcre_get.c" />
+    <ClCompile Include="src\pcre_jit_compile.c" />
+    <ClCompile Include="src\pcre_refcount.c" />
+    <ClCompile Include="src\pcre_string_utils.c" />
+    <ClCompile Include="src\pcre_dfa_exec.c" />
     <ClCompile Include="src\pcre_exec.c" />
     <ClCompile Include="src\pcre_fullinfo.c" />
     <ClCompile Include="src\pcre_globals.c" />
@@ -585,7 +627,6 @@
     <ClCompile Include="src\pcre_ord2utf8.c" />
     <ClCompile Include="src\pcre_study.c" />
     <ClCompile Include="src\pcre_tables.c" />
-    <ClCompile Include="src\pcre_try_flipped.c" />
     <ClCompile Include="src\pcre_ucd.c" />
     <ClCompile Include="src\pcre_valid_utf8.c" />
     <ClCompile Include="src\pcre_xclass.c" />
@@ -920,6 +961,7 @@
     </ClCompile>
     <ClCompile Include="src\UUID.cpp" />
     <ClCompile Include="src\UUIDGenerator.cpp" />
+    <ClCompile Include="src\Clock.cpp" />
     <ClCompile Include="src\DateTime.cpp" />
     <ClCompile Include="src\DateTimeFormat.cpp" />
     <ClCompile Include="src\DateTimeFormatter.cpp" />
@@ -986,12 +1028,20 @@
     <ClInclude Include="include\Poco\DynamicAny.h" />
     <ClInclude Include="include\Poco\DynamicAnyHolder.h" />
     <ClInclude Include="include\Poco\DynamicFactory.h" />
+    <ClInclude Include="include\Poco\Dynamic\Pair.h" />
+    <ClInclude Include="include\Poco\Dynamic\Struct.h" />
+    <ClInclude Include="include\Poco\Dynamic\Var.h" />
+    <ClInclude Include="include\Poco\Dynamic\VarHolder.h" />
+    <ClInclude Include="include\Poco\Dynamic\VarIterator.h" />
     <ClInclude Include="include\Poco\Environment.h" />
     <ClInclude Include="include\Poco\Environment_UNIX.h" />
     <ClInclude Include="include\Poco\Environment_VMS.h" />
     <ClInclude Include="include\Poco\Environment_WIN32.h" />
     <ClInclude Include="include\Poco\Environment_WIN32U.h" />
+    <ClInclude Include="include\Poco\Error.h" />
+    <ClInclude Include="include\Poco\EventChannel.h" />
     <ClInclude Include="include\Poco\Exception.h" />
+    <ClInclude Include="include\Poco\FIFOBufferStream.h" />
     <ClInclude Include="include\Poco\Format.h" />
     <ClInclude Include="include\Poco\Foundation.h" />
     <ClInclude Include="include\Poco\FPEnvironment.h" />
@@ -1001,6 +1051,8 @@
     <ClInclude Include="include\Poco\FPEnvironment_SUN.h" />
     <ClInclude Include="include\Poco\FPEnvironment_WIN32.h" />
     <ClInclude Include="include\Poco\Instantiator.h" />
+    <ClInclude Include="include\Poco\Latin2Encoding.h" />
+    <ClInclude Include="include\Poco\ListMap.h" />
     <ClInclude Include="include\Poco\MemoryPool.h" />
     <ClInclude Include="include\Poco\MetaProgramming.h" />
     <ClInclude Include="include\Poco\NamedTuple.h" />
@@ -1008,25 +1060,34 @@
     <ClInclude Include="include\Poco\Nullable.h" />
     <ClInclude Include="include\Poco\NumberFormatter.h" />
     <ClInclude Include="include\Poco\NumberParser.h" />
+    <ClInclude Include="include\Poco\NumericString.h" />
     <ClInclude Include="include\Poco\ObjectPool.h" />
     <ClInclude Include="include\Poco\Optional.h" />
+    <ClInclude Include="include\Poco\PBKDF2Engine.h" />
     <ClInclude Include="include\Poco\Platform.h" />
     <ClInclude Include="include\Poco\Platform_POSIX.h" />
     <ClInclude Include="include\Poco\Platform_VMS.h" />
     <ClInclude Include="include\Poco\Platform_WIN32.h" />
     <ClInclude Include="include\Poco\Poco.h" />
     <ClInclude Include="include\Poco\PriorityStrategy.h" />
+    <ClInclude Include="include\Poco\RecursiveDirectoryIterator.h" />
+    <ClInclude Include="include\Poco\RecursiveDirectoryIteratorImpl.h" />
+    <ClInclude Include="include\Poco\DirectoryIteratorStrategy.h" />
     <ClInclude Include="include\Poco\RefCountedObject.h" />
     <ClInclude Include="include\Poco\SharedPtr.h" />
     <ClInclude Include="include\Poco\SingletonHolder.h" />
+    <ClInclude Include="include\Poco\SortedDirectoryIterator.h" />
     <ClInclude Include="include\Poco\String.h" />
     <ClInclude Include="include\Poco\StringTokenizer.h" />
     <ClInclude Include="include\Poco\Tuple.h" />
     <ClInclude Include="include\Poco\TypeList.h" />
     <ClInclude Include="include\Poco\Types.h" />
     <ClInclude Include="include\Poco\UnWindows.h" />
+    <ClInclude Include="include\Poco\UTF32Encoding.h" />
     <ClInclude Include="include\Poco\Version.h" />
     <ClInclude Include="include\Poco\Void.h" />
+    <ClInclude Include="include\Poco\Base32Decoder.h" />
+    <ClInclude Include="include\Poco\Base32Encoder.h" />
     <ClInclude Include="include\Poco\Base64Decoder.h" />
     <ClInclude Include="include\Poco\Base64Encoder.h" />
     <ClInclude Include="include\Poco\BinaryReader.h" />
@@ -1051,6 +1112,8 @@
     <ClInclude Include="include\Poco\TeeStream.h" />
     <ClInclude Include="include\Poco\Token.h" />
     <ClInclude Include="include\Poco\UnbufferedStreamBuf.h" />
+    <ClInclude Include="include\Poco\Windows1250Encoding.h" />
+    <ClInclude Include="include\Poco\Windows1251Encoding.h" />
     <ClInclude Include="src\crc32.h" />
     <ClInclude Include="src\deflate.h" />
     <ClInclude Include="src\inffast.h" />
@@ -1199,6 +1262,7 @@
     <ClInclude Include="include\Poco\SharedMemory_WIN32.h" />
     <ClInclude Include="include\Poco\UUID.h" />
     <ClInclude Include="include\Poco\UUIDGenerator.h" />
+    <ClInclude Include="include\Poco\Clock.h" />
     <ClInclude Include="include\Poco\DateTime.h" />
     <ClInclude Include="include\Poco\DateTimeFormat.h" />
     <ClInclude Include="include\Poco\DateTimeFormatter.h" />

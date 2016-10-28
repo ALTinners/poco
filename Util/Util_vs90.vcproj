@@ -31,7 +31,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include"
+				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include;..\JSON\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;Util_EXPORTS"
 				StringPooling="true"
 				MinimalRebuild="true"
@@ -44,9 +44,10 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 				CompileAs="0"
-				DisableSpecificWarnings=""/>
+				DisableSpecificWarnings=""
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"/>
 			<Tool
@@ -64,7 +65,8 @@
 				AdditionalLibraryDirectories="..\lib"
 				SubSystem="1"
 				ImportLibrary="..\lib\PocoUtild.lib"
-				TargetMachine="1"/>
+				TargetMachine="1"
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCALinkTool"/>
 			<Tool
@@ -103,7 +105,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include"
+				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include;..\JSON\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;Util_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -116,7 +118,8 @@
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="0"
 				CompileAs="0"
-				DisableSpecificWarnings=""/>
+				DisableSpecificWarnings=""
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"/>
 			<Tool
@@ -135,7 +138,8 @@
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				ImportLibrary="..\lib\PocoUtil.lib"
-				TargetMachine="1"/>
+				TargetMachine="1"
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCALinkTool"/>
 			<Tool
@@ -170,7 +174,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include"
+				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include;..\JSON\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;POCO_STATIC;"
 				StringPooling="true"
 				MinimalRebuild="true"
@@ -184,9 +188,10 @@
 				ProgramDataBaseFileName="..\lib\PocoUtilmtd.pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 				CompileAs="0"
-				DisableSpecificWarnings=""/>
+				DisableSpecificWarnings=""
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"/>
 			<Tool
@@ -230,7 +235,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include"
+				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include;..\JSON\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;POCO_STATIC;"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -243,7 +248,8 @@
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="0"
 				CompileAs="0"
-				DisableSpecificWarnings=""/>
+				DisableSpecificWarnings=""
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"/>
 			<Tool
@@ -283,7 +289,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include"
+				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include;..\JSON\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;POCO_STATIC;"
 				StringPooling="true"
 				MinimalRebuild="true"
@@ -297,9 +303,10 @@
 				ProgramDataBaseFileName="..\lib\PocoUtilmdd.pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 				CompileAs="0"
-				DisableSpecificWarnings=""/>
+				DisableSpecificWarnings=""
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"/>
 			<Tool
@@ -343,7 +350,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include"
+				AdditionalIncludeDirectories=".\include;..\Foundation\include;..\XML\include;..\JSON\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;POCO_STATIC;"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -356,7 +363,8 @@
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="0"
 				CompileAs="0"
-				DisableSpecificWarnings=""/>
+				DisableSpecificWarnings=""
+				AdditionalOptions=""/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"/>
 			<Tool
@@ -420,6 +428,8 @@
 				<File
 					RelativePath=".\include\Poco\Util\IniFileConfiguration.h"/>
 				<File
+					RelativePath=".\include\Poco\Util\JSONConfiguration.h"/>
+				<File
 					RelativePath=".\include\Poco\Util\LayeredConfiguration.h"/>
 				<File
 					RelativePath=".\include\Poco\Util\LoggingConfigurator.h"/>
@@ -444,6 +454,8 @@
 					RelativePath=".\src\FilesystemConfiguration.cpp"/>
 				<File
 					RelativePath=".\src\IniFileConfiguration.cpp"/>
+				<File
+					RelativePath=".\src\JSONConfiguration.cpp"/>
 				<File
 					RelativePath=".\src\LayeredConfiguration.cpp"/>
 				<File
@@ -556,12 +568,14 @@
 		<File
 			RelativePath="..\DLLVersion.rc">
 			<FileConfiguration
-				Name="debug_shared|Win32">
+				Name="debug_shared|Win32"
+				ExcludedFromBuild="true">
 				<Tool
 					Name="VCResourceCompilerTool"/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="release_shared|Win32">
+				Name="release_shared|Win32"
+				ExcludedFromBuild="true">
 				<Tool
 					Name="VCResourceCompilerTool"/>
 			</FileConfiguration>
