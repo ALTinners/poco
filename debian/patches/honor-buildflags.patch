@@ -8,12 +8,12 @@ Author: Cristian Greco <cristian@debian.org>
 +++ b/build/config/Linux
 @@ -20,7 +20,7 @@
  LINK    = $(CXX)
- LIB     = ar -cr
- RANLIB  = ranlib
+ LIB     = ${CROSS_COMPILE}ar -cr
+ RANLIB  = ${CROSS_COMPILE}ranlib
 -SHLIB   = $(CXX) -shared -Wl,-soname,$(notdir $@) -o $@
 +SHLIB   = $(CXX) -shared -Wl,-soname,$(notdir $@) $(LDFLAGS) -o $@
  SHLIBLN = $(POCO_BASE)/build/script/shlibln
- STRIP   = strip
+ STRIP   = ${CROSS_COMPILE}strip
  DEP     = $(POCO_BASE)/build/script/makedepend.gcc 
 @@ -38,13 +38,13 @@
  #

@@ -23,9 +23,9 @@ Author: Cristian Greco <cristian@debian.org>
  #
 --- a/build/rules/lib
 +++ b/build/rules/lib
-@@ -73,7 +73,6 @@
- 	@echo "** Building shared library (release)" $@
- 	$(SHLIB) $(SHLIBFLAGS) $^ $(LIBRARY) $(TARGET_LIBS_RELEASE) $(SYSLIBS)
+@@ -84,7 +84,6 @@
+ 	$(SHLIBLN) $(IMP_RELEASE_SHARED) $(IMP_RELEASE_SHARED_LINK)
+ endif
  	$(SHLIBLN) $(LIB_RELEASE_SHARED) $(LIB_RELEASE_SHARED_LINK)
 -	$(STRIPCMD)
  	$(postbuild)
