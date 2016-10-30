@@ -36,3 +36,7 @@ override_dh_auto_build:
 
 override_dh_auto_test:
 	./debian/testrunner.sh
+
+override_dh_clean:
+	rm -rf config.build config.make
+	dh_clean
