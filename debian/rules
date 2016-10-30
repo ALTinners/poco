@@ -5,7 +5,6 @@ export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 include /usr/share/dpkg/buildflags.mk
 
 CONFFLAGS = --prefix=/usr --no-samples --no-tests --unbundled --everything
-CONFFLAGS_TESTS = $(filter-out --no-tests, $(CONFFLAGS))
 
 # Disable parallel build on armel and mipsel
 ifneq (,$(filter $(DEB_BUILD_ARCH),armel mipsel))
@@ -18,6 +17,7 @@ else ifeq ($(DEB_HOST_ARCH_OS),kfreebsd)
 	CONFFLAGS += --config=FreeBSD
 endif
 
+CONFFLAGS_TESTS = $(filter-out --no-tests, $(CONFFLAGS))
 
 %:
 	dh $@ $(EXTRA_DH_OPTS)
