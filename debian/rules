@@ -18,8 +18,6 @@ else ifeq ($(DEB_HOST_ARCH_OS),kfreebsd)
 	CONFFLAGS += --config=FreeBSD
 endif
 
-POCO_LIBS = $(shell dh_listpackages | grep dbg | sed -e 's/-dbg//')
-
 
 %:
 	dh $@ $(EXTRA_DH_OPTS)
@@ -38,8 +36,3 @@ override_dh_auto_build:
 
 override_dh_auto_test:
 	./debian/testrunner.sh
-
-override_dh_strip-%:
-	dh_strip -p$* --dbg-package=$*-dbg
-
-override_dh_strip: $(POCO_LIBS:%=override_dh_strip-%)
