@@ -8,8 +8,8 @@ CONFFLAGS = --prefix=/usr --no-samples --no-tests --unbundled --everything
 CONFFLAGS_TESTS = $(filter-out --no-tests, $(CONFFLAGS))
 
 # Disable parallel build on armel and mipsel
-ifeq ($(or $(findstring armel, $(DEB_HOST_ARCH)), $(findstring mipsel, $(DEB_HOST_ARCH))), )
-	EXTRA_DH_OPTS += --parallel
+ifneq (,$(filter $(DEB_BUILD_ARCH),armel mipsel))
+	EXTRA_DH_OPTS += --no-parallel
 endif
 
 ifeq ($(DEB_HOST_ARCH_OS),linux)
