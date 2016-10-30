@@ -21,9 +21,6 @@ Package: libpoco-dev
 Section: libdevel
 Architecture: any
 Depends: ${misc:Depends}, libpococrypto16 (= ${binary:Version}), libpocodata16 (= ${binary:Version}), libpocofoundation16 (= ${binary:Version}), libpocodatamysql16 (= ${binary:Version}), libpoconet16 (= ${binary:Version}), libpoconetssl16 (= ${binary:Version}), libpocodataodbc16 (= ${binary:Version}), libpocodatasqlite16 (= ${binary:Version}), libpocoutil16 (= ${binary:Version}), libpocoxml16 (= ${binary:Version}), libpocozip16 (= ${binary:Version})
-Provides: libpoco5-dev
-Conflicts: libpoco5-dev
-Replaces: libpoco5-dev
 Description: C++ Portable Components (POCO) Development files
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
