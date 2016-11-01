@@ -3,12 +3,14 @@ Date: Mon, 31 Oct 2016 00:22:35 +0100
 Subject: Disable JSON targets in Makefiles
 
 ---
- Makefile                        | 20 ++++++++++----------
- PageCompiler/File2Page/Makefile |  2 +-
- PageCompiler/Makefile           |  2 +-
- Util/Makefile                   |  1 -
- Util/testsuite/Makefile         |  5 ++---
- 5 files changed, 14 insertions(+), 16 deletions(-)
+ Makefile                                      | 20 ++++++++++----------
+ NetSSL_OpenSSL/testsuite/Makefile             |  2 +-
+ PageCompiler/File2Page/Makefile               |  2 +-
+ PageCompiler/Makefile                         |  2 +-
+ Util/Makefile                                 |  1 -
+ Util/testsuite/Makefile                       |  5 ++---
+ Util/testsuite/src/ConfigurationTestSuite.cpp |  1 -
+ 7 files changed, 15 insertions(+), 18 deletions(-)
 
 diff --git a/Makefile b/Makefile
 index 4efed4c..8a33cd7 100644
@@ -83,6 +85,18 @@ index 4efed4c..8a33cd7 100644
  	$(MAKE) -C $(POCO_BASE)/PageCompiler/File2Page
  
  PageCompiler/File2Page-clean:
+diff --git a/NetSSL_OpenSSL/testsuite/Makefile b/NetSSL_OpenSSL/testsuite/Makefile
+index 7c425ae..496d15a 100644
+--- a/NetSSL_OpenSSL/testsuite/Makefile
++++ b/NetSSL_OpenSSL/testsuite/Makefile
+@@ -21,6 +21,6 @@ objects = NetSSLTestSuite Driver \
+ 
+ target         = testrunner
+ target_version = 1
+-target_libs    = PocoNetSSL PocoNet PocoCrypto PocoUtil PocoJSON PocoXML PocoFoundation CppUnit
++target_libs    = PocoNetSSL PocoNet PocoCrypto PocoUtil PocoXML PocoFoundation CppUnit
+ 
+ include $(POCO_BASE)/build/rules/exec
 diff --git a/PageCompiler/File2Page/Makefile b/PageCompiler/File2Page/Makefile
 index 30fd3b5..8febd32 100644
 --- a/PageCompiler/File2Page/Makefile
@@ -138,3 +152,15 @@ index e79c222..da4a0e7 100644
  
  include $(POCO_BASE)/build/rules/exec
  
+diff --git a/Util/testsuite/src/ConfigurationTestSuite.cpp b/Util/testsuite/src/ConfigurationTestSuite.cpp
+index a62afb7..beb42a7 100644
+--- a/Util/testsuite/src/ConfigurationTestSuite.cpp
++++ b/Util/testsuite/src/ConfigurationTestSuite.cpp
+@@ -39,7 +39,6 @@ CppUnit::Test* ConfigurationTestSuite::suite()
+ 	pSuite->addTest(XMLConfigurationTest::suite());
+ 	pSuite->addTest(FilesystemConfigurationTest::suite());
+ 	pSuite->addTest(LoggingConfiguratorTest::suite());
+-	pSuite->addTest(JSONConfigurationTest::suite());
+ 
+ 	return pSuite;
+ }

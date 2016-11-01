@@ -25,13 +25,13 @@ CONFFLAGS_TESTS = $(filter-out --no-tests, $(CONFFLAGS))
 override_dh_auto_configure:
 	./configure $(CONFFLAGS_TESTS)
 	# save config file with tests enabled for later use
-	mv config.make config.make.tests
+	mv config.build config.build.tests
 	./configure $(CONFFLAGS)
 
 override_dh_auto_build:
 	dh_auto_build
 	# build tests with hardening flags disabled
-	mv config.make.tests config.make
+	mv config.build.tests config.build
 	dh_auto_build -- CFLAGS= CPPFLAGS= CXXFLAGS= LDFLAGS=
 
 override_dh_auto_test:

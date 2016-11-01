@@ -3,7 +3,8 @@
 # Author: Cristian Greco <cristian@debian.org>
 
 ENABLED_TEST_LIBS="Crypto Data Data/SQLite Foundation Util XML Zip"
-DISABLED_TEST_LIBS="Data/MySQL Data/ODBC Net NetSSL_OpenSSL"
+DISABLED_TEST_LIBS="Data/MySQL Data/ODBC JSON MongoDB Net NetSSL_OpenSSL"
+
 
 # copy libraries to temp dir
 TESTDIR=$(mktemp -d /tmp/pocotest.XXXXXX)
