@@ -1,7 +1,7 @@
 Source: poco
 Priority: optional
 Maintainer: Krzysztof Burghardt <krzysztof@burghardt.pl>
-Uploaders: Patrick Gansterer <paroga@paroga.com>, Cristian Greco <cristian@debian.org>
+Uploaders: Patrick Gansterer <paroga@paroga.com>, Cristian Greco <cristian@debian.org>, Jochen Sprickerhof <jspricke@debian.org>
 Build-Depends: debhelper (>= 10),
                libexpat1-dev,
                default-libmysqlclient-dev,
