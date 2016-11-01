@@ -16,19 +16,22 @@ FILE_TESTAPP=$(find Foundation/testsuite/ -type f -name TestApp)
 FILE_TESTLIB=$(find Foundation/testsuite/ -type f -name TestLibrary.so)
 cp ${FILE_TESTAPP} ${FILE_TESTLIB} ${TESTDIR}
 
+ERROR=0
+
 # run tests
 for testlib in ${ENABLED_TEST_LIBS}; do
   TESTRUNNER=$(find ${testlib}/testsuite -type f -name testrunner)
   cp ${TESTRUNNER} ${TESTDIR}
   test -d ${TESTDIR}/data && rm -rf ${TESTDIR}/data
   test -d ${testlib}/testsuite/data && cp -r ${testlib}/testsuite/data ${TESTDIR}/data
-  (
-    cd ${TESTDIR}; \
-    echo "[Running test: ${testlib}]"; \
-    export LD_LIBRARY_PATH=.:${LD_LIBRARY_PATH}; \
-    ./testrunner -all; \
-    echo; \
-  )
+  cd ${TESTDIR}; \
+  echo "[Running test: ${testlib}]"; \
+  export LD_LIBRARY_PATH=.:${LD_LIBRARY_PATH}; \
+  ./testrunner -all || ERROR=1; \
+  cd -; \
+  echo; \
 done
 
 rm -rf ${TESTDIR}
+
+exit $ERROR
