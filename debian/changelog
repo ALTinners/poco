@@ -1,3 +1,25 @@
+poco (1.7.6+dfsg1-1) experimental; urgency=medium
+
+  * Update watch file
+  * New upstream version 1.7.6+dfsg1 (Closes: #832340, #671477, #677039,
+    #786498)
+  * rebase patches
+  * Remove dbg packages
+  * Remove replaces for libpoco5-dev (package not even in old-stable)
+  * Move to debhelper compat 10
+  * Update standards version (no changes needed)
+  * Update homepage and vcs tags (Closes: #803642)
+  * Update build dependencies
+  * Update lib names due to Soname change
+  * Add new libraries
+  * Update copyright file
+  * Remove JSON lib, as it's not DFSG-complaint
+  * Add lintian overrides
+  * Add patch for OpenSSL 1.1.0 (Closes: #828507)
+  * Add myself to uploaders
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Wed, 02 Nov 2016 08:23:48 +0100
+
 poco (1.4.6p1-1) experimental; urgency=low
 
   * New Upstream version 1.4.6p1
