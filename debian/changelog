@@ -1,3 +1,9 @@
+poco (1.7.6+dfsg1-2) experimental; urgency=medium
+
+  * Bring back ODBC dir
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Fri, 04 Nov 2016 12:22:04 +0100
+
 poco (1.7.6+dfsg1-1) experimental; urgency=medium
 
   * Update watch file
