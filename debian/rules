@@ -11,6 +11,11 @@ ifneq (,$(filter $(DEB_BUILD_ARCH),armel mipsel))
 	EXTRA_DH_OPTS += --no-parallel
 endif
 
+# Disable fpenvironment on armel (fixes #843225)
+ifneq (,$(filter $(DEB_BUILD_ARCH),armel))
+	CONFFLAGS += --no-fpenvironment
+endif
+
 ifeq ($(DEB_HOST_ARCH_OS),linux)
 	CONFFLAGS += --config=Linux
 else ifeq ($(DEB_HOST_ARCH_OS),kfreebsd)
