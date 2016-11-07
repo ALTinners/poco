@@ -1,3 +1,10 @@
+poco (1.7.6+dfsg1-4) unstable; urgency=medium
+
+  * Fix unit tests (Closes: #843225)
+  * Disable return value of unit tests
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Mon, 07 Nov 2016 08:41:36 +0100
+
 poco (1.7.6+dfsg1-3) unstable; urgency=medium
 
   * Upload to unstable
