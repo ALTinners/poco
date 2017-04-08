@@ -19,7 +19,7 @@ Vcs-Git: https://anonscm.debian.org/cgit/collab-maint/poco.git
 Package: libpoco-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends}, libpococrypto46 (= ${binary:Version}), libpocodata46 (= ${binary:Version}), libpocofoundation46 (= ${binary:Version}), libpocodatamysql46 (= ${binary:Version}), libpocomongodb46 (= ${binary:Version}), libpoconet46 (= ${binary:Version}), libpoconetssl46 (= ${binary:Version}), libpocodataodbc46 (= ${binary:Version}), libpocodatasqlite46 (= ${binary:Version}), libpocoutil46 (= ${binary:Version}), libpocoxml46 (= ${binary:Version}), libpocozip46 (= ${binary:Version})
+Depends: ${misc:Depends}, libpococrypto48 (= ${binary:Version}), libpocodata48 (= ${binary:Version}), libpocofoundation48 (= ${binary:Version}), libpocodatamysql48 (= ${binary:Version}), libpocomongodb48 (= ${binary:Version}), libpoconet48 (= ${binary:Version}), libpoconetssl48 (= ${binary:Version}), libpocodataodbc48 (= ${binary:Version}), libpocodatasqlite48 (= ${binary:Version}), libpocoutil48 (= ${binary:Version}), libpocoxml48 (= ${binary:Version}), libpocozip48 (= ${binary:Version})
 Description: C++ Portable Components (POCO) Development files
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -36,9 +36,9 @@ Description: C++ Portable Components (POCO) Development files
  are NetSSL, providing SSL support for the network classes in the Net library,
  and Data, a library for uniformly accessing different SQL databases.
 
-Package: libpococrypto46
+Package: libpococrypto48
 Architecture: any
-Depends: libpocofoundation46 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocofoundation48 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Crypto library
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -52,9 +52,9 @@ Description: C++ Portable Components (POCO) Crypto library
  .
  This package provides the POCO Crypto library.
 
-Package: libpocodata46
+Package: libpocodata48
 Architecture: any
-Depends: libpocofoundation46 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocofoundation48 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Data library
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -68,9 +68,9 @@ Description: C++ Portable Components (POCO) Data library
  .
  This package provides the POCO Data library.
 
-Package: libpocomongodb46
+Package: libpocomongodb48
 Architecture: any
-Depends: libpocofoundation46 (= ${binary:Version}), libpoconet46 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocofoundation48 (= ${binary:Version}), libpoconet48 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Data MySQL library
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -84,9 +84,9 @@ Description: C++ Portable Components (POCO) Data MySQL library
  .
  This package provides the POCO MongoDB library.
 
-Package: libpocodatamysql46
+Package: libpocodatamysql48
 Architecture: any
-Depends: libpocofoundation46 (= ${binary:Version}), libpocodata46 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocofoundation48 (= ${binary:Version}), libpocodata48 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Data MySQL library
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -100,9 +100,9 @@ Description: C++ Portable Components (POCO) Data MySQL library
  .
  This package provides the POCO Data MySQL library.
 
-Package: libpocodataodbc46
+Package: libpocodataodbc48
 Architecture: any
-Depends: libpocofoundation46 (= ${binary:Version}), libpocodata46 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocofoundation48 (= ${binary:Version}), libpocodata48 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) ODBC library
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -117,9 +117,9 @@ Description: C++ Portable Components (POCO) ODBC library
  This package provides the POCO Data ODBC library. In Debian, it is linked
  against unixODBC but also iODBC can be used instead.
 
-Package: libpocodatasqlite46
+Package: libpocodatasqlite48
 Architecture: any
-Depends: libpocofoundation46 (= ${binary:Version}), libpocodata46 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocofoundation48 (= ${binary:Version}), libpocodata48 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Data SQLite library
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -133,7 +133,7 @@ Description: C++ Portable Components (POCO) Data SQLite library
  .
  This package provides the POCO Data SQLite library.
 
-Package: libpocofoundation46
+Package: libpocofoundation48
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Foundation library
@@ -149,9 +149,9 @@ Description: C++ Portable Components (POCO) Foundation library
  .
  This package provides the POCO Foundation library.
 
-Package: libpoconet46
+Package: libpoconet48
 Architecture: any
-Depends: libpocofoundation46 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocofoundation48 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Network library
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -165,9 +165,9 @@ Description: C++ Portable Components (POCO) Network library
  .
  This package provides the POCO Net library.
 
-Package: libpoconetssl46
+Package: libpoconetssl48
 Architecture: any
-Depends: libpocofoundation46 (= ${binary:Version}), libpococrypto46 (= ${binary:Version}), libpoconet46 (= ${binary:Version}), libpocoutil46 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocofoundation48 (= ${binary:Version}), libpococrypto48 (= ${binary:Version}), libpoconet48 (= ${binary:Version}), libpocoutil48 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Network library with SSL
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -181,9 +181,9 @@ Description: C++ Portable Components (POCO) Network library with SSL
  .
  This package provides the POCO Network SSL library.
 
-Package: libpocoutil46
+Package: libpocoutil48
 Architecture: any
-Depends: libpocofoundation46 (= ${binary:Version}), libpocoxml46 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocofoundation48 (= ${binary:Version}), libpocoxml48 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Util library
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -197,9 +197,9 @@ Description: C++ Portable Components (POCO) Util library
  .
  This package provides POCO Util library.
 
-Package: libpocoxml46
+Package: libpocoxml48
 Architecture: any
-Depends: libpocofoundation46 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocofoundation48 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) XML library
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -213,9 +213,9 @@ Description: C++ Portable Components (POCO) XML library
  .
  This package provides the POCO XML library.
 
-Package: libpocozip46
+Package: libpocozip48
 Architecture: any
-Depends: libpocofoundation46 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: libpocofoundation48 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Zip library
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
