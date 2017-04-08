@@ -5,7 +5,7 @@ Files-Excluded: JSON/include/Poco/JSON/Parser.h
 Comment: JSON is not DFSG-complaint, see https://wiki.debian.org/qa.debian.org/jsonevil
 
 Files: *
-Copyright: 2004-2016 Applied Informatics Software Engineering GmbH
+Copyright: 2004-2017 Applied Informatics Software Engineering GmbH
 License: BSL-1.0
 
 Files: XML/include/Poco/XML/expat* XML/src/*tab.h XML/src/xml*.c
@@ -32,8 +32,8 @@ Files: Foundation/src/pcre_*
 Copyright: 1997-2014 University of Cambridge
 License: BSD-3-clause
 
-Files: Foundation/include/Poco/zlib.h Foundation/src/*32.c Foundation/src/deflate.c Foundation/src/gzguts.h Foundation/src/inf*.c Foundation/src/zlib.h
-Copyright: 1995-2013 Jean-loup Gailly and Mark Adler
+Files: Foundation/include/Poco/zlib.h Foundation/src/*32.c /src/compress.c Foundation/src/deflate.c Foundation/src/gzguts.h Foundation/src/inf*.c Foundation/src/zlib.h
+Copyright: 1995-2017 Jean-loup Gailly and Mark Adler
 License: Zlib
 
 Files: Foundation/include/Poco/Any.h
