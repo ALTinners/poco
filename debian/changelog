@@ -1,3 +1,9 @@
+poco (1.7.6+dfsg1-5) unstable; urgency=medium
+
+  * Add missing dependencies (Closes: #861682)
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Tue, 02 May 2017 22:00:07 +0200
+
 poco (1.7.6+dfsg1-4) unstable; urgency=medium
 
   * Fix unit tests (Closes: #843225)
