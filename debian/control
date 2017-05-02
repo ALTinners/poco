@@ -19,7 +19,7 @@ Vcs-Git: https://anonscm.debian.org/cgit/collab-maint/poco.git
 Package: libpoco-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends}, libpococrypto48 (= ${binary:Version}), libpocodata48 (= ${binary:Version}), libpocofoundation48 (= ${binary:Version}), libpocodatamysql48 (= ${binary:Version}), libpocomongodb48 (= ${binary:Version}), libpoconet48 (= ${binary:Version}), libpoconetssl48 (= ${binary:Version}), libpocodataodbc48 (= ${binary:Version}), libpocodatasqlite48 (= ${binary:Version}), libpocoutil48 (= ${binary:Version}), libpocoxml48 (= ${binary:Version}), libpocozip48 (= ${binary:Version})
+Depends: ${misc:Depends}, libpococrypto48 (= ${binary:Version}), libpocodata48 (= ${binary:Version}), libpocofoundation48 (= ${binary:Version}), libpocodatamysql48 (= ${binary:Version}), libpocomongodb48 (= ${binary:Version}), libpoconet48 (= ${binary:Version}), libpoconetssl48 (= ${binary:Version}), libpocodataodbc48 (= ${binary:Version}), libpocodatasqlite48 (= ${binary:Version}), libpocoutil48 (= ${binary:Version}), libpocoxml48 (= ${binary:Version}), libpocozip48 (= ${binary:Version}), libexpat1-dev, default-libmysqlclient-dev, libpcre3-dev, libsqlite3-dev, libssl-dev, zlib1g-dev
 Description: C++ Portable Components (POCO) Development files
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
