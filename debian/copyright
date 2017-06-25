@@ -1,4 +1,4 @@
-Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: POCO
 Source: https://pocoproject.org/
 Files-Excluded: JSON/include/Poco/JSON/Parser.h
@@ -32,7 +32,7 @@ Files: Foundation/src/pcre_*
 Copyright: 1997-2014 University of Cambridge
 License: BSD-3-clause
 
-Files: Foundation/include/Poco/zlib.h Foundation/src/*32.c /src/compress.c Foundation/src/deflate.c Foundation/src/gzguts.h Foundation/src/inf*.c Foundation/src/zlib.h
+Files: Foundation/include/Poco/zlib.h Foundation/src/*32.c Foundation/src/compress.c Foundation/src/deflate.c Foundation/src/gzguts.h Foundation/src/inf*.c Foundation/src/zlib.h
 Copyright: 1995-2017 Jean-loup Gailly and Mark Adler
 License: Zlib
 
