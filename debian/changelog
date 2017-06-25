@@ -1,3 +1,15 @@
+poco (1.7.8+dfsg1-1) experimental; urgency=medium
+
+  * New upstream version 1.7.8+dfsg1
+  * Drop openssl patch (applied upstream)
+  * Update patches
+  * Update copyright
+  * change package names due to soname bump
+  * Add missing dependencies (Closes: #861682)
+  * Bump standards version
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Sun, 25 Jun 2017 08:39:10 +0200
+
 poco (1.7.6+dfsg1-4) unstable; urgency=medium
 
   * Fix unit tests (Closes: #843225)
