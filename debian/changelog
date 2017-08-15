@@ -1,3 +1,9 @@
+poco (1.7.8+dfsg1-2) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Tue, 15 Aug 2017 19:43:48 +0200
+
 poco (1.7.8+dfsg1-1) experimental; urgency=medium
 
   * New upstream version 1.7.8+dfsg1
