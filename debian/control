@@ -71,7 +71,7 @@ Description: C++ Portable Components (POCO) Data library
 Package: libpocomongodb48
 Architecture: any
 Depends: libpocofoundation48 (= ${binary:Version}), libpoconet48 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
-Description: C++ Portable Components (POCO) Data MySQL library
+Description: C++ Portable Components (POCO) Data MongoDB library
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
  applications in C++. The libraries integrate perfectly with the C++ Standard
