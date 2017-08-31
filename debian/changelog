@@ -1,3 +1,11 @@
+poco (1.7.8+dfsg1-3) unstable; urgency=medium
+
+  * Add patch for m86k.
+    Thanks to John Paul Adrian Glaubitz (Closes: #868078)
+  * Fix typo in description (Closes: #872786)
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Thu, 31 Aug 2017 06:29:37 +0200
+
 poco (1.7.8+dfsg1-2) unstable; urgency=medium
 
   * Upload to unstable
