@@ -74,7 +74,6 @@ build/script/makeldpath
 build/script/projname
 build/script/shlibln
 build/script/vxprogen
-build/vms
 build/vxconfig
 build/vxconfig/PPC440diab_debug
 build/vxconfig/PPC440diab_release
@@ -110,6 +109,7 @@ contrib
 contrib/poco-doc.pl
 CONTRIBUTORS
 CppUnit
+CppUnit/CMakeLists.txt
 CppUnit/CppUnit.vxbuild
 CppUnit/CppUnit_CE_vs90.sln
 CppUnit/CppUnit_CE_vs90.vcproj
@@ -187,6 +187,7 @@ CppUnit/src/TestRunner.cpp
 CppUnit/src/TestSuite.cpp
 CppUnit/src/TextTestResult.cpp
 CppUnit/WinTestRunner
+CppUnit/WinTestRunner/CMakeLists.txt
 CppUnit/WinTestRunner/include
 CppUnit/WinTestRunner/include/WinTestRunner
 CppUnit/WinTestRunner/include/WinTestRunner/WinTestRunner.h
@@ -1329,6 +1330,7 @@ Foundation/include/Poco/FPEnvironment.h
 Foundation/include/Poco/FPEnvironment_C99.h
 Foundation/include/Poco/FPEnvironment_DEC.h
 Foundation/include/Poco/FPEnvironment_DUMMY.h
+Foundation/include/Poco/FPEnvironment_QNX.h
 Foundation/include/Poco/FPEnvironment_SUN.h
 Foundation/include/Poco/FPEnvironment_WIN32.h
 Foundation/include/Poco/FunctionDelegate.h
@@ -2315,6 +2317,7 @@ Foundation/src/FPEnvironment.cpp
 Foundation/src/FPEnvironment_C99.cpp
 Foundation/src/FPEnvironment_DEC.cpp
 Foundation/src/FPEnvironment_DUMMY.cpp
+Foundation/src/FPEnvironment_QNX.cpp
 Foundation/src/FPEnvironment_SUN.cpp
 Foundation/src/FPEnvironment_WIN32.cpp
 Foundation/src/Glob.cpp
@@ -5491,6 +5494,7 @@ XML/src/ParserEngine.cpp
 XML/src/ProcessingInstruction.cpp
 XML/src/SAXException.cpp
 XML/src/SAXParser.cpp
+XML/src/siphash.h
 XML/src/Text.cpp
 XML/src/TreeWalker.cpp
 XML/src/utf8tab.h
