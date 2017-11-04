@@ -3,155 +3,311 @@ Date: Mon, 31 Oct 2016 00:22:35 +0100
 Subject: Disable JSON targets in Makefiles
 
 ---
- Makefile                                      | 20 ++++++++++----------
- NetSSL_OpenSSL/testsuite/Makefile             |  2 +-
- PageCompiler/File2Page/Makefile               |  2 +-
- PageCompiler/Makefile                         |  2 +-
- Util/Makefile                                 |  1 -
- Util/testsuite/Makefile                       |  5 ++---
- Util/testsuite/src/ConfigurationTestSuite.cpp |  1 -
- 7 files changed, 15 insertions(+), 18 deletions(-)
+ Foundation/samples/StringTokenizer/CMakeLists.txt   | 2 +-
+ Foundation/samples/URI/CMakeLists.txt               | 2 +-
+ JSON/samples/Benchmark/CMakeLists.txt               | 2 +-
+ JSON/testsuite/CMakeLists.txt                       | 2 +-
+ Net/samples/EchoServer/CMakeLists.txt               | 2 +-
+ Net/samples/HTTPFormServer/CMakeLists.txt           | 2 +-
+ Net/samples/HTTPLoadTest/CMakeLists.txt             | 2 +-
+ Net/samples/HTTPTimeServer/CMakeLists.txt           | 2 +-
+ Net/samples/Mail/CMakeLists.txt                     | 2 +-
+ Net/samples/Ping/CMakeLists.txt                     | 2 +-
+ Net/samples/SMTPLogger/CMakeLists.txt               | 2 +-
+ Net/samples/TimeServer/CMakeLists.txt               | 2 +-
+ Net/samples/WebSocketServer/CMakeLists.txt          | 2 +-
+ Net/samples/dict/CMakeLists.txt                     | 2 +-
+ Net/samples/download/CMakeLists.txt                 | 2 +-
+ Net/samples/httpget/CMakeLists.txt                  | 2 +-
+ Net/samples/ifconfig/CMakeLists.txt                 | 2 +-
+ NetSSL_OpenSSL/samples/CMakeLists.txt               | 1 -
+ NetSSL_OpenSSL/samples/TwitterClient/CMakeLists.txt | 2 +-
+ PageCompiler/CMakeLists.txt                         | 2 +-
+ PageCompiler/File2Page/CMakeLists.txt               | 2 +-
+ Util/samples/SampleApp/CMakeLists.txt               | 2 +-
+ Util/samples/SampleServer/CMakeLists.txt            | 2 +-
+ Util/samples/Units/CMakeLists.txt                   | 2 +-
+ Util/samples/pkill/CMakeLists.txt                   | 2 +-
+ Util/testsuite/CMakeLists.txt                       | 3 ++-
+ Util/testsuite/src/ConfigurationTestSuite.cpp       | 1 -
+ 27 files changed, 26 insertions(+), 27 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 4efed4c..8a33cd7 100644
---- a/Makefile
-+++ b/Makefile
-@@ -85,7 +85,7 @@ poco: libexecs $(if $(TESTS),tests) $(if $(SAMPLES),samples)
- all: libexecs tests samples
+diff --git a/Foundation/samples/StringTokenizer/CMakeLists.txt b/Foundation/samples/StringTokenizer/CMakeLists.txt
+index 3ad93f8..44662b2 100644
+--- a/Foundation/samples/StringTokenizer/CMakeLists.txt
++++ b/Foundation/samples/StringTokenizer/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
- INSTALLDIR = $(DESTDIR)$(POCO_PREFIX)
--COMPONENTS = Foundation XML JSON Util Net Crypto NetSSL_OpenSSL Data Data/SQLite Data/ODBC Data/MySQL MongoDB Zip PageCompiler PageCompiler/File2Page
-+COMPONENTS = Foundation XML Util Net Crypto NetSSL_OpenSSL Data Data/SQLite Data/ODBC Data/MySQL MongoDB Zip PageCompiler PageCompiler/File2Page
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoJSON PocoXML PocoFoundation)
++target_link_libraries( ${SAMPLE_NAME} PocoXML PocoFoundation)
+diff --git a/Foundation/samples/URI/CMakeLists.txt b/Foundation/samples/URI/CMakeLists.txt
+index c120f56..627a959 100644
+--- a/Foundation/samples/URI/CMakeLists.txt
++++ b/Foundation/samples/URI/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
- cppunit:
- 	$(MAKE) -C $(POCO_BASE)/CppUnit 
-@@ -112,10 +112,10 @@ endif
- 	find $(POCO_BUILD)/lib/$(OSNAME)/$(OSARCH) -name "libPoco*" -type f -exec cp -f  {} $(INSTALLDIR)/lib \;
- 	find $(POCO_BUILD)/lib/$(OSNAME)/$(OSARCH) -name "libPoco*" -type l -exec cp -Rf {} $(INSTALLDIR)/lib \;
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoXML PocoFoundation )
+diff --git a/JSON/samples/Benchmark/CMakeLists.txt b/JSON/samples/Benchmark/CMakeLists.txt
+index 4318ed3..27d5417 100644
+--- a/JSON/samples/Benchmark/CMakeLists.txt
++++ b/JSON/samples/Benchmark/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
--libexecs =  Foundation-libexec XML-libexec JSON-libexec Util-libexec Net-libexec Crypto-libexec NetSSL_OpenSSL-libexec Data-libexec Data/SQLite-libexec Data/ODBC-libexec Data/MySQL-libexec MongoDB-libexec Zip-libexec PageCompiler-libexec PageCompiler/File2Page-libexec
--tests    =  Foundation-tests XML-tests JSON-tests Util-tests Net-tests Crypto-tests NetSSL_OpenSSL-tests Data-tests Data/SQLite-tests Data/ODBC-tests Data/MySQL-tests MongoDB-tests Zip-tests
--samples  =  Foundation-samples XML-samples JSON-samples Util-samples Net-samples Crypto-samples NetSSL_OpenSSL-samples Data-samples MongoDB-samples Zip-samples PageCompiler-samples
--cleans   =  Foundation-clean XML-clean JSON-clean Util-clean Net-clean Crypto-clean NetSSL_OpenSSL-clean Data-clean Data/SQLite-clean Data/ODBC-clean Data/MySQL-clean MongoDB-clean Zip-clean PageCompiler-clean PageCompiler/File2Page-clean
-+libexecs =  Foundation-libexec XML-libexec Util-libexec Net-libexec Crypto-libexec NetSSL_OpenSSL-libexec Data-libexec Data/SQLite-libexec Data/ODBC-libexec Data/MySQL-libexec MongoDB-libexec Zip-libexec PageCompiler-libexec PageCompiler/File2Page-libexec
-+tests    =  Foundation-tests XML-tests Util-tests Net-tests Crypto-tests NetSSL_OpenSSL-tests Data-tests Data/SQLite-tests Data/ODBC-tests Data/MySQL-tests MongoDB-tests Zip-tests
-+samples  =  Foundation-samples XML-samples Util-samples Net-samples Crypto-samples NetSSL_OpenSSL-samples Data-samples MongoDB-samples Zip-samples PageCompiler-samples
-+cleans   =  Foundation-clean XML-clean Util-clean Net-clean Crypto-clean NetSSL_OpenSSL-clean Data-clean Data/SQLite-clean Data/ODBC-clean Data/MySQL-clean MongoDB-clean Zip-clean PageCompiler-clean PageCompiler/File2Page-clean
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoJSON PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoFoundation )
+diff --git a/JSON/testsuite/CMakeLists.txt b/JSON/testsuite/CMakeLists.txt
+index 7ef42b4..8980e52 100644
+--- a/JSON/testsuite/CMakeLists.txt
++++ b/JSON/testsuite/CMakeLists.txt
+@@ -18,7 +18,7 @@ POCO_SOURCES_AUTO_PLAT( TEST_SRCS WINCE
  
- .PHONY: $(libexecs)
- .PHONY: $(tests)
-@@ -169,7 +169,7 @@ JSON-clean:
- 	$(MAKE) -C $(POCO_BASE)/JSON/testsuite clean
- 	$(MAKE) -C $(POCO_BASE)/JSON/samples clean
+ add_executable( ${TESTUNIT} ${TEST_SRCS} )
+ add_test(NAME ${LIBNAME} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND ${TESTUNIT} -all)
+-target_link_libraries( ${TESTUNIT}  PocoJSON PocoFoundation CppUnit )
++target_link_libraries( ${TESTUNIT}  PocoFoundation CppUnit )
  
--Util-libexec:  Foundation-libexec XML-libexec JSON-libexec
-+Util-libexec:  Foundation-libexec XML-libexec
- 	$(MAKE) -C $(POCO_BASE)/Util
+ # The test is run in the build directory. So the test data is copied there too
+ add_custom_command(TARGET ${TESTUNIT} POST_BUILD
+diff --git a/Net/samples/EchoServer/CMakeLists.txt b/Net/samples/EchoServer/CMakeLists.txt
+index a4fa6a5..9f2a6c8 100644
+--- a/Net/samples/EchoServer/CMakeLists.txt
++++ b/Net/samples/EchoServer/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
- Util-tests: Util-libexec cppunit
-@@ -189,7 +189,7 @@ Net-libexec:  Foundation-libexec
- Net-tests: Net-libexec cppunit
- 	$(MAKE) -C $(POCO_BASE)/Net/testsuite
- 	
--Net-samples: Net-libexec  Foundation-libexec XML-libexec JSON-libexec Util-libexec
-+Net-samples: Net-libexec  Foundation-libexec XML-libexec Util-libexec
- 	$(MAKE) -C $(POCO_BASE)/Net/samples
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/Net/samples/HTTPFormServer/CMakeLists.txt b/Net/samples/HTTPFormServer/CMakeLists.txt
+index 7660953..b2f2e8e 100644
+--- a/Net/samples/HTTPFormServer/CMakeLists.txt
++++ b/Net/samples/HTTPFormServer/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
- Net-clean:
-@@ -283,7 +283,7 @@ MongoDB-clean:
- 	$(MAKE) -C $(POCO_BASE)/MongoDB/testsuite clean
- 	$(MAKE) -C $(POCO_BASE)/MongoDB/samples clean
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/Net/samples/HTTPLoadTest/CMakeLists.txt b/Net/samples/HTTPLoadTest/CMakeLists.txt
+index 2a5d5ff..10a9807 100644
+--- a/Net/samples/HTTPLoadTest/CMakeLists.txt
++++ b/Net/samples/HTTPLoadTest/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
--Zip-libexec:  Foundation-libexec Net-libexec Util-libexec XML-libexec JSON-libexec
-+Zip-libexec:  Foundation-libexec Net-libexec Util-libexec XML-libexec
- 	$(MAKE) -C $(POCO_BASE)/Zip
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/Net/samples/HTTPTimeServer/CMakeLists.txt b/Net/samples/HTTPTimeServer/CMakeLists.txt
+index 135c652..e7fc349 100644
+--- a/Net/samples/HTTPTimeServer/CMakeLists.txt
++++ b/Net/samples/HTTPTimeServer/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
- Zip-tests: Zip-libexec cppunit
-@@ -297,7 +297,7 @@ Zip-clean:
- 	$(MAKE) -C $(POCO_BASE)/Zip/testsuite clean
- 	$(MAKE) -C $(POCO_BASE)/Zip/samples clean
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/Net/samples/Mail/CMakeLists.txt b/Net/samples/Mail/CMakeLists.txt
+index 1546ea0..23d7726 100644
+--- a/Net/samples/Mail/CMakeLists.txt
++++ b/Net/samples/Mail/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
--PageCompiler-libexec:  Net-libexec Util-libexec XML-libexec JSON-libexec Foundation-libexec
-+PageCompiler-libexec:  Net-libexec Util-libexec XML-libexec Foundation-libexec
- 	$(MAKE) -C $(POCO_BASE)/PageCompiler
- 	
- PageCompiler-samples: PageCompiler-libexec  Foundation-libexec Net-libexec Util-libexec PageCompiler-libexec
-@@ -307,7 +307,7 @@ PageCompiler-clean:
- 	$(MAKE) -C $(POCO_BASE)/PageCompiler clean
- 	$(MAKE) -C $(POCO_BASE)/PageCompiler/samples clean
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/Net/samples/Ping/CMakeLists.txt b/Net/samples/Ping/CMakeLists.txt
+index 63c7691..e1bbce0 100644
+--- a/Net/samples/Ping/CMakeLists.txt
++++ b/Net/samples/Ping/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
--PageCompiler/File2Page-libexec:  Net-libexec Util-libexec XML-libexec JSON-libexec Foundation-libexec
-+PageCompiler/File2Page-libexec:  Net-libexec Util-libexec XML-libexec Foundation-libexec
- 	$(MAKE) -C $(POCO_BASE)/PageCompiler/File2Page
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/Net/samples/SMTPLogger/CMakeLists.txt b/Net/samples/SMTPLogger/CMakeLists.txt
+index eb84ca7..f019c60 100644
+--- a/Net/samples/SMTPLogger/CMakeLists.txt
++++ b/Net/samples/SMTPLogger/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
- PageCompiler/File2Page-clean:
-diff --git a/NetSSL_OpenSSL/testsuite/Makefile b/NetSSL_OpenSSL/testsuite/Makefile
-index 7c425ae..496d15a 100644
---- a/NetSSL_OpenSSL/testsuite/Makefile
-+++ b/NetSSL_OpenSSL/testsuite/Makefile
-@@ -21,6 +21,6 @@ objects = NetSSLTestSuite Driver \
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/Net/samples/TimeServer/CMakeLists.txt b/Net/samples/TimeServer/CMakeLists.txt
+index ab9b46e..f841004 100644
+--- a/Net/samples/TimeServer/CMakeLists.txt
++++ b/Net/samples/TimeServer/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
- target         = testrunner
- target_version = 1
--target_libs    = PocoNetSSL PocoNet PocoCrypto PocoUtil PocoJSON PocoXML PocoFoundation CppUnit
-+target_libs    = PocoNetSSL PocoNet PocoCrypto PocoUtil PocoXML PocoFoundation CppUnit
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/Net/samples/WebSocketServer/CMakeLists.txt b/Net/samples/WebSocketServer/CMakeLists.txt
+index ceba96d..55da9a4 100644
+--- a/Net/samples/WebSocketServer/CMakeLists.txt
++++ b/Net/samples/WebSocketServer/CMakeLists.txt
+@@ -7,4 +7,4 @@ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+ if(WINCE)
+ set_target_properties( ${SAMPLE_NAME} PROPERTIES LINK_FLAGS "/ENTRY:wmainCRTStartup")
+ endif()
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/Net/samples/dict/CMakeLists.txt b/Net/samples/dict/CMakeLists.txt
+index cb28ba7..e2c67ee 100644
+--- a/Net/samples/dict/CMakeLists.txt
++++ b/Net/samples/dict/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
- include $(POCO_BASE)/build/rules/exec
-diff --git a/PageCompiler/File2Page/Makefile b/PageCompiler/File2Page/Makefile
-index 30fd3b5..8febd32 100644
---- a/PageCompiler/File2Page/Makefile
-+++ b/PageCompiler/File2Page/Makefile
-@@ -16,6 +16,6 @@ endif
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/Net/samples/download/CMakeLists.txt b/Net/samples/download/CMakeLists.txt
+index 9b378a3..27ed6ad 100644
+--- a/Net/samples/download/CMakeLists.txt
++++ b/Net/samples/download/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
- target         = f2cpsp
- target_version = 1
--target_libs    = PocoUtil PocoXML PocoJSON PocoFoundation
-+target_libs    = PocoUtil PocoXML PocoFoundation
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/Net/samples/httpget/CMakeLists.txt b/Net/samples/httpget/CMakeLists.txt
+index 7833114..7115a31 100644
+--- a/Net/samples/httpget/CMakeLists.txt
++++ b/Net/samples/httpget/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
- include $(POCO_BASE)/build/rules/exec
-diff --git a/PageCompiler/Makefile b/PageCompiler/Makefile
-index 2f762fa..29893a7 100644
---- a/PageCompiler/Makefile
-+++ b/PageCompiler/Makefile
-@@ -18,6 +18,6 @@ endif
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/Net/samples/ifconfig/CMakeLists.txt b/Net/samples/ifconfig/CMakeLists.txt
+index 4878d92..2ad89c5 100644
+--- a/Net/samples/ifconfig/CMakeLists.txt
++++ b/Net/samples/ifconfig/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
- target         = cpspc
- target_version = 1
--target_libs    = PocoNet PocoUtil PocoXML PocoJSON PocoFoundation
-+target_libs    = PocoNet PocoUtil PocoXML PocoFoundation
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/NetSSL_OpenSSL/samples/CMakeLists.txt b/NetSSL_OpenSSL/samples/CMakeLists.txt
+index 66f895a..e6ad6f5 100644
+--- a/NetSSL_OpenSSL/samples/CMakeLists.txt
++++ b/NetSSL_OpenSSL/samples/CMakeLists.txt
+@@ -1,4 +1,3 @@
+ add_subdirectory( HTTPSTimeServer )
+ add_subdirectory( download )
+ add_subdirectory( Mail )
+-add_subdirectory( TwitterClient )
+diff --git a/NetSSL_OpenSSL/samples/TwitterClient/CMakeLists.txt b/NetSSL_OpenSSL/samples/TwitterClient/CMakeLists.txt
+index 66907c0..f869a18 100644
+--- a/NetSSL_OpenSSL/samples/TwitterClient/CMakeLists.txt
++++ b/NetSSL_OpenSSL/samples/TwitterClient/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
- include $(POCO_BASE)/build/rules/exec
-diff --git a/Util/Makefile b/Util/Makefile
-index 8e282cc..4978ffd 100644
---- a/Util/Makefile
-+++ b/Util/Makefile
-@@ -32,7 +32,6 @@ endif
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoNetSSL PocoCrypto PocoNet PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoNetSSL PocoCrypto PocoNet PocoUtil PocoXML PocoFoundation )
+diff --git a/PageCompiler/CMakeLists.txt b/PageCompiler/CMakeLists.txt
+index 3a55c55..e12d4b7 100644
+--- a/PageCompiler/CMakeLists.txt
++++ b/PageCompiler/CMakeLists.txt
+@@ -10,7 +10,7 @@ set_target_properties( "${POCO_EXENAME}"
+     OUTPUT_NAME cpspc
+     )
  
- ifndef POCO_UTIL_NO_JSONCONFIGURATION
- objects     += JSONConfiguration
--target_libs += PocoJSON
- endif
+-target_link_libraries( "${POCO_EXENAME}" Net Util XML JSON Foundation)
++target_link_libraries( "${POCO_EXENAME}" Net Util XML Foundation)
  
- include $(POCO_BASE)/build/rules/lib
-diff --git a/Util/testsuite/Makefile b/Util/testsuite/Makefile
-index e79c222..da4a0e7 100644
---- a/Util/testsuite/Makefile
-+++ b/Util/testsuite/Makefile
-@@ -16,12 +16,11 @@ objects = AbstractConfigurationTest ConfigurationTestSuite \
- 	OptionsTestSuite PropertyFileConfigurationTest \
- 	SystemConfigurationTest UtilTestSuite XMLConfigurationTest \
- 	FilesystemConfigurationTest ValidatorTest \
--	TimerTestSuite TimerTest \
--	JSONConfigurationTest
-+	TimerTestSuite TimerTest
+ install(
+     TARGETS "${POCO_EXENAME}" EXPORT "${POCO_EXENAME}Targets"
+diff --git a/PageCompiler/File2Page/CMakeLists.txt b/PageCompiler/File2Page/CMakeLists.txt
+index cb6d969..1545348 100644
+--- a/PageCompiler/File2Page/CMakeLists.txt
++++ b/PageCompiler/File2Page/CMakeLists.txt
+@@ -10,7 +10,7 @@ set_target_properties( "${POCO_EXENAME}"
+     OUTPUT_NAME f2cpsp
+     )
  
- target         = testrunner
- target_version = 1
--target_libs    = PocoUtil PocoXML PocoJSON PocoFoundation CppUnit
-+target_libs    = PocoUtil PocoXML PocoFoundation CppUnit
+-target_link_libraries( "${POCO_EXENAME}" Net Util XML JSON Foundation)
++target_link_libraries( "${POCO_EXENAME}" Net Util XML Foundation)
  
- include $(POCO_BASE)/build/rules/exec
+ install(
+     TARGETS "${POCO_EXENAME}" EXPORT "${POCO_EXENAME}Targets"
+diff --git a/Util/samples/SampleApp/CMakeLists.txt b/Util/samples/SampleApp/CMakeLists.txt
+index e11469f..695112f 100644
+--- a/Util/samples/SampleApp/CMakeLists.txt
++++ b/Util/samples/SampleApp/CMakeLists.txt
+@@ -7,4 +7,4 @@ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+ if(WINCE)
+ set_target_properties( ${SAMPLE_NAME} PROPERTIES LINK_FLAGS "/ENTRY:wmainCRTStartup")
+ endif()
+-target_link_libraries( ${SAMPLE_NAME} PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoUtil PocoXML PocoFoundation )
+diff --git a/Util/samples/SampleServer/CMakeLists.txt b/Util/samples/SampleServer/CMakeLists.txt
+index ccef003..0f781f6 100644
+--- a/Util/samples/SampleServer/CMakeLists.txt
++++ b/Util/samples/SampleServer/CMakeLists.txt
+@@ -7,4 +7,4 @@ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+ if(WINCE)
+ set_target_properties( ${SAMPLE_NAME} PROPERTIES LINK_FLAGS "/ENTRY:wmainCRTStartup")
+ endif()
+-target_link_libraries( ${SAMPLE_NAME} PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoUtil PocoXML PocoFoundation )
+diff --git a/Util/samples/Units/CMakeLists.txt b/Util/samples/Units/CMakeLists.txt
+index aa3bb05..c359975 100644
+--- a/Util/samples/Units/CMakeLists.txt
++++ b/Util/samples/Units/CMakeLists.txt
+@@ -4,4 +4,4 @@ set(LOCAL_SRCS "")
+ aux_source_directory(src LOCAL_SRCS)
  
+ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+-target_link_libraries( ${SAMPLE_NAME} PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoUtil PocoXML PocoFoundation )
+diff --git a/Util/samples/pkill/CMakeLists.txt b/Util/samples/pkill/CMakeLists.txt
+index 2b2ed8d..111770d 100644
+--- a/Util/samples/pkill/CMakeLists.txt
++++ b/Util/samples/pkill/CMakeLists.txt
+@@ -7,4 +7,4 @@ add_executable( ${SAMPLE_NAME} ${LOCAL_SRCS} )
+ if(WINCE)
+ set_target_properties( ${SAMPLE_NAME} PROPERTIES LINK_FLAGS "/ENTRY:wmainCRTStartup")
+ endif()
+-target_link_libraries( ${SAMPLE_NAME} PocoUtil PocoJSON PocoXML PocoFoundation )
++target_link_libraries( ${SAMPLE_NAME} PocoUtil PocoXML PocoFoundation )
+diff --git a/Util/testsuite/CMakeLists.txt b/Util/testsuite/CMakeLists.txt
+index c65d456..0234200 100644
+--- a/Util/testsuite/CMakeLists.txt
++++ b/Util/testsuite/CMakeLists.txt
+@@ -16,6 +16,7 @@ POCO_SOURCES_AUTO_PLAT( TEST_SRCS WIN32
+ 
+ POCO_SOURCES_AUTO_PLAT( TEST_SRCS OFF
+     src/WinDriver.cpp
++    src/JSONConfigurationTest.cpp
+ )
+ 
+ POCO_SOURCES_AUTO_PLAT( TEST_SRCS WINCE
+@@ -24,4 +25,4 @@ POCO_SOURCES_AUTO_PLAT( TEST_SRCS WINCE
+ 
+ add_executable( ${TESTUNIT} ${TEST_SRCS} )
+ add_test(NAME ${LIBNAME} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND ${TESTUNIT} -all)
+-target_link_libraries( ${TESTUNIT} PocoUtil PocoJSON PocoXML PocoFoundation CppUnit)
++target_link_libraries( ${TESTUNIT} PocoUtil PocoXML PocoFoundation CppUnit)
 diff --git a/Util/testsuite/src/ConfigurationTestSuite.cpp b/Util/testsuite/src/ConfigurationTestSuite.cpp
 index a62afb7..beb42a7 100644
 --- a/Util/testsuite/src/ConfigurationTestSuite.cpp

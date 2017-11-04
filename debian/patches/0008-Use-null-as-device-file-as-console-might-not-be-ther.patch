@@ -7,7 +7,7 @@ Subject: Use null as device file as console might not be there
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Foundation/testsuite/src/FileTest.cpp b/Foundation/testsuite/src/FileTest.cpp
-index 2f63599..ea47484 100644
+index fb12331..7d17852 100644
 --- a/Foundation/testsuite/src/FileTest.cpp
 +++ b/Foundation/testsuite/src/FileTest.cpp
 @@ -231,7 +231,7 @@ void FileTest::testFileAttributes3()
