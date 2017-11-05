@@ -1,3 +1,18 @@
+poco (1.7.9p1+dfsg1-1) experimental; urgency=medium
+
+  * Find patch releases with uscan
+  * New upstream version 1.7.9p1+dfsg1
+  * Move to cmake
+  * Rework patches
+  * Update package names due to Soname bump
+  * Update standards version (no changes needed)
+  * Install cmake files (Closes: #880614)
+  * Simplify dependencies
+  * Add special handling for armel again
+  * Disable tests failing on armel
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Sun, 05 Nov 2017 15:44:33 +0100
+
 poco (1.7.8+dfsg1-3) unstable; urgency=medium
 
   * Add patch for m86k.
