@@ -1,3 +1,9 @@
+poco (1.7.9p1+dfsg1-3) experimental; urgency=medium
+
+  * Fix typo in patch
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Wed, 08 Nov 2017 18:13:59 +0100
+
 poco (1.7.9p1+dfsg1-2) experimental; urgency=medium
 
   * Add architecture dependant patches
