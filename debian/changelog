@@ -1,3 +1,9 @@
+poco (1.7.9p1+dfsg1-2) experimental; urgency=medium
+
+  * Add architecture dependant patches
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Wed, 08 Nov 2017 15:51:27 +0100
+
 poco (1.7.9p1+dfsg1-1) experimental; urgency=medium
 
   * Find patch releases with uscan
