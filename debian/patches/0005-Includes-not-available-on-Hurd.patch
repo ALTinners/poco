@@ -1,0 +1,21 @@
+From: Jochen Sprickerhof <git@jochen.sprickerhof.de>
+Date: Mon, 6 Nov 2017 16:59:21 +0100
+Subject: Includes not available on Hurd
+
+---
+ Foundation/src/Clock.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Foundation/src/Clock.cpp b/Foundation/src/Clock.cpp
+index abef10a..ec3d6d9 100644
+--- a/Foundation/src/Clock.cpp
++++ b/Foundation/src/Clock.cpp
+@@ -17,7 +17,7 @@
+ #include "Poco/Clock.h"
+ #include "Poco/Exception.h"
+ #include "Poco/Timestamp.h"
+-#if defined(__MACH__)
++#if defined(__APPLE__)
+ #include <mach/mach.h>
+ #include <mach/clock.h>
+ #elif defined(POCO_OS_FAMILY_UNIX)
