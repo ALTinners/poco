@@ -1,13 +1,13 @@
 From: Jochen Sprickerhof <git@jochen.sprickerhof.de>
 Date: Thu, 9 Nov 2017 22:48:30 +0100
-Subject: Link against dl on FreeBSD
+Subject: Link against dl and rt on FreeBSD
 
 ---
  Foundation/CMakeLists.txt | 4 ++++
  1 file changed, 4 insertions(+)
 
 diff --git a/Foundation/CMakeLists.txt b/Foundation/CMakeLists.txt
-index 737f3ef..8ddcea4 100644
+index 737f3ef..9759213 100644
 --- a/Foundation/CMakeLists.txt
 +++ b/Foundation/CMakeLists.txt
 @@ -108,6 +108,10 @@ if(ANDROID)
@@ -15,7 +15,7 @@ index 737f3ef..8ddcea4 100644
  endif(ANDROID)
  
 +if (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
-+	set(SYSLIBS ${SYSLIBS} dl)
++	set(SYSLIBS ${SYSLIBS} dl rt)
 +endif (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
 +
  # TODO: Why is this here?
