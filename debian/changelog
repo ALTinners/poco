@@ -1,3 +1,10 @@
+poco (1.7.9p2+dfsg1-1) experimental; urgency=medium
+
+  * Add more architecture fixes
+  * New upstream version 1.7.9p2+dfsg1
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Thu, 09 Nov 2017 23:37:48 +0100
+
 poco (1.7.9p1+dfsg1-3) experimental; urgency=medium
 
   * Fix typo in patch
