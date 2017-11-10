@@ -5,5 +5,4 @@ Add-m68k-to-Double-Conversion.patch
 0005-Includes-not-available-on-Hurd.patch
 0006-fp-support-environments-without-hardware-floating-po.patch
 0007-Switch-FreeBSD-to-poll.patch
-0008-Disable-test-failing-on-hppa.patch
 0009-Link-against-dl-on-FreeBSD.patch
