@@ -1,3 +1,10 @@
+poco (1.7.9p2+dfsg1-2) unstable; urgency=medium
+
+  * Disable wonky tests (failed on s390x)
+  * Upload to unstable
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Fri, 10 Nov 2017 15:30:42 +0100
+
 poco (1.7.9p2+dfsg1-1) experimental; urgency=medium
 
   * Add more architecture fixes
