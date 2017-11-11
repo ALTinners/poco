@@ -1,3 +1,15 @@
+poco (1.8.0-1) experimental; urgency=medium
+
+  * Include json parser again (license resolved upstream)
+  * New upstream version 1.8.0
+  * Update copyright
+  * Rebase patches
+  * Update package names due to Soname bump
+  * Add more failing tests
+  * Add JSON and Redis libraries (Closes: #856192)
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Sat, 11 Nov 2017 20:05:44 +0100
+
 poco (1.7.9p2+dfsg1-2) unstable; urgency=medium
 
   * Disable wonky tests (failed on s390x)
