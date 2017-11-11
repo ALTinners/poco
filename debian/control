@@ -20,7 +20,7 @@ Vcs-Git: https://anonscm.debian.org/cgit/collab-maint/poco.git
 Package: libpoco-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends}, libpococrypto50 (= ${binary:Version}), libpocodata50 (= ${binary:Version}), libpocofoundation50 (= ${binary:Version}), libpocodatamysql50 (= ${binary:Version}), libpocomongodb50 (= ${binary:Version}), libpoconet50 (= ${binary:Version}), libpoconetssl50 (= ${binary:Version}), libpocodataodbc50 (= ${binary:Version}), libpocodatasqlite50 (= ${binary:Version}), libpocoutil50 (= ${binary:Version}), libpocoxml50 (= ${binary:Version}), libpocozip50 (= ${binary:Version}), libexpat1-dev, default-libmysqlclient-dev, libpcre3-dev, libsqlite3-dev, libssl-dev, zlib1g-dev
+Depends: ${misc:Depends}, libpococrypto50 (= ${binary:Version}), libpocodata50 (= ${binary:Version}), libpocofoundation50 (= ${binary:Version}), libpocojson50 (= ${binary:Version}), libpocodatamysql50 (= ${binary:Version}), libpocomongodb50 (= ${binary:Version}), libpoconet50 (= ${binary:Version}), libpoconetssl50 (= ${binary:Version}), libpocodataodbc50 (= ${binary:Version}), libpocodatasqlite50 (= ${binary:Version}), libpocoredis50 (= ${binary:Version}), libpocoutil50 (= ${binary:Version}), libpocoxml50 (= ${binary:Version}), libpocozip50 (= ${binary:Version}), libexpat1-dev, default-libmysqlclient-dev, libpcre3-dev, libsqlite3-dev, libssl-dev, zlib1g-dev
 Description: C++ Portable Components (POCO) Development files
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -150,6 +150,22 @@ Description: C++ Portable Components (POCO) Foundation library
  .
  This package provides the POCO Foundation library.
 
+Package: libpocojson50
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: C++ Portable Components (POCO) JSON library
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the POCO JSON library.
+
 Package: libpoconet50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -181,6 +197,22 @@ Description: C++ Portable Components (POCO) Network library with SSL
  consistent and easy to maintain.
  .
  This package provides the POCO Network SSL library.
+
+Package: libpocoredis50
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: C++ Portable Components (POCO) Redis library
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides POCO Redis library.
 
 Package: libpocoutil50
 Architecture: any
