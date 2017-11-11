@@ -7,10 +7,10 @@ Subject: Includes not available on Hurd
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/Foundation/src/Clock.cpp b/Foundation/src/Clock.cpp
-index abef10a..ee123a4 100644
+index e52cd5d..0df90ea 100644
 --- a/Foundation/src/Clock.cpp
 +++ b/Foundation/src/Clock.cpp
-@@ -17,7 +17,7 @@
+@@ -15,7 +15,7 @@
  #include "Poco/Clock.h"
  #include "Poco/Exception.h"
  #include "Poco/Timestamp.h"
@@ -19,7 +19,7 @@ index abef10a..ee123a4 100644
  #include <mach/mach.h>
  #include <mach/clock.h>
  #elif defined(POCO_OS_FAMILY_UNIX)
-@@ -106,7 +106,7 @@ void Clock::update()
+@@ -104,7 +104,7 @@ void Clock::update()
  	}
  	else throw Poco::SystemException("cannot get system clock");
  
@@ -28,7 +28,7 @@ index abef10a..ee123a4 100644
  
  	clock_serv_t cs;
  	mach_timespec_t ts;
-@@ -157,7 +157,7 @@ Clock::ClockDiff Clock::accuracy()
+@@ -155,7 +155,7 @@ Clock::ClockDiff Clock::accuracy()
  	}
  	else throw Poco::SystemException("cannot get system clock accuracy");
  
@@ -37,7 +37,7 @@ index abef10a..ee123a4 100644
  
  	clock_serv_t cs;
  	int nanosecs;
-@@ -206,7 +206,7 @@ bool Clock::monotonic()
+@@ -204,7 +204,7 @@ bool Clock::monotonic()
  
  	return true;
  

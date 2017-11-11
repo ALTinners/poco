@@ -62,10 +62,10 @@ See similar issue in boost:
  1 file changed, 36 insertions(+)
 
 diff --git a/Foundation/include/Poco/FPEnvironment_C99.h b/Foundation/include/Poco/FPEnvironment_C99.h
-index 3dbe703..f7aad8f 100644
+index 0b192f5..402e6af 100644
 --- a/Foundation/include/Poco/FPEnvironment_C99.h
 +++ b/Foundation/include/Poco/FPEnvironment_C99.h
-@@ -33,18 +33,54 @@ class FPEnvironmentImpl
+@@ -31,18 +31,54 @@ class FPEnvironmentImpl
  protected:
  	enum RoundingModeImpl
  	{

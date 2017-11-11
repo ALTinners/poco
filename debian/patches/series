@@ -1,4 +1,3 @@
-0006-Disable-JSON-targets-in-Makefiles.patch
 0008-Use-null-as-device-file-as-console-might-not-be-ther.patch
 Add-m68k-to-Double-Conversion.patch
 0004-Disable-failing-tests.patch
