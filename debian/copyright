@@ -48,9 +48,24 @@ Files: Foundation/src/bignum* Foundation/src/cached-powers.* Foundation/src/diy-
 Copyright: 2006-2012 the V8 project authors
 License: BSD-3-clause
 
+Files: XML/include/Poco/XML/Content.h
+       XML/include/Poco/XML/QName.h
+       XML/include/Poco/XML/ValueTraits.h
+       XML/include/Poco/XML/XMLStreamParser.h
+       XML/src/QName.cpp
+       XML/src/ValueTraits.cpp
+       XML/src/XMLStreamParser.cpp
+Copyright: 2015 Applied Informatics Software Engineering GmbH.
+           2009-2013 Code Synthesis Tools CC.
+License: BSL-1.0
+
 Files: cmake/FindSQLite3.cmake
 Copyright: 2008 Andreas Schneider <mail@cynapses.org>
 License: BSD-3-clause
+
+Files: cmake/CXX1x.cmake
+Copyright: 2013 Nathan Osman
+License: MIT
 
 Files: debian/*
 Copyright: 2007-2009 Krzysztof Burghardt <krzysztof@burghardt.pl>
