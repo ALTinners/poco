@@ -20,7 +20,7 @@ Vcs-Git: https://anonscm.debian.org/cgit/collab-maint/poco.git
 Package: libpoco-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends}, libpococrypto49 (= ${binary:Version}), libpocodata49 (= ${binary:Version}), libpocofoundation49 (= ${binary:Version}), libpocodatamysql49 (= ${binary:Version}), libpocomongodb49 (= ${binary:Version}), libpoconet49 (= ${binary:Version}), libpoconetssl49 (= ${binary:Version}), libpocodataodbc49 (= ${binary:Version}), libpocodatasqlite49 (= ${binary:Version}), libpocoutil49 (= ${binary:Version}), libpocoxml49 (= ${binary:Version}), libpocozip49 (= ${binary:Version}), libexpat1-dev, default-libmysqlclient-dev, libpcre3-dev, libsqlite3-dev, libssl-dev, zlib1g-dev
+Depends: ${misc:Depends}, libpococrypto50 (= ${binary:Version}), libpocodata50 (= ${binary:Version}), libpocofoundation50 (= ${binary:Version}), libpocodatamysql50 (= ${binary:Version}), libpocomongodb50 (= ${binary:Version}), libpoconet50 (= ${binary:Version}), libpoconetssl50 (= ${binary:Version}), libpocodataodbc50 (= ${binary:Version}), libpocodatasqlite50 (= ${binary:Version}), libpocoutil50 (= ${binary:Version}), libpocoxml50 (= ${binary:Version}), libpocozip50 (= ${binary:Version}), libexpat1-dev, default-libmysqlclient-dev, libpcre3-dev, libsqlite3-dev, libssl-dev, zlib1g-dev
 Description: C++ Portable Components (POCO) Development files
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -37,7 +37,7 @@ Description: C++ Portable Components (POCO) Development files
  are NetSSL, providing SSL support for the network classes in the Net library,
  and Data, a library for uniformly accessing different SQL databases.
 
-Package: libpococrypto49
+Package: libpococrypto50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Crypto library
@@ -53,7 +53,7 @@ Description: C++ Portable Components (POCO) Crypto library
  .
  This package provides the POCO Crypto library.
 
-Package: libpocodata49
+Package: libpocodata50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Data library
@@ -69,7 +69,7 @@ Description: C++ Portable Components (POCO) Data library
  .
  This package provides the POCO Data library.
 
-Package: libpocomongodb49
+Package: libpocomongodb50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Data MongoDB library
@@ -85,7 +85,7 @@ Description: C++ Portable Components (POCO) Data MongoDB library
  .
  This package provides the POCO MongoDB library.
 
-Package: libpocodatamysql49
+Package: libpocodatamysql50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Data MySQL library
@@ -101,7 +101,7 @@ Description: C++ Portable Components (POCO) Data MySQL library
  .
  This package provides the POCO Data MySQL library.
 
-Package: libpocodataodbc49
+Package: libpocodataodbc50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) ODBC library
@@ -118,7 +118,7 @@ Description: C++ Portable Components (POCO) ODBC library
  This package provides the POCO Data ODBC library. In Debian, it is linked
  against unixODBC but also iODBC can be used instead.
 
-Package: libpocodatasqlite49
+Package: libpocodatasqlite50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Data SQLite library
@@ -134,7 +134,7 @@ Description: C++ Portable Components (POCO) Data SQLite library
  .
  This package provides the POCO Data SQLite library.
 
-Package: libpocofoundation49
+Package: libpocofoundation50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Foundation library
@@ -150,7 +150,7 @@ Description: C++ Portable Components (POCO) Foundation library
  .
  This package provides the POCO Foundation library.
 
-Package: libpoconet49
+Package: libpoconet50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Network library
@@ -166,7 +166,7 @@ Description: C++ Portable Components (POCO) Network library
  .
  This package provides the POCO Net library.
 
-Package: libpoconetssl49
+Package: libpoconetssl50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Network library with SSL
@@ -182,7 +182,7 @@ Description: C++ Portable Components (POCO) Network library with SSL
  .
  This package provides the POCO Network SSL library.
 
-Package: libpocoutil49
+Package: libpocoutil50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Util library
@@ -198,7 +198,7 @@ Description: C++ Portable Components (POCO) Util library
  .
  This package provides POCO Util library.
 
-Package: libpocoxml49
+Package: libpocoxml50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) XML library
@@ -214,7 +214,7 @@ Description: C++ Portable Components (POCO) XML library
  .
  This package provides the POCO XML library.
 
-Package: libpocozip49
+Package: libpocozip50
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ Portable Components (POCO) Zip library
