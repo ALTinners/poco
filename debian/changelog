@@ -1,3 +1,9 @@
+poco (1.7.6+dfsg1-5+deb9u1) stretch-security; urgency=high
+
+  * Add backported patch for CVE-2017-1000472
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Tue, 09 Jan 2018 21:58:15 +0100
+
 poco (1.7.6+dfsg1-5) unstable; urgency=medium
 
   * Add missing dependencies (Closes: #861682)
