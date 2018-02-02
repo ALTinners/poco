@@ -14,8 +14,8 @@ Build-Depends: debhelper (>= 10),
 Standards-Version: 4.1.1
 Section: libs
 Homepage: https://pocoproject.org/
-Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/poco.git
-Vcs-Git: https://anonscm.debian.org/cgit/collab-maint/poco.git
+Vcs-Browser: https://salsa.debian.org/debian/poco
+Vcs-Git: https://salsa.debian.org/debian/poco.git
 
 Package: libpoco-dev
 Section: libdevel
