@@ -4757,6 +4757,7 @@ PageCompiler/File2Page/Makefile
 PageCompiler/File2Page/src
 PageCompiler/File2Page/src/File2Page.cpp
 PageCompiler/Makefile
+PageCompiler/PageCompiler.make
 PageCompiler/PageCompiler.progen
 PageCompiler/PageCompiler_vs100.sln
 PageCompiler/PageCompiler_vs100.vcxproj
