@@ -3,7 +3,7 @@ Upstream-Name: POCO
 Source: https://pocoproject.org/
 
 Files: *
-Copyright: 2004-2017 Applied Informatics Software Engineering GmbH
+Copyright: 2004-2018 Applied Informatics Software Engineering GmbH
 License: BSL-1.0
 
 Files: XML/include/Poco/XML/expat* XML/src/*tab.h XML/src/xml*.c
