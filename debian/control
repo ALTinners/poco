@@ -11,7 +11,7 @@ Build-Depends: debhelper (>= 11),
                libssl-dev,
                unixodbc-dev,
                zlib1g-dev
-Standards-Version: 4.1.1
+Standards-Version: 4.1.3
 Section: libs
 Homepage: https://pocoproject.org/
 Vcs-Browser: https://salsa.debian.org/debian/poco
