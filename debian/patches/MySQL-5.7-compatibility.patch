@@ -1,0 +1,17 @@
+Description: Find libmysqlclient instead of the obsolete libmysqlclient_r
+Author: Steve Langasek <steve.langasek@ubuntu.com>
+Bug-Debian: https://bugs.debian.org/889625
+
+Index: poco-1.8.0.1/cmake/FindMySQL.cmake
+===================================================================
+--- poco-1.8.0.1.orig/cmake/FindMySQL.cmake
++++ poco-1.8.0.1/cmake/FindMySQL.cmake
+@@ -45,7 +45,7 @@
+ 				 ${BINDIR32}/MySQL/lib
+ 				 $ENV{SystemDrive}/MySQL/*/lib/${libsuffixDist})
+ else (WIN32)
+-	find_library(MYSQL_LIB NAMES mysqlclient_r
++	find_library(MYSQL_LIB NAMES mysqlclient
+ 				 PATHS
+ 				 /usr/lib/mysql
+ 				 /usr/local/lib/mysql

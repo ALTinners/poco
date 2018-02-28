@@ -5,3 +5,4 @@ Add-m68k-to-Double-Conversion.patch
 0006-fp-support-environments-without-hardware-floating-po.patch
 0007-Switch-FreeBSD-to-poll.patch
 0009-Link-against-dl-on-FreeBSD.patch
+MySQL-5.7-compatibility.patch
