@@ -1,3 +1,18 @@
+poco (1.8.1-1) experimental; urgency=medium
+
+  * Update Vcs URLs to salsa.d.o
+  * New upstream version 1.8.1
+  * Update copyright
+  * Add patch for libmysqlclient.
+    Thanks to Steve Langasek (Closes: #889625)
+  * Bump debhelper version, no changes
+  * Bump standards version, no changes
+  * build rootless
+  * Rename package due to Soname bump
+  * Remove old lintian-overrides
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Wed, 28 Feb 2018 21:36:14 +0100
+
 poco (1.8.0.1-1) unstable; urgency=medium
 
   * New upstream version 1.8.0.1
