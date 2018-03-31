@@ -1,3 +1,13 @@
+poco (1.9.0-1) experimental; urgency=medium
+
+  * New upstream version 1.9.0
+  * Simplify rules
+  * Adopt package names due to Soname bump
+  * Remove lintian-overrides (licence file fixed)
+  * Add PocoEncodings library
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Sat, 31 Mar 2018 13:31:22 +0200
+
 poco (1.8.1-2) unstable; urgency=medium
 
   * Upload to unstable.
