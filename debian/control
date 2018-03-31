@@ -21,7 +21,7 @@ Vcs-Git: https://salsa.debian.org/debian/poco.git
 Package: libpoco-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends}, libpococrypto60 (= ${binary:Version}), libpocodata60 (= ${binary:Version}), libpocofoundation60 (= ${binary:Version}), libpocojson60 (= ${binary:Version}), libpocodatamysql60 (= ${binary:Version}), libpocomongodb60 (= ${binary:Version}), libpoconet60 (= ${binary:Version}), libpoconetssl60 (= ${binary:Version}), libpocodataodbc60 (= ${binary:Version}), libpocodatasqlite60 (= ${binary:Version}), libpocoredis60 (= ${binary:Version}), libpocoutil60 (= ${binary:Version}), libpocoxml60 (= ${binary:Version}), libpocozip60 (= ${binary:Version}), libexpat1-dev, default-libmysqlclient-dev, libpcre3-dev, libsqlite3-dev, libssl-dev, zlib1g-dev
+Depends: ${misc:Depends}, libpococrypto60 (= ${binary:Version}), libpocodata60 (= ${binary:Version}), libpocoencodings60 (= ${binary:Version}), libpocofoundation60 (= ${binary:Version}), libpocojson60 (= ${binary:Version}), libpocodatamysql60 (= ${binary:Version}), libpocomongodb60 (= ${binary:Version}), libpoconet60 (= ${binary:Version}), libpoconetssl60 (= ${binary:Version}), libpocodataodbc60 (= ${binary:Version}), libpocodatasqlite60 (= ${binary:Version}), libpocoredis60 (= ${binary:Version}), libpocoutil60 (= ${binary:Version}), libpocoxml60 (= ${binary:Version}), libpocozip60 (= ${binary:Version}), libexpat1-dev, default-libmysqlclient-dev, libpcre3-dev, libsqlite3-dev, libssl-dev, zlib1g-dev
 Description: C++ Portable Components (POCO) Development files
  The POCO C++ Libraries are a collection of open source C++ class libraries
  that simplify and accelerate the development of network-centric, portable
@@ -134,6 +134,22 @@ Description: C++ Portable Components (POCO) Data SQLite library
  consistent and easy to maintain.
  .
  This package provides the POCO Data SQLite library.
+
+Package: libpocoencodings60
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: C++ Portable Components (POCO) Encodings library
+ The POCO C++ Libraries are a collection of open source C++ class libraries
+ that simplify and accelerate the development of network-centric, portable
+ applications in C++. The libraries integrate perfectly with the C++ Standard
+ Library and fill many of the functional gaps left open by it.
+ .
+ POCO is built strictly using standard ANSI/ISO C++, including the standard
+ library. The contributors attempt to find a good balance between using advanced
+ C++ features and keeping the classes comprehensible and the code clean,
+ consistent and easy to maintain.
+ .
+ This package provides the POCO Encodings library.
 
 Package: libpocofoundation60
 Architecture: any
