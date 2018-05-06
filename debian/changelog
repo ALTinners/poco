@@ -1,3 +1,13 @@
+poco (1.9.0-3) unstable; urgency=medium
+
+  [ Manuel A. Fernandez Montecelo ]
+  * riscv64: add support
+
+  [ Jochen Sprickerhof ]
+  * Bump standards version
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Sun, 06 May 2018 12:32:49 +0200
+
 poco (1.9.0-2) unstable; urgency=medium
 
   * Upload to unstable.
