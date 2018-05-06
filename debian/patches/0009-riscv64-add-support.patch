@@ -1,0 +1,43 @@
+From: "Manuel A. Fernandez Montecelo" <mafm@debian.org>
+Date: Sun, 6 May 2018 12:25:12 +0200
+Subject: riscv64: add support
+
+---
+ Foundation/include/Poco/Platform.h | 4 ++++
+ Foundation/src/utils.h             | 1 +
+ 2 files changed, 5 insertions(+)
+
+diff --git a/Foundation/include/Poco/Platform.h b/Foundation/include/Poco/Platform.h
+index b8803f9..2e8b34e 100644
+--- a/Foundation/include/Poco/Platform.h
++++ b/Foundation/include/Poco/Platform.h
+@@ -134,6 +134,7 @@
+ #define POCO_ARCH_NIOS2   0x0e
+ #define POCO_ARCH_AARCH64 0x0f
+ #define POCO_ARCH_ARM64   0x0f // same as POCO_ARCH_AARCH64
++#define POCO_ARCH_RISCV64 0x10
+ 
+ 
+ #if defined(__ALPHA) || defined(__alpha) || defined(__alpha__) || defined(_M_ALPHA)
+@@ -224,6 +225,9 @@
+ #elif defined(__AARCH64EB__)
+ 	#define POCO_ARCH POCO_ARCH_AARCH64
+ 	#define POCO_ARCH_BIG_ENDIAN 1
++#elif defined(__riscv) && (__riscv_xlen == 64)
++	#define POCO_ARCH POCO_ARCH_RISCV64
++	#define POCO_ARCH_LITTLE_ENDIAN 1
+ #endif
+ 
+ 
+diff --git a/Foundation/src/utils.h b/Foundation/src/utils.h
+index a7bda01..8d9e8b7 100644
+--- a/Foundation/src/utils.h
++++ b/Foundation/src/utils.h
+@@ -62,6 +62,7 @@
+     defined(__sparc__) || defined(__sparc) || defined(__s390__) || \
+     defined(__SH4__) || defined(__alpha__) || \
+     defined(_MIPS_ARCH_MIPS32R2) || \
++    defined(__riscv) || \
+     defined(__AARCH64EL__) || \
+     defined(nios2) || defined(__nios2) || defined(__nios2__)
+ #define DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS 1

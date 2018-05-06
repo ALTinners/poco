@@ -6,3 +6,4 @@ Add-m68k-to-Double-Conversion.patch
 0007-Switch-FreeBSD-to-poll.patch
 0009-Link-against-dl-on-FreeBSD.patch
 MySQL-5.7-compatibility.patch
+0009-riscv64-add-support.patch
