@@ -1,3 +1,10 @@
+poco (1.9.0-4) unstable; urgency=medium
+
+  * Add patch for non existing data folder (Closes: #906970)
+  * Bump policy version (no changes)
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Wed, 22 Aug 2018 22:09:33 +0200
+
 poco (1.9.0-3) unstable; urgency=medium
 
   [ Manuel A. Fernandez Montecelo ]
