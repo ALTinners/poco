@@ -1,0 +1,299 @@
+From: Jochen Sprickerhof <git@jochen.sprickerhof.de>
+Date: Sat, 13 Oct 2018 12:57:03 +0200
+Subject: Add GNU Hurd support
+
+---
+ Foundation/CMakeLists.txt                 |  6 ++--
+ Foundation/include/Poco/NamedEvent_UNIX.h |  4 +--
+ Foundation/include/Poco/NamedMutex_UNIX.h |  4 +--
+ Foundation/src/Environment_UNIX.cpp       | 48 +++++++++++++++++++++++++++++++
+ Foundation/src/Mutex_POSIX.cpp            |  4 +--
+ Foundation/src/NamedEvent_UNIX.cpp        | 12 ++++----
+ Foundation/src/NamedMutex_UNIX.cpp        | 14 ++++-----
+ cmake/DefinePlatformSpecifc.cmake         |  2 +-
+ 8 files changed, 71 insertions(+), 23 deletions(-)
+
+diff --git a/Foundation/CMakeLists.txt b/Foundation/CMakeLists.txt
+index ba9864b..b2452ad 100644
+--- a/Foundation/CMakeLists.txt
++++ b/Foundation/CMakeLists.txt
+@@ -105,9 +105,9 @@ if(ANDROID)
+ 	set(SYSLIBS ${SYSLIBS} log)
+ endif(ANDROID)
+ 
+-if (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
++if (CMAKE_SYSTEM_NAME MATCHES "FreeBSD" OR CMAKE_SYSTEM_NAME MATCHES "GNU")
+ 	set(SYSLIBS ${SYSLIBS} dl rt)
+-endif (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
++endif (CMAKE_SYSTEM_NAME MATCHES "FreeBSD" OR CMAKE_SYSTEM_NAME MATCHES "GNU")
+ 
+ # TODO: Why is this here?
+ add_definitions( -DPCRE_STATIC)
+@@ -174,7 +174,7 @@ target_compile_definitions("${LIBNAME}" PUBLIC ${LIB_MODE_DEFINITIONS})
+ POCO_INSTALL("${LIBNAME}")
+ POCO_GENERATE_PACKAGE("${LIBNAME}")
+ 
+-if (ENABLE_TESTS)
++if (ENABLE_TESTS AND NOT CMAKE_SYSTEM_NAME MATCHES "GNU")
+ 	add_subdirectory( samples )
+ 	add_subdirectory( testsuite )
+ endif ()
+diff --git a/Foundation/include/Poco/NamedEvent_UNIX.h b/Foundation/include/Poco/NamedEvent_UNIX.h
+index e593790..bad9a87 100644
+--- a/Foundation/include/Poco/NamedEvent_UNIX.h
++++ b/Foundation/include/Poco/NamedEvent_UNIX.h
+@@ -19,7 +19,7 @@
+ 
+ 
+ #include "Poco/Foundation.h"
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ #include <semaphore.h>
+ #endif
+ 
+@@ -39,7 +39,7 @@ private:
+ 	std::string getFileName();
+ 
+ 	std::string _name;
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ 	sem_t* _sem;
+ #else
+ 	int _semid;  // semaphore id
+diff --git a/Foundation/include/Poco/NamedMutex_UNIX.h b/Foundation/include/Poco/NamedMutex_UNIX.h
+index da77a32..97030ee 100644
+--- a/Foundation/include/Poco/NamedMutex_UNIX.h
++++ b/Foundation/include/Poco/NamedMutex_UNIX.h
+@@ -21,7 +21,7 @@
+ #include "Poco/Foundation.h"
+ #include <sys/types.h>
+ #include <sys/stat.h>
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ #include <semaphore.h>
+ #endif
+ 
+@@ -42,7 +42,7 @@ private:
+ 	std::string getFileName();
+ 
+ 	std::string _name;
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ 	sem_t* _sem;
+ #else
+ 	int _semid;  // semaphore id
+diff --git a/Foundation/src/Environment_UNIX.cpp b/Foundation/src/Environment_UNIX.cpp
+index 61931f6..1e9eac7 100644
+--- a/Foundation/src/Environment_UNIX.cpp
++++ b/Foundation/src/Environment_UNIX.cpp
+@@ -279,6 +279,54 @@ void EnvironmentImpl::nodeIdImpl(NodeId& id)
+ } // namespace Poco
+ 
+ 
++#elif defined(__GNU__)
++//
++// GNU Hurd
++//
++#include <sys/ioctl.h>
++#include <net/if.h>
++#include <unistd.h>
++#include <netinet/in.h>
++
++
++namespace Poco {
++
++
++void EnvironmentImpl::nodeIdImpl(NodeId& id)
++{
++	std::memset(&id, 0, sizeof(id));
++	struct ifreq ifr;
++	struct ifconf ifc;
++	char buf[1024];
++
++	int sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
++	if (sock == -1) return;
++
++	ifc.ifc_len = sizeof(buf);
++	ifc.ifc_buf = buf;
++	if (ioctl(sock, SIOCGIFCONF, &ifc) == -1) return;
++
++	struct ifreq* it = ifc.ifc_req;
++	const struct ifreq* const end = it + (ifc.ifc_len / sizeof(struct ifreq));
++
++	for (; it != end; ++it) {
++		std::strcpy(ifr.ifr_name, it->ifr_name);
++		if (ioctl(sock, SIOCGIFFLAGS, &ifr) == 0) {
++			if (! (ifr.ifr_flags & IFF_LOOPBACK)) { // don't count loopback
++				if (ioctl(sock, SIOCGIFHWADDR, &ifr) == 0) {
++					std::memcpy(&id, ifr.ifr_hwaddr.sa_data, sizeof(id));
++					break;
++				}
++			}
++		}
++		else return;
++	}
++}
++
++
++} // namespace Poco
++
++
+ #elif defined(POCO_OS_FAMILY_UNIX)
+ //
+ // General Unix
+diff --git a/Foundation/src/Mutex_POSIX.cpp b/Foundation/src/Mutex_POSIX.cpp
+index 56132ef..4661d92 100644
+--- a/Foundation/src/Mutex_POSIX.cpp
++++ b/Foundation/src/Mutex_POSIX.cpp
+@@ -56,7 +56,7 @@ MutexImpl::MutexImpl()
+ #endif
+ 	pthread_mutexattr_t attr;
+ 	pthread_mutexattr_init(&attr);
+-#if defined(PTHREAD_MUTEX_RECURSIVE_NP)
++#if defined(PTHREAD_MUTEX_RECURSIVE_NP) && !defined(__GNU__)
+ 	pthread_mutexattr_settype_np(&attr, PTHREAD_MUTEX_RECURSIVE_NP);
+ #elif !defined(POCO_VXWORKS)
+ 	pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+@@ -81,7 +81,7 @@ MutexImpl::MutexImpl(bool fast)
+ #endif
+ 	pthread_mutexattr_t attr;
+ 	pthread_mutexattr_init(&attr);
+-#if defined(PTHREAD_MUTEX_RECURSIVE_NP)
++#if defined(PTHREAD_MUTEX_RECURSIVE_NP) && !defined(__GNU__)
+ 	pthread_mutexattr_settype_np(&attr, fast ? PTHREAD_MUTEX_NORMAL_NP : PTHREAD_MUTEX_RECURSIVE_NP);
+ #elif !defined(POCO_VXWORKS)
+ 	pthread_mutexattr_settype(&attr, fast ? PTHREAD_MUTEX_NORMAL : PTHREAD_MUTEX_RECURSIVE);
+diff --git a/Foundation/src/NamedEvent_UNIX.cpp b/Foundation/src/NamedEvent_UNIX.cpp
+index 978e6e0..942df30 100644
+--- a/Foundation/src/NamedEvent_UNIX.cpp
++++ b/Foundation/src/NamedEvent_UNIX.cpp
+@@ -18,7 +18,7 @@
+ #include <fcntl.h>
+ #include <sys/stat.h>
+ #include <errno.h>
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ #include <semaphore.h>
+ #else
+ #include <unistd.h>
+@@ -53,7 +53,7 @@ NamedEventImpl::NamedEventImpl(const std::string& name):
+ 	_name(name)
+ {
+ 	std::string fileName = getFileName();
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ 	_sem = sem_open(fileName.c_str(), O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 0);
+ 	if ((long) _sem == (long) SEM_FAILED)
+ 		throw SystemException(Poco::format("cannot create named mutex %s (sem_open() failed, errno=%d)", fileName, errno), _name);
+@@ -78,13 +78,13 @@ NamedEventImpl::NamedEventImpl(const std::string& name):
+ 		_semid = semget(key, 1, 0);
+ 	}
+ 	else throw SystemException(Poco::format("cannot create named mutex %s (semget() failed, errno=%d)", fileName, errno), _name);
+-#endif // defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#endif // defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ }
+ 
+ 
+ NamedEventImpl::~NamedEventImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ 	sem_close(_sem);
+ #endif
+ }
+@@ -92,7 +92,7 @@ NamedEventImpl::~NamedEventImpl()
+ 
+ void NamedEventImpl::setImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ 	if (sem_post(_sem) != 0)
+ 	   	throw SystemException("cannot set named event", _name);
+ #else
+@@ -108,7 +108,7 @@ void NamedEventImpl::setImpl()
+ 
+ void NamedEventImpl::waitImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ 	int err;
+ 	do
+ 	{
+diff --git a/Foundation/src/NamedMutex_UNIX.cpp b/Foundation/src/NamedMutex_UNIX.cpp
+index 6cfa136..2a949f4 100644
+--- a/Foundation/src/NamedMutex_UNIX.cpp
++++ b/Foundation/src/NamedMutex_UNIX.cpp
+@@ -18,7 +18,7 @@
+ #include <fcntl.h>
+ #include <sys/stat.h>
+ #include <errno.h>
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(_AIX) || defined(__GNU__)
+ #include <semaphore.h>
+ #else
+ #include <unistd.h>
+@@ -53,7 +53,7 @@ NamedMutexImpl::NamedMutexImpl(const std::string& name):
+ 	_name(name)
+ {
+ 	std::string fileName = getFileName();
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ 	_sem = sem_open(fileName.c_str(), O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO, 1);
+ 	if ((long) _sem == (long) SEM_FAILED)
+ 		throw SystemException(Poco::format("cannot create named mutex %s (sem_open() failed, errno=%d)", fileName, errno), _name);
+@@ -83,13 +83,13 @@ NamedMutexImpl::NamedMutexImpl(const std::string& name):
+ 	}
+ 
+ 	throw SystemException(Poco::format("cannot create named mutex %s (semget() failed, errno=%d)", fileName, errno), _name);
+-#endif // defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#endif // defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ }
+ 
+ 
+ NamedMutexImpl::~NamedMutexImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ 	sem_close(_sem);
+ #else
+ 	if (_owned) semctl(_semid, 0, IPC_RMID, 0);
+@@ -99,7 +99,7 @@ NamedMutexImpl::~NamedMutexImpl()
+ 
+ void NamedMutexImpl::lockImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ 	int err;
+ 	do
+ 	{
+@@ -125,7 +125,7 @@ void NamedMutexImpl::lockImpl()
+ 
+ bool NamedMutexImpl::tryLockImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ 	return sem_trywait(_sem) == 0;
+ #else
+ 	struct sembuf op;
+@@ -139,7 +139,7 @@ bool NamedMutexImpl::tryLockImpl()
+ 
+ void NamedMutexImpl::unlockImpl()
+ {
+-#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX)
++#if defined(sun) || defined(__APPLE__) || defined(__osf__) || defined(__QNX__) || defined(_AIX) || defined(__GNU__)
+ 	if (sem_post(_sem) != 0)
+ 	   	throw SystemException("cannot unlock named mutex", _name);
+ #else
+diff --git a/cmake/DefinePlatformSpecifc.cmake b/cmake/DefinePlatformSpecifc.cmake
+index 7fa6feb..a5e640b 100644
+--- a/cmake/DefinePlatformSpecifc.cmake
++++ b/cmake/DefinePlatformSpecifc.cmake
+@@ -91,7 +91,7 @@ else (CYGWIN)
+ 	    if (QNX)
+ 	      add_definitions( -DPOCO_HAVE_FD_POLL)
+ 	      set(SYSLIBS  m socket)
+-            elseif (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
++            elseif (CMAKE_SYSTEM_NAME MATCHES "FreeBSD" OR CMAKE_SYSTEM_NAME MATCHES "GNU")
+ 	      add_definitions( -D_XOPEN_SOURCE=500 -DPOCO_HAVE_FD_POLL)
+ 	    else (QNX)
+ 	      add_definitions( -D_XOPEN_SOURCE=500 -DPOCO_HAVE_FD_EPOLL)
