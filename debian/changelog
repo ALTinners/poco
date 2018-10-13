@@ -1,3 +1,11 @@
+poco (1.9.0-5) unstable; urgency=medium
+
+  * Add patches for GNU Hurd (Closes: #881680)
+  * Add patch for MySQL 8.0 (LP: #1795350)
+  * Add patch for failing tests
+
+ -- Jochen Sprickerhof <jspricke@debian.org>  Sat, 13 Oct 2018 22:06:33 +0200
+
 poco (1.9.0-4) unstable; urgency=medium
 
   * Add patch for non existing data folder (Closes: #906970)
