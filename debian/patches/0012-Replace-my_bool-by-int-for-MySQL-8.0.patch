@@ -1,0 +1,58 @@
+From: Jochen Sprickerhof <git@jochen.sprickerhof.de>
+Date: Sat, 13 Oct 2018 17:51:04 +0200
+Subject: Replace my_bool by int for MySQL 8.0
+
+---
+ Data/MySQL/include/Poco/Data/MySQL/ResultMetadata.h | 4 ++++
+ Data/MySQL/src/Extractor.cpp                        | 4 ++++
+ Data/MySQL/src/SessionHandle.cpp                    | 4 ++++
+ 3 files changed, 12 insertions(+)
+
+diff --git a/Data/MySQL/include/Poco/Data/MySQL/ResultMetadata.h b/Data/MySQL/include/Poco/Data/MySQL/ResultMetadata.h
+index fbe2876..2462421 100644
+--- a/Data/MySQL/include/Poco/Data/MySQL/ResultMetadata.h
++++ b/Data/MySQL/include/Poco/Data/MySQL/ResultMetadata.h
+@@ -59,7 +59,11 @@ private:
+ 	std::vector<MYSQL_BIND>    _row;
+ 	std::vector<char>          _buffer;
+ 	std::vector<unsigned long> _lengths;
++#if (MYSQL_VERSION_ID >= 80001) && !defined(MARIADB_BASE_VERSION)
++	std::vector<bool>          _isNull;
++#else
+ 	std::vector<my_bool>       _isNull;
++#endif
+ };
+ 
+ }}}
+diff --git a/Data/MySQL/src/Extractor.cpp b/Data/MySQL/src/Extractor.cpp
+index 48d8cc6..570f8a1 100644
+--- a/Data/MySQL/src/Extractor.cpp
++++ b/Data/MySQL/src/Extractor.cpp
+@@ -238,7 +238,11 @@ void Extractor::reset()
+ bool Extractor::realExtractFixed(std::size_t pos, enum_field_types type, void* buffer, bool isUnsigned)
+ {
+ 	MYSQL_BIND bind = {0};
++#if (MYSQL_VERSION_ID >= 80001) && !defined(MARIADB_BASE_VERSION)
++	bool isNull = 0;
++#else
+ 	my_bool isNull = 0;
++#endif
+ 
+ 	bind.is_null	   = &isNull;
+ 	bind.buffer_type   = type;
+diff --git a/Data/MySQL/src/SessionHandle.cpp b/Data/MySQL/src/SessionHandle.cpp
+index 37616ac..97b5fb2 100644
+--- a/Data/MySQL/src/SessionHandle.cpp
++++ b/Data/MySQL/src/SessionHandle.cpp
+@@ -99,7 +99,11 @@ void SessionHandle::options(mysql_option opt)
+ 
+ void SessionHandle::options(mysql_option opt, bool b)
+ {
++#if (MYSQL_VERSION_ID >= 80001) && !defined(MARIADB_BASE_VERSION)
++	bool tmp = b;
++#else
+ 	my_bool tmp = b;
++#endif
+ 	if (mysql_options(_pHandle, opt, &tmp) != 0)
+ 		throw ConnectionException("mysql_options error", _pHandle);
+ }

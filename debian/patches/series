@@ -9,3 +9,4 @@ MySQL-5.7-compatibility.patch
 0009-riscv64-add-support.patch
 0010-Don-t-try-to-install-non-existing-Encodings-testsuit.patch
 0011-Add-GNU-Hurd-support.patch
+0012-Replace-my_bool-by-int-for-MySQL-8.0.patch
